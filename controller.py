@@ -4,12 +4,13 @@ from model import Categoria, Fornecedor, Produto
 
 
 class ControllerCategoria:
+
   @classmethod
   def cadastrar(cls,nova_categoria):
     existe = False
-    categorias = DaoCategoria.ver()
-    for categoria in categorias:
-      if nova_categoria == categoria:
+    ver_categorias = DaoCategoria.ver()
+    for categoria in ver_categorias:
+      if categoria == nova_categoria:
         existe = True
 
     if not existe:
@@ -20,8 +21,24 @@ class ControllerCategoria:
       os.system('cls')
       print('→ Essa categoria já existe ←\n')
 
+
+
+
+  @classmethod
+  def remover(cls, remover_categoria):
+    lista_categorias = DaoCategoria.ver()
+    for categoria in lista_categorias:
+      if categoria == remover_categoria:
+        lista_categorias.remove(categoria)
+    DaoCategoria.remover(lista_categorias)
+      
+
+  
+  
+  
+  
   @classmethod
   def ver(cls):
-    lista = DaoCategoria.ver()
-    for i in lista:
-      print(i)
+    ver_categorias = DaoCategoria.ver()
+    for categoria in ver_categorias:
+      print(categoria)
