@@ -1,4 +1,4 @@
-Padaria
-Bebidas
-Verduras
-Frutas
+CARNES
+FRUTAS
+PADARIA
+BEBIDAS

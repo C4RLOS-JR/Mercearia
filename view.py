@@ -32,7 +32,7 @@ while True:
   # SAIR:
   if opcao == '0':
     os.system('cls')
-    print('Programa finalizado!\n')
+    print('Programa finalizado!\n\n')
     break
 
   # CAIXA
@@ -42,48 +42,44 @@ while True:
   # CATEGORIA:
   elif opcao == '2':
     while True:
-
       opcao = input('CATEGORIA:\n'
                     '------------------------------\n'
                     '1- Cadastrar Categoria\n'
                     '2- Alterar Categoria\n'
-                    '3- Remover Categoria\n'
+                    '3- Excluir Categoria\n'
                     '4- Mostrar Categoria\n'
                     '0- Voltar\n'
-                    '---------------------------\n'
+                    '------------------------------\n'
                     'Opção: ')
       ctrl_cat = controller.ControllerCategoria()
-
-      if opcao == '0':  # voltar
+      # voltar
+      if opcao == '0':  
         os.system('cls')
         break
-      elif opcao == '1':  # cadastrar
-        os.system('cls')
-        categoria = input('Digite o nome da categoria: ')
-        ctrl_cat.cadastrar_categoria(categoria)
-      elif opcao == '2':  # alterar
-        os.system('cls')
-        categoria_excluir = input('Qual categoria você deseja alterar?\n\nCategoria: ')
-        os.system('cls')
-        categoria_add = input('Insira uma nova categoria:\n\nCategoria: ')
-        ctrl_cat.alterar_categoria(categoria_excluir, categoria_add)  
-      elif opcao == '3':  # remover
-        os.system('cls')
-        categoria = input('Qual categoria você deseja remover?\n\nCategoria: ')
-        ctrl_cat.excluir_categoria(categoria)
-      elif opcao == '4':  # exibir
-        os.system('cls')
-        print('Lista de categorias:\n')
-        ctrl_cat.ver()
-        input('\nPressione "enter" para voltar para o menu...')
-        os.system('cls')
+      # cadastrar
+      elif opcao == '1':  
+        ctrl_cat.cadastrar_categoria()
+      # alterar
+      elif opcao == '2':  
+        ctrl_cat.alterar_categoria()  
+      # excluir
+      elif opcao == '3':  
+        ctrl_cat.excluir_categoria()
+      # exibir
+      elif opcao == '4':          
+        ctrl_cat.ver_categorias()        
+      # opção inválida
       else:
         os.system('cls')
         print('→ Opção Inválida:\n')
 
+
+
   # PRODUTO:
   elif opcao == '3':
     pass
+
+
 
   # FORNECEDOR:
   elif opcao == '4':

@@ -3,17 +3,17 @@ class Categoria:
     self.categoria = categoria
 
 
+class Produto:
+  def __init__(self, nome, preco):
+    self.nome = nome
+    self.preco = preco
+
+
 class Fornecedor:
   def __init__(self, fornecedor, cnpj, telefone):
     self.fornecedor = fornecedor
     self.cnpj = cnpj
     self.telefone = telefone
-
-
-class Produto:
-  def __init__(self, nome, preco):
-    self.nome = nome
-    self.preco = preco
 
 
 class Pessoa:
