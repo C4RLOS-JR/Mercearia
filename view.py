@@ -53,21 +53,21 @@ while True:
                     'Opção: ')
       ctrl_cat = controller.ControllerCategoria()
       # voltar
-      if opcao == '0':  
+      if opcao == '0':
         os.system('cls')
         break
       # cadastrar
-      elif opcao == '1':  
+      elif opcao == '1':
         ctrl_cat.cadastrar_categoria()
       # alterar
-      elif opcao == '2':  
-        ctrl_cat.alterar_categoria()  
+      elif opcao == '2':
+        ctrl_cat.alterar_categoria()
       # excluir
-      elif opcao == '3':  
+      elif opcao == '3':
         ctrl_cat.excluir_categoria()
       # exibir
-      elif opcao == '4':          
-        ctrl_cat.ver_categorias()        
+      elif opcao == '4':
+        ctrl_cat.ver_categorias()
       # opção inválida
       else:
         os.system('cls')
@@ -77,8 +77,40 @@ while True:
 
   # PRODUTO:
   elif opcao == '3':
-    pass
-
+    while True:
+      opcao = input('PRODUTO:\n'
+                    '------------------------------\n'
+                    '1- Cadastrar Produto\n'
+                    '2- Alterar Produto\n'
+                    '3- Excluir Produto\n'
+                    '4- Mostrar Estoque\n'
+                    '0- Voltar\n'
+                    '------------------------------\n'
+                    'Opção: ')
+      ctrl_prod = controller.ControllerProduto()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # cadastrar
+      elif opcao == '1':
+        ctrl_prod.cadastrar_produto()
+      # alterar
+      elif opcao == '2':
+        #ctrl_prod.alterar_produto()
+        pass
+      # excluir
+      elif opcao == '3':
+        #ctrl_prod.excluir_produto()
+        pass
+      # exibir
+      elif opcao == '4':
+        #ctrl_prod.ver_estoque()
+        pass
+      # opção inválida
+      else:
+        os.system('cls')
+        print('→ Opção Inválida:\n')
 
 
   # FORNECEDOR:

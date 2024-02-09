@@ -1,5 +1,5 @@
 import os
-from dao import DaoCategoria
+from dao import DaoCategoria, DaoProduto
 from model import Categoria, Fornecedor, Produto
 
 
@@ -50,7 +50,7 @@ class ControllerCategoria:
     categoria_excluir = input('Qual categoria você deseja alterar?\n\nCategoria: ').upper()
     if categoria_excluir in lista_categorias:
       os.system('cls')
-      categoria_add = input(f'Alterar {categoria_excluir} por qual categoria?\n\nCategoria: ').upper()
+      categoria_add = input(f'Alterar "{categoria_excluir}" por qual categoria?\n\nCategoria: ').upper()
       if categoria_add not in lista_categorias:
         for categoria in lista_categorias: 
           if categoria == categoria_excluir:
@@ -58,7 +58,7 @@ class ControllerCategoria:
             DaoCategoria.alterar(lista_categorias)
             DaoCategoria.adicionar(categoria_add)
             os.system('cls')
-            print(f'→ Categoria {categoria_excluir} alterada para {categoria_add}...\n')
+            print(f'→ Categoria "{categoria_excluir}" alterada para "{categoria_add}"...\n')
       else:
         os.system('cls')
         print(f'→ Já existe a categoria {categoria_add}...\n')
@@ -78,8 +78,16 @@ class ControllerCategoria:
     os.system('cls')
 
 
-class ControllerProduto(Categoria):
-  produto = input('Digite o produto: ').upper()
-  preco = input(f'Digite o preço do(a) {produto}: ').upper()
-  categoria = input(f'Digite a categoria do(a) {produto}')
+class ControllerProduto():
 
+  @classmethod
+  def cadastrar_produto(cls):
+    os.system('cls')
+    produto = input('Digite o produto: ').upper()
+    preco = float(input(f'Digite o preço do(a) {produto}: '))
+    qtd = int(input(f'Digite a quantidade de {produto}: '))
+    categoria = input(f'Digite a categoria do(a) {produto}: ').upper()
+
+    os.system('cls')
+
+    DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))

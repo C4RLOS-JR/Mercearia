@@ -3,9 +3,10 @@ class Categoria:
     self.categoria = categoria
 
 
-class Produto:
-  def __init__(self, nome, preco):
+class Produto(Categoria):
+  def __init__(self, nome, qtd, preco):
     self.nome = nome
+    self.qtd = qtd
     self.preco = preco
 
 
