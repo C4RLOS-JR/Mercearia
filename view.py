@@ -24,54 +24,62 @@ while True:
                 '6- Funcionário\n'
                 '7- Estoque\n'
                 '8- Relatórios\n'
-                '9- Sair\n\n'
+                '0- Sair\n'
+                '---------------------------\n'
                 'Opção: ')
+  os.system('cls')
+
+  # SAIR:
+  if opcao == '0':
+    os.system('cls')
+    print('Programa finalizado!\n')
+    break
 
   # CAIXA
-  if opcao == '1':
+  elif opcao == '1':
     pass
 
   # CATEGORIA:
   elif opcao == '2':
-    os.system('cls')
-    opcao = input('CATEGORIA:\n'
-                  '------------------------------\n'
-                  '1- Cadastrar Categoria\n'
-                  '2- Alterar Categoria\n'
-                  '3- Remover Categoria\n'
-                  '4- Mostrar Categoria\n'
-                  '5- Voltar\n\n'
-                  'Opção: ')
-    cat = controller.ControllerCategoria()
-    if opcao == '1':  # cadastrar
-      os.system('cls')
-      categoria = input('Digite o nome da categoria: ')
-      cat.cadastrar(categoria)
-    elif opcao == '2':  # alterar
-      os.system('cls')
-      pass
-    elif opcao == '3':  # remover
-      os.system('cls')
-      categoria = input('Qual categoria você deseja remover?\n'
-            'Categoria: ')
-      controller.ControllerCategoria.remover(categoria)
+    while True:
 
+      opcao = input('CATEGORIA:\n'
+                    '------------------------------\n'
+                    '1- Cadastrar Categoria\n'
+                    '2- Alterar Categoria\n'
+                    '3- Remover Categoria\n'
+                    '4- Mostrar Categoria\n'
+                    '0- Voltar\n'
+                    '---------------------------\n'
+                    'Opção: ')
+      ctrl_cat = controller.ControllerCategoria()
 
-
-
-    elif opcao == '4':  # exibir
-      os.system('cls')
-      print('Lista de categorias:\n')
-      cat.ver()
-      input('\nPressione "enter" para voltar para o menu...')
-      os.system('cls')
-    elif opcao == '5':  # voltar
-      os.system('cls')
-      pass
-    else:
-      os.system('cls')
-      print('Opção Inválida:\n')
-      input('Pressione "enter" para voltar para o menu...')
+      if opcao == '0':  # voltar
+        os.system('cls')
+        break
+      elif opcao == '1':  # cadastrar
+        os.system('cls')
+        categoria = input('Digite o nome da categoria: ')
+        ctrl_cat.cadastrar_categoria(categoria)
+      elif opcao == '2':  # alterar
+        os.system('cls')
+        categoria_excluir = input('Qual categoria você deseja alterar?\n\nCategoria: ')
+        os.system('cls')
+        categoria_add = input('Insira uma nova categoria:\n\nCategoria: ')
+        ctrl_cat.alterar_categoria(categoria_excluir, categoria_add)  
+      elif opcao == '3':  # remover
+        os.system('cls')
+        categoria = input('Qual categoria você deseja remover?\n\nCategoria: ')
+        ctrl_cat.excluir_categoria(categoria)
+      elif opcao == '4':  # exibir
+        os.system('cls')
+        print('Lista de categorias:\n')
+        ctrl_cat.ver()
+        input('\nPressione "enter" para voltar para o menu...')
+        os.system('cls')
+      else:
+        os.system('cls')
+        print('→ Opção Inválida:\n')
 
   # PRODUTO:
   elif opcao == '3':
@@ -97,14 +105,7 @@ while True:
   elif opcao == '8':
     pass
 
-  # SAIR:
-  elif opcao == '9':
-    os.system('cls')
-    print('Programa finalizado!\n')
-    break
-
   # OPÇÃO INVÁLIDA:
   else:
     os.system('cls')
-    print('Opção Inválida:\n')
-    input('Pressione "enter" para voltar para o menu...')
+    print('→ Opção Inválida:\n')

@@ -1,2 +1,4 @@
+Padaria
 Bebidas
-Limpeza
+Verduras
+Frutas
