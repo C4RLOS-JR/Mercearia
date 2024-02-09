@@ -32,16 +32,16 @@ class DaoProduto:
   @classmethod
   def estoque(cls):
     with open('arquivos/estoque.txt', 'r') as arq:
+      return list(arq.read().split('\n'))
+
+
       
-
-
-      produtos = arq.read().split('\n')
-      produtos.pop()
-      #print(produtos)
-      soma = 0
-      for i in produtos:
-        produto = i.split(' | ')
-        soma += float(produto[1])
-      #print(soma)
+#       #print(produtos)
+#       soma = 0
+#       for i in produtos:
+#         produto = i.split(' | ')
+#         soma += float(produto[1])
+#       #print(soma)
  
-DaoProduto.estoque()
+# DaoProduto.estoque()
+

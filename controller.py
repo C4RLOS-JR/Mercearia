@@ -87,7 +87,26 @@ class ControllerProduto():
     preco = float(input(f'Digite o preço do(a) {produto}: '))
     qtd = int(input(f'Digite a quantidade de {produto}: '))
     categoria = input(f'Digite a categoria do(a) {produto}: ').upper()
-
     os.system('cls')
 
     DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))
+
+  @classmethod
+  def estoque(cls):
+    estoque = DaoProduto.estoque()
+    estoque.pop()
+    for i in estoque:
+      produto = i.split(' | ')
+      print(f'Produto: {produto[0]} / Qtd: {produto[1]} / Categoria: {produto[3]}')
+
+    # estoque.sort()
+    # os.system('cls')
+    # print('ESTOQUE:')
+    # for produto in estoque:
+    #   print(produto)
+
+
+
+
+    input('\nPressione "enter" para voltar para o menu...')
+    os.system('cls')

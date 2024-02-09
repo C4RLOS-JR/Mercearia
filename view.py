@@ -105,8 +105,7 @@ while True:
         pass
       # exibir
       elif opcao == '4':
-        #ctrl_prod.ver_estoque()
-        pass
+        ctrl_prod.estoque()
       # opção inválida
       else:
         os.system('cls')
