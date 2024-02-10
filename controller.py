@@ -19,7 +19,7 @@ class ControllerCategoria:
     if not existe:
       DaoCategoria.adicionar(nova_categoria)
       os.system('cls')
-      print('→ Categoria cadastrada com sucesso... \n')
+      print(f'→ Categoria "{nova_categoria}" cadastrada com sucesso... \n')
     else:
       os.system('cls')
       print('→ Essa categoria já existe... ←\n')
@@ -70,6 +70,7 @@ class ControllerCategoria:
   def ver_categorias(cls):
     ver_categorias = DaoCategoria.ver()
     ver_categorias.sort()
+
     os.system('cls')
     print('Lista de categorias:\n')
     for categoria in ver_categorias:
@@ -81,7 +82,7 @@ class ControllerCategoria:
 class ControllerProduto():
 
   @classmethod
-  def cadastrar_produto(cls):
+  def adicionar_produto(cls):
     os.system('cls')
     produto = input('Digite o produto: ').upper()
     preco = float(input(f'Digite o preço do(a) {produto}: '))
@@ -89,24 +90,59 @@ class ControllerProduto():
     categoria = input(f'Digite a categoria do(a) {produto}: ').upper()
     os.system('cls')
 
-    DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))
+    existe_cat = False
+    cadastrar_cat = False
+    ver_categorias = DaoCategoria.ver()
+    estoque = DaoProduto.estoque()
+    estoque.pop()
+
+    for cat_existente in ver_categorias:
+      if categoria == cat_existente:
+        existe_cat = True
+    if not existe_cat:
+      os.system('cls')
+      criar = input(f'A categoria "{categoria}" não existe, deseja cria-la?\nDigite "s" para confirmar: ')
+      os.system('cls')
+      if criar == 's':
+        cadastrar_cat = True
+        DaoCategoria.adicionar(categoria)
+        os.system('cls')
+        print(f'→ Categoria "{categoria}" cadastrada com sucesso... \n')
+    if existe_cat == True or cadastrar_cat == True:
+      # for i in estoque:
+      #   prod_existente = i.split(' | ')
+      #   if prod_existente[0] == produto:
+      #     qtd += int(prod_existente[1])
+          
+      # Fazer  o altera produto na Dao primeiro.(feito)
+
+      DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))
+
+
+
+  @classmethod
+  def alterar_produto(cls):
+    estoque = DaoProduto.estoque()
+    os.system('cls')
+    produto_excluir = input('Qual produto deseja alterar?\nProduto: ').upper()
+    for i in estoque:
+      produto = i.split(' | ')
+      if produto_excluir == produto[0]:
+        estoque.remove(i)
+        estoque.pop()
+        DaoProduto.alterar(estoque)
+        ControllerProduto.adicionar_produto()
+
+
 
   @classmethod
   def estoque(cls):
     estoque = DaoProduto.estoque()
     estoque.pop()
+    estoque.sort()
+    os.system('cls')
     for i in estoque:
       produto = i.split(' | ')
-      print(f'Produto: {produto[0]} / Qtd: {produto[1]} / Categoria: {produto[3]}')
-
-    # estoque.sort()
-    # os.system('cls')
-    # print('ESTOQUE:')
-    # for produto in estoque:
-    #   print(produto)
-
-
-
-
+      print(f'Produto: {produto[0]:15} Qtd: {produto[1]:10} Categoria: {produto[3]}')
     input('\nPressione "enter" para voltar para o menu...')
     os.system('cls')

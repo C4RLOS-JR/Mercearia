@@ -30,18 +30,17 @@ class DaoProduto:
       arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco} | {produto.categoria}\n')
 
   @classmethod
+  def alterar(cls, novo_estoque):
+    with open('arquivos/estoque.txt', 'w') as arq:
+      for produto in novo_estoque:
+        
+        arq.write(f'{produto}\n')
+
+
+  @classmethod
   def estoque(cls):
     with open('arquivos/estoque.txt', 'r') as arq:
       return list(arq.read().split('\n'))
 
 
-      
-#       #print(produtos)
-#       soma = 0
-#       for i in produtos:
-#         produto = i.split(' | ')
-#         soma += float(produto[1])
-#       #print(soma)
- 
-# DaoProduto.estoque()
 
