@@ -33,7 +33,6 @@ class DaoProduto:
   def alterar(cls, novo_estoque):
     with open('arquivos/estoque.txt', 'w') as arq:
       for produto in novo_estoque:
-        
         arq.write(f'{produto}\n')
 
 

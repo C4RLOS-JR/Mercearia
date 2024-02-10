@@ -80,10 +80,11 @@ while True:
     while True:
       opcao = input('PRODUTO:\n'
                     '------------------------------\n'
-                    '1- Adicionar Produto\n'
+                    '1- Cadastrar Produto\n'
                     '2- Alterar Produto\n'
                     '3- Excluir Produto\n'
-                    '4- Mostrar Estoque\n'
+                    '4- Adicionar ao Estoque\n'
+                    '5- Mostrar Estoque\n'
                     '0- Voltar\n'
                     '------------------------------\n'
                     'Opção: ')
@@ -94,7 +95,7 @@ while True:
         break
       # cadastrar
       elif opcao == '1':
-        ctrl_prod.adicionar_produto()
+        ctrl_prod.cadastrar_produto()
       # alterar
       elif opcao == '2':
         ctrl_prod.alterar_produto()
@@ -103,9 +104,12 @@ while True:
       elif opcao == '3':
         #ctrl_prod.excluir_produto()
         pass
-      # exibir
+      # adicionar no estoque
       elif opcao == '4':
-        ctrl_prod.estoque()
+        ctrl_prod.add_estoque()
+      # exibir
+      elif opcao == '5':
+        ctrl_prod.ver_estoque()
       # opção inválida
       else:
         os.system('cls')
