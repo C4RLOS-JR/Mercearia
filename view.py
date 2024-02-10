@@ -14,25 +14,25 @@ os.system('cls')
 while True:
   # os.system('cls')
   opcao = input('---------------------------\n'
-                'Escolha a opção que deseja:\n'
+                'ESCOLHA A OPÇÃO QUE DESEJA:\n'
                 '---------------------------\n'
-                '1- Caixa\n'
-                '2- Categoria\n'
-                '3- Produto\n'
-                '4- Fornecedor\n'
-                '5- Cliente\n'
-                '6- Funcionário\n'
-                '7- Estoque\n'
-                '8- Relatórios\n'
-                '0- Sair\n'
+                '1- VENDAS\n'
+                '2- CATEGORIAS\n'
+                '3- PRODUTOS\n'
+                '4- FORNECEDORES\n'
+                '5- CLIENTES\n'
+                '6- FUNCIONÁRIOS\n'
+                '7- ESTOQUE\n'
+                '8- RELATÓRIOS\n'
+                '0- SAIR\n'
                 '---------------------------\n'
-                'Opção: ')
+                'OPÇÃO: ')
   os.system('cls')
 
   # SAIR:
   if opcao == '0':
     os.system('cls')
-    print('Programa finalizado!\n\n')
+    print('PROGRAMA FINALIZADO!\n\n')
     break
 
   # CAIXA
@@ -42,15 +42,15 @@ while True:
   # CATEGORIA:
   elif opcao == '2':
     while True:
-      opcao = input('CATEGORIA:\n'
+      opcao = input('CATEGORIAS\n'
                     '------------------------------\n'
-                    '1- Cadastrar Categoria\n'
-                    '2- Alterar Categoria\n'
-                    '3- Excluir Categoria\n'
-                    '4- Mostrar Categoria\n'
-                    '0- Voltar\n'
+                    '1- CADASTRAR CATEGORIA\n'
+                    '2- ALTERAR CATEGORIA\n'
+                    '3- EXCLUIR CATEGORIA\n'
+                    '4- VER CATEGORIAS\n'
+                    '0- VOLTAR\n'
                     '------------------------------\n'
-                    'Opção: ')
+                    'OPÇÃO: ')
       ctrl_cat = controller.ControllerCategoria()
       # voltar
       if opcao == '0':
@@ -71,7 +71,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        print('→ Opção Inválida:\n')
+        print('→ OPÇÃO INVÁLIDA:\n')
 
 
 
@@ -80,14 +80,14 @@ while True:
     while True:
       opcao = input('PRODUTO:\n'
                     '------------------------------\n'
-                    '1- Cadastrar Produto\n'
-                    '2- Alterar Produto\n'
-                    '3- Excluir Produto\n'
-                    '4- Adicionar ao Estoque\n'
-                    '5- Mostrar Estoque\n'
-                    '0- Voltar\n'
+                    '1- CADASTRAR PRODUTO\n'
+                    '2- ALTERAR PRODUTO\n'
+                    '3- EXCLUIR PRODUTO\n'
+                    '4- ADICIONAR AO ESTOQUE\n'
+                    '5- VER ESTOQUE\n'
+                    '0- VOLTAR\n'
                     '------------------------------\n'
-                    'Opção: ')
+                    'OPÇÃO: ')
       ctrl_prod = controller.ControllerProduto()
       # voltar
       if opcao == '0':
@@ -113,7 +113,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        print('→ Opção Inválida:\n')
+        print('→ OPÇÃO INVÁLIDA:\n')
 
 
   # FORNECEDOR:
@@ -139,4 +139,4 @@ while True:
   # OPÇÃO INVÁLIDA:
   else:
     os.system('cls')
-    print('→ Opção Inválida:\n')
+    print('→ OPÇÃO INVÁLIDA:\n')
