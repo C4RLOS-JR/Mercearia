@@ -11,8 +11,8 @@ class Produto(Categoria):
 
 
 class Fornecedor:
-  def __init__(self, fornecedor, cnpj, telefone):
-    self.fornecedor = fornecedor
+  def __init__(self, nome, cnpj, telefone):
+    self.nome = nome
     self.cnpj = cnpj
     self.telefone = telefone
 

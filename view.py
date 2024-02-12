@@ -1,5 +1,6 @@
 import os.path
 import controller
+from termcolor import cprint
 
 
 def criar_arquivo(*nomes):
@@ -35,14 +36,15 @@ while True:
     print('PROGRAMA FINALIZADO!\n\n')
     break
 
-  # CAIXA
+  # CAIXA Fazer 
   elif opcao == '1':
     pass
 
   # CATEGORIA:
   elif opcao == '2':
     while True:
-      opcao = input('CATEGORIAS\n'
+      opcao = input('------------------------------\n'
+                    'CATEGORIAS\n'
                     '------------------------------\n'
                     '1- CADASTRAR CATEGORIA\n'
                     '2- ALTERAR CATEGORIA\n'
@@ -51,6 +53,7 @@ while True:
                     '0- VOLTAR\n'
                     '------------------------------\n'
                     'OPÇÃO: ')
+      os.system('cls')
       ctrl_cat = controller.ControllerCategoria()
       # voltar
       if opcao == '0':
@@ -71,23 +74,21 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        print('→ OPÇÃO INVÁLIDA:\n')
-
-
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
   # PRODUTO:
   elif opcao == '3':
     while True:
-      opcao = input('PRODUTO:\n'
+      opcao = input('------------------------------\n'
+                    'PRODUTO:\n'
                     '------------------------------\n'
                     '1- CADASTRAR PRODUTO\n'
                     '2- ALTERAR PRODUTO\n'
                     '3- EXCLUIR PRODUTO\n'
-                    '4- ADICIONAR AO ESTOQUE\n'
-                    '5- VER ESTOQUE\n'
                     '0- VOLTAR\n'
                     '------------------------------\n'
                     'OPÇÃO: ')
+      os.system('cls')
       ctrl_prod = controller.ControllerProduto()
       # voltar
       if opcao == '0':
@@ -98,45 +99,139 @@ while True:
         ctrl_prod.cadastrar_produto()
       # alterar
       elif opcao == '2':
-        ctrl_prod.alterar_produto()
-        pass
+        while True:
+          opcao = input('------------------------------\n'
+                        'ALTERAR PRODUTO:\n'
+                        '------------------------------\n'
+                        '1- ALTERAR NOME DO PRODUTO\n'
+                        '2- ALTERAR PREÇO DO PRODUTO\n'
+                        '3- ALTERAR CATEGORIA DO PRODUTO\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
+          os.system('cls')
+
+          # voltar
+          if opcao == '0':
+            os.system('cls')
+            break
+          # alterar o produto
+          elif opcao == '1' or opcao == '2' or opcao == '3':
+            ctrl_prod.alterar_produto(opcao)
+          # opção inválida
+          else:
+            os.system('cls')
+            cprint('→ OPÇÃO INVÁLIDA...', color='red')
       # excluir
       elif opcao == '3':
-        #ctrl_prod.excluir_produto()
-        pass
-      # adicionar no estoque
-      elif opcao == '4':
-        ctrl_prod.add_estoque()
-      # exibir
-      elif opcao == '5':
-        ctrl_prod.ver_estoque()
+        ctrl_prod.excluir_produto()
       # opção inválida
       else:
         os.system('cls')
-        print('→ OPÇÃO INVÁLIDA:\n')
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
 
-  # FORNECEDOR:
+  # FORNECEDOR: Fazer 
   elif opcao == '4':
-    pass
+    while True:
+          opcao = input('------------------------------\n'
+                        'FORNECEDOR:\n'
+                        '------------------------------\n'
+                        '1- CADASTRAR FORNECEDOR\n'
+                        '2- ALTERAR FORNECEDOR\n'
+                        '3- EXCLUIR FORNECEDOR\n'
+                        '4- VER FORNECEDORES\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
+          os.system('cls')
+          ctrl_fornec = controller.ControllerFornecedor()
+          # voltar
+          if opcao == '0':
+            os.system('cls')
+            break
+          # cadastrar fornecedor
+          elif opcao == '1':
+            ctrl_fornec.cadastrar_fornecedor()
+          # alterar fornecedor
+          elif opcao == '2':
+            while True:
+              opcao = input('------------------------------\n'
+                          'ALTERAR FORNECEDOR:\n'
+                          '------------------------------\n'
+                          '1- ALTERAR NOME\n'
+                          '2- ALTERAR CNPJ\n'
+                          '3- ALTERAR TELEFONE\n'
+                          '0- VOLTAR\n'
+                          '------------------------------\n'
+                          'OPÇÃO: ')
+              os.system('cls')
+              
+               # voltar
+              if opcao == '0':
+                os.system('cls')
+                break
+              # alterar o fornecedor
+              elif opcao == '1' or opcao == '2' or opcao == '3':
+                ctrl_fornec.alterar_fornecedor(opcao)
+              # opção inválida
+              else:
+                os.system('cls')
+                cprint('→ OPÇÃO INVÁLIDA...', color='red')
+              
+          # excluir fornecedor
+          elif opcao == '3':
+            #ctrl_fornec.excluir_fornecedor()
+            pass
+          # ver fornecedor
+          elif opcao == '4':
+            ctrl_fornec.ver_fornecedores()
+          # opção inválida
+          else:
+            os.system('cls')
+            cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
-  # CLIENTE:
+  # CLIENTE: Fazer 
   elif opcao == '5':
     pass
 
-  # FUNCIONARIO:
+  # FUNCIONARIO: Fazer 
   elif opcao == '6':
     pass
 
   # ESTOQUE:
   elif opcao == '7':
-    pass
+    while True:
+      opcao = input('------------------------------\n'
+                    'ESTOQUE\n'
+                    '------------------------------\n'
+                    '1- ADICIONAR AO ESTOQUE\n'
+                    '2- VER ESTOQUE\n'
+                    '0- VOLTAR\n'
+                    '------------------------------\n'
+                    'OPÇÃO: ')
+      os.system('cls')
+      ctrl_prod = controller.ControllerEstoque()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # adicionar no estoque
+      elif opcao == '1':
+        ctrl_prod.add_estoque()
+      # exibir
+      elif opcao == '2':
+        ctrl_prod.ver_estoque()
+      # opção inválida
+      else:
+        os.system('cls')
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
-  # RELATÓRIOS:
+  # RELATÓRIOS: Fazer 
   elif opcao == '8':
     pass
 
   # OPÇÃO INVÁLIDA:
   else:
     os.system('cls')
-    print('→ OPÇÃO INVÁLIDA:\n')
+    cprint('→ OPÇÃO INVÁLIDA...', color='red')
