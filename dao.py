@@ -1,5 +1,5 @@
 from math import prod
-from model import Categoria, Fornecedor, Produto
+from model import Categoria, Cliente, Fornecedor, Produto
 
 
 class DaoCategoria:
@@ -10,13 +10,13 @@ class DaoCategoria:
       arq.write(f'{categoria}\n')
 
   @classmethod
-  def alterar(cls, nova_lista):
+  def alterar(cls, categorias_alterada):
     with open('arquivos/categoria.txt', 'w') as arq:
-      for categoria in nova_lista:
+      for categoria in categorias_alterada:
         arq.write(f'{categoria}\n')
 
   @classmethod
-  def ver(cls):
+  def categorias(cls):
     with open('arquivos/categoria.txt', 'r') as arq:
       return list(arq.read().split())
       
@@ -30,9 +30,9 @@ class DaoProduto:
       arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco} | {produto.categoria}\n')
 
   @classmethod
-  def alterar(cls, novo_estoque):
+  def alterar(cls, estoque_alterado):
     with open('arquivos/estoque.txt', 'w') as arq:
-      for produto in novo_estoque:
+      for produto in estoque_alterado:
         arq.write(f'{produto}\n')
 
   @classmethod
@@ -49,12 +49,35 @@ class DaoFornecedor:
       arq.write(f'{fornecedor.nome} | {fornecedor.cnpj} | {fornecedor.telefone}\n')
 
   @classmethod
+  def alterar(cls, fornecedores_alterado):
+    with open('arquivos/fornecedor.txt', 'w') as arq:
+      for fornecedor in fornecedores_alterado:
+        arq.write(f'{fornecedor}\n')
+
+  @classmethod
   def fornecedores(cls):
     with open('arquivos/fornecedor.txt', 'r') as arq:
       return list(arq.read().split('\n'))
-    
+
+
+class DaoCliente:
+
   @classmethod
-  def alterar(cls, novo_fornecedor):
-    with open('arquivos/fornecedor.txt', 'w') as arq:
-      for fornecedor in novo_fornecedor:
-        arq.write(f'{fornecedor}\n')
+  def cadastrar(cls, cliente: Cliente):
+    with open('arquivos/cliente.txt', 'a') as arq:
+      arq.write(f'{cliente.nome} | {cliente.telefone} | {cliente.cpf} | {cliente.email} | {cliente.endereco}\n')
+  
+  @classmethod
+  def alterar(cls, clientes_alterado):
+    with open('arquivos/cliente.txt', 'w') as arq:
+      for cliente in clientes_alterado:
+        arq.write(f'{cliente}\n')
+  
+  @classmethod
+  def clientes(cls):
+    with open('arquivos/cliente.txt', 'r') as arq:
+      return list(arq.read().split('\n'))
+    
+
+class DaoFuncionario:
+  pass

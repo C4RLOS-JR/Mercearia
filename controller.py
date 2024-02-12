@@ -1,7 +1,7 @@
 import os
 from termcolor import cprint
-from dao import DaoCategoria, DaoFornecedor, DaoProduto
-from model import Categoria, Fornecedor, Produto
+from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoProduto
+from model import Categoria, Cliente, Fornecedor, Produto
 
 
 class ControllerCategoria:
@@ -9,8 +9,7 @@ class ControllerCategoria:
   @classmethod
   def cadastrar_categoria(cls,):
     existe = False
-    ver_categorias = DaoCategoria.ver()
-
+    ver_categorias = DaoCategoria.categorias()
     nova_categoria = input('DIGITE O NOME DA CATEGORIA: ').upper()
     if nova_categoria:
       for categoria in ver_categorias:
@@ -33,34 +32,30 @@ class ControllerCategoria:
 
   @classmethod
   def excluir_categoria(cls):
-    existe = False
-    lista_categorias = DaoCategoria.ver()
-
+    categorias = DaoCategoria.categorias()
     categoria_excluir = input('QUAL CATEGORIA VOCÊ DESEJA EXCLUIR?\n'
                               '-----------------------------------\n'
                               'CATEGORIA: ').upper()
     if categoria_excluir:
-      for categoria in lista_categorias:
+      for categoria in categorias:
         if categoria == categoria_excluir:
-          lista_categorias.remove(categoria)
-          existe = True
-      if existe:
-        opcao = input(f'DESEJA EXCLUIR A CATEGORIA "{categoria_excluir}"?\n'
-                        '-----------------------------------------------\n'
-                        'DIGITE "s" PARA CONFIRMAR: ').upper()
-        if opcao == 'S':
-          DaoCategoria.alterar(lista_categorias)
+          categorias.remove(categoria) 
+          confirmar = input(f'DESEJA EXCLUIR A CATEGORIA "{categoria_excluir}"?\n'
+                          '-----------------------------------------------\n'
+                          'DIGITE "s" PARA CONFIRMAR: ').upper()
+          if confirmar == 'S':
+            DaoCategoria.alterar(categorias)
+            os.system('cls')
+            print('→ CATEGORIA REMOVIDA...')
+        else:
           os.system('cls')
-          print('→ CATEGORIA REMOVIDA...')
-      else:
-        os.system('cls')
-        return cprint(f'→ NÃO EXISTE A CATEGORIA "{categoria_excluir}"...', color='red')
+          return cprint(f'→ NÃO EXISTE A CATEGORIA "{categoria_excluir}"...', color='red')
     else:
       os.system('cls')
 
   @classmethod
   def alterar_categoria(cls):
-    lista_categorias = DaoCategoria.ver()
+    lista_categorias = DaoCategoria.categorias()
     categoria_alterar = input('QUAL CATEGORIA VOCÊ DESEJA ALTERAR?\n'
                               '-----------------------------------\n'
                               'CATEGORIA: ').upper()
@@ -69,7 +64,7 @@ class ControllerCategoria:
       if categoria_alterar in lista_categorias:
         categoria_add = input(f'ALTERAR "{categoria_alterar}" POR QUAL CATEGORIA?\n'
                               '--------------------------------------------------\n'
-                              'CATEGORIA: ').upper()
+                              'NOVA CATEGORIA: ').upper()
         os.system('cls')
         if categoria_add:
           if categoria_add not in lista_categorias:
@@ -93,9 +88,8 @@ class ControllerCategoria:
 
   @classmethod
   def ver_categorias(cls):
-    ver_categorias = DaoCategoria.ver()
+    ver_categorias = DaoCategoria.categorias()
     ver_categorias.sort()
-
     print('LISTA DE CATEGORIAS:\n'
           '--------------------')
     for categoria in ver_categorias:
@@ -108,44 +102,45 @@ class ControllerProduto():
 
   @classmethod
   def cadastrar_produto(cls):
+    existe_prod = False
     existe_cat = False
     cadastrar_cat = False
-    ver_categorias = DaoCategoria.ver()
+    categorias = DaoCategoria.categorias()
     estoque = DaoProduto.estoque()
-    
     produto = input('DIGITE O PRODUTO: ').upper()
     if produto:
       for i in estoque:
         produto_estoque = i.split(' | ')
         if produto == produto_estoque[0]:
+          existe_prod = True
           cprint(f'→ JÁ EXISTE "{produto}" NO ESTOQUE...', color='yellow')
-        else:
-          preco = float(input(f'DIGITE O PREÇO DO(A) "{produto}": ').replace(',', '.'))
-          qtd = int(input(f'DIGITE A QUANTIDADE DE "{produto}": '))
-          categoria = input(f'DIGITE A CATEGORIA DO(A) "{produto}": ').upper()
-          os.system('cls')
-
-          for cat_existente in ver_categorias:
-            if categoria == cat_existente:
-              existe_cat = True
-          if not existe_cat:
-            cprint(f'A CATEGORIA "{categoria}" NÃO EXISTE, DESEJA CRIA-LA?', color='yellow')
-            criar = input('-------------------------------------------------------'
-                          'DIGITE "s" PARA CONFIRMAR: ').upper()
-            os.system('cls')
-            if criar == 'S':
-              cadastrar_cat = True
-              DaoCategoria.adicionar(categoria)
-              os.system('cls')
-              cprint(f'→ CATEGORIA "{categoria}" CRIADA COM SUCESSO...', color='green')
-          if existe_cat == True or cadastrar_cat == True:
-            opcao = input(f'DESEJA CADASTRAR O PRODUTO "{produto}"?\n'
-                        '-----------------------------------------------\n'
+          break
+      if not existe_prod:
+        preco = float(input(f'DIGITE O PREÇO DO(A) "{produto}": ').replace(',', '.'))
+        qtd = int(input(f'DIGITE A QUANTIDADE DE "{produto}": '))
+        categoria = input(f'DIGITE A CATEGORIA DO(A) "{produto}": ').upper()
+        os.system('cls')
+        for cat_existente in categorias:
+          if categoria == cat_existente:
+            existe_cat = True
+        if not existe_cat:
+          cprint(f'A CATEGORIA "{categoria}" NÃO EXISTE, DESEJA CRIA-LA?', color='yellow')
+          criar = input('-------------------------------------------------------\n'
                         'DIGITE "s" PARA CONFIRMAR: ').upper()
-            if opcao == 'S':
-              DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))
-              os.system('cls')
-              cprint(f'→ "{produto}" CADASTRADO COM SUCESSO...', color='green')
+          os.system('cls')
+          if criar == 'S':
+            cadastrar_cat = True
+            DaoCategoria.adicionar(categoria)
+            os.system('cls')
+            cprint(f'→ CATEGORIA "{categoria}" CRIADA COM SUCESSO...', color='green') 
+        if existe_cat == True or cadastrar_cat == True:
+          confirmar = input(f'DESEJA CADASTRAR O PRODUTO "{produto}"?\n'
+                      '-----------------------------------------------\n'
+                      'DIGITE "s" PARA CONFIRMAR: ').upper()
+          if confirmar == 'S':
+            DaoProduto.adicionar(categoria, Produto(produto, qtd, preco))
+            os.system('cls')
+            cprint(f'→ "{produto}" CADASTRADO COM SUCESSO...', color='green')
     else:
       os.system('cls')  
           
@@ -186,7 +181,6 @@ class ControllerProduto():
           os.system('cls')
           cprint(f'→ NÃO EXISTE "{alterar_produto}" NO ESTOQUE...', color='yellow')
 
-
   @classmethod
   def excluir_produto(cls):
     estoque = DaoProduto.estoque()
@@ -216,16 +210,23 @@ class ControllerFornecedor:
 
   @classmethod
   def cadastrar_fornecedor(cls):
+    existe = False
+    fornecedores = DaoFornecedor.fornecedores()
     fornecedor = input('DIGITE O NOME DO FORNECEDOR: ').upper()
     if fornecedor:
-      cnpj = input('DIGITE O CNPJ DO FORNECEDOR: ')
-      telefone = input('DIGITE O TELEFONE DO FORNECEDOR: ')
-      fornecedor_inst = Fornecedor(fornecedor, cnpj, telefone)
-      DaoFornecedor.adicionar(fornecedor_inst)
-      os.system('cls')
-      cprint('→ FORNECEDOR CADASTRADO COM SUCESSO...', color='green')
-    else:
-      os.system('cls')
+      for i in fornecedores:
+        dados = i.split(' | ')
+        if fornecedor == dados[0]:
+          existe = True
+      if not existe:
+        cnpj = input('DIGITE O CNPJ DO FORNECEDOR: ')
+        telefone = input('DIGITE O TELEFONE DO FORNECEDOR: ')
+        DaoFornecedor.adicionar(Fornecedor(fornecedor, cnpj, telefone))
+        os.system('cls')
+        cprint('→ FORNECEDOR CADASTRADO COM SUCESSO...', color='green')
+      else:
+        os.system('cls')
+        cprint(F'→ FORNECEDOR "{fornecedor}" JÁ EXISTE NO SISTEMA...', color='yellow')
 
   @classmethod
   def alterar_fornecedor(cls, opcao):
@@ -235,7 +236,6 @@ class ControllerFornecedor:
                             '---------------------------------\n'
                             'FORNECEDOR: ').upper()
     os.system('cls')
-
     if alterar_fornecedor:
       for i in fornecedor:
         dados = i.split(' | ')
@@ -262,8 +262,27 @@ class ControllerFornecedor:
             cprint('→ FORNECEDOR ALTERADO COM SUCESSO...', color='green')
         else:
           os.system('cls')
-          cprint(f'→ O FORNECEDOR "{alterar_fornecedor}" NÃO EXISTE NO SISTEMA...', color='green')
+          cprint(f'→ O FORNECEDOR "{alterar_fornecedor}" NÃO EXISTE NO SISTEMA...', color='yellow')
 
+  @classmethod
+  def excluir_fornecedor(cls):
+    fornecedor = DaoFornecedor.fornecedores()
+    excluir_fornecedor = input('QUAL FORNECEDOR VOCÊ DESEJA EXCLUIR?\n'
+                            '---------------------------------\n'
+                            'FORNECEDOR: ').upper()
+    os.system('cls')
+    if excluir_fornecedor:
+      for i in fornecedor:
+        dados = i.split(' | ')
+        if excluir_fornecedor == dados[0]:
+          confirmar = input(f'DESEJA EXCLUIR O FORNECEDOR "{excluir_fornecedor}"?\n'
+                        '-----------------------------------------------\n'
+                        'DIGITE "s" PARA CONFIRMAR: ').upper()
+          os.system('cls')
+          if confirmar == 'S':
+            fornecedor.remove(i)
+            fornecedor.pop()
+            DaoFornecedor.alterar(fornecedor)
 
   @classmethod
   def ver_fornecedores(cls):
@@ -279,29 +298,145 @@ class ControllerFornecedor:
     os.system('cls')
 
 
+class ControllerCliente:
+
+  @classmethod
+  def cadastrar_cliente(cls):
+    existe = False
+    clientes = DaoCliente.clientes()
+    nome = input('DIGITE O NOME DO CLIENTE: ').upper()
+    if nome:
+      for i in clientes:
+        dados = i.split(' | ')
+        if nome == dados[0]:
+          existe = True
+      if not existe:
+        telefone = input('DIGITE O TELEFONE DO CLIENTE: ')
+        cpf = input('DIGITE O CPF DO CLIENTE: ')
+        email = input('DIGITE O EMAIL DO CLIENTE: ')
+        endereco = input('DIGITE O ENDEREÇO DO CLIENTE: ').upper()
+        os.system('cls')
+        confirmar = input(f'DESEJA CADASTRAR O CLIENTE "{nome}"?\n'
+                      '-----------------------------------------------\n'
+                      'DIGITE "s" PARA CONFIRMAR: ').upper()
+        if confirmar == 'S':
+          DaoCliente.cadastrar(Cliente(nome, telefone, cpf, email, endereco))
+          os.system('cls')
+          cprint('→ CLIENTE CADASTRADO COM SUCESSO...', color='green')
+      else:
+        os.system('cls')
+        cprint('→ CLIENTE JÁ EXISTE NO SISTEMA...', color='yellow')
+
+  @classmethod
+  def alterar_cliente(cls, opcao):
+    cls.opcao = opcao
+    clientes = DaoCliente.clientes()
+    alterar_cliente = input('QUAL CLIENTE VOCÊ DESEJA ALTERAR?\n'
+                            '---------------------------------\n'
+                            'CLIENTE: ').upper()
+    os.system('cls')
+    if alterar_cliente:
+      for i in clientes:
+        dados = i.split(' | ')
+        if alterar_cliente == dados[0]:
+          confirmar = input(f'DESEJA ALTERAR OS DADOS DO CLIENTE "{alterar_cliente}"?\n'
+                        '-----------------------------------------------\n'
+                        'DIGITE "s" PARA CONFIRMAR: ').upper()
+          os.system('cls')
+          if confirmar == 'S':
+            clientes.remove(i)
+            clientes.pop()
+            DaoCliente.alterar(clientes)
+            if opcao == '1':
+              nome = input('DIGITE O NOVO NOME: ').upper()
+              DaoCliente.cadastrar(Cliente(nome, dados[1], dados[2], dados[3], dados[4]))
+            elif opcao == '2':
+              cpf = input(f'DIGITE O TELEFONE DE "{alterar_cliente}": ')
+              DaoCliente.cadastrar(Cliente(dados[0], cpf, dados[2], dados[3], dados[4]))
+            elif opcao == '3':
+              telefone = input(f'DIGITE O CPF DE "{alterar_cliente}": ')
+              DaoCliente.cadastrar(Cliente(dados[0], dados[1], telefone, dados[3], dados[4]))
+            elif opcao == '4':
+              email = input(f'DIGITE O EMAIL DE "{alterar_cliente}": ')
+              DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], email, dados[4]))
+            elif opcao == '5':
+              endereco = input(f'DIGITE O ENDEREÇO DE "{alterar_cliente}": ').upper()
+              DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], endereco))
+
+            os.system('cls')
+            cprint('→ CLIENTE ALTERADO COM SUCESSO...', color='green')
+        else:
+          os.system('cls')
+          cprint(f'→ O CLIENTE "{alterar_cliente}" NÃO EXISTE NO SISTEMA...', color='yellow')
+
+  @classmethod
+  def excluir_cliente(cls):
+    clientes = DaoCliente.clientes()
+    excluir_cliente = input('QUAL CLIENTE VOCÊ DESEJA EXCLUIR?\n'
+                            '---------------------------------\n'
+                            'CLIENTE: ').upper()
+    os.system('cls')
+    if excluir_cliente:
+      for i in clientes:
+        dados = i.split(' | ')
+        if excluir_cliente == dados[0]:
+          confirmar = input(f'DESEJA EXCLUIR O CLIENTE "{excluir_cliente}"?\n'
+                        '-----------------------------------------------\n'
+                        'DIGITE "s" PARA CONFIRMAR: ').upper()
+          os.system('cls')
+          if confirmar == 'S':
+            clientes.remove(i)
+            clientes.pop()
+            DaoFornecedor.alterar(clientes)
+
+  @classmethod
+  def ver_clientes(cls):
+    clientes = DaoCliente.clientes()
+    clientes.pop()
+    clientes.sort()
+    cprint(f'{"CLIENTE":25} {"TELEFONE":15} {"CPF":15} {"EMAIL":20} ENDEREÇO\n'
+          '------------------------------------------------------------------------------------------------------------', color='light_blue')
+    for i in clientes:
+      cliente = i.split(' | ')
+      print(f'{cliente[0]:25} {cliente[1]:15} {cliente[2]:15} {cliente[3]:20} {cliente[4]}')
+    input('\n\nPRESSIONE "ENTER" PARA VOLTAR AO MENU...')
+    os.system('cls')
+
+
+
+
+
+class ControllerFuncionario:
+  pass
+
+
+
+
+
+
+
 class ControllerEstoque:
 
   @classmethod
   def add_estoque(cls):
-    estoque = DaoProduto.estoque()
-    estoque.pop()
     existe = False
-
+    estoque = DaoProduto.estoque()
     produto = input('DIGITE O PRODUTO: ').upper()
     if produto:
       for i in estoque:
         prod_existente = i.split(' | ')
-        if prod_existente[0] == produto:
+        if produto == prod_existente[0]:
           existe = True
         if existe:
           prod_existente = i.split(' | ')
           qtd = int(input(f'DIGITE A QUANTIDADE DE {produto}: '))
-          opcao = input(f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{produto}"?\n'
+          confirmar = input(f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{produto}"?\n'
                         '------------------------------------------------------------\n'
                         'DIGITE "s" PARA CONFIRMAR: ').upper()
-          if opcao == 'S':
+          if confirmar == 'S':
             qtd += int(prod_existente[1])
             estoque.remove(i)
+            estoque.pop()
             DaoProduto.alterar(estoque)
             DaoProduto.adicionar(prod_existente[3], Produto(produto, qtd, prod_existente[2]))
             os.system('cls')
