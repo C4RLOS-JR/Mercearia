@@ -83,11 +83,11 @@ class DaoFuncionario:
   @classmethod
   def cadastrar(cls, funcionario:Funcionario):
     with open('arquivos/funcionarios.txt', 'a') as arq:
-      arq.write(f'{funcionario.id} | {funcionario.nome} | {funcionario.telefone} | {funcionario.cpf} | {funcionario.email} | {funcionario.endereco}\n')
+      arq.write(f'{funcionario.id} | {funcionario.nome} | {funcionario.cpf} | {funcionario.telefone} | {funcionario.email} | {funcionario.endereco}\n')
 
   @classmethod
   def alterar(cls, funcionarios_alterado):
-    with open('arquivo/funcionarios.txt', 'w') as arq:
+    with open('arquivos/funcionarios.txt', 'w') as arq:
       for funcionario in funcionarios_alterado:
         arq.write(f'{funcionario}\n')
 

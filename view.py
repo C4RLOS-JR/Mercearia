@@ -277,10 +277,10 @@ while True:
           opcao = input('------------------------------\n'
                       'ALTERAR FUNCIONÁRIO:\n'
                       '------------------------------\n'
-                      '1- ALTERAR NOME\n'
-                      '2- ALTERAR ID'
-                      '3- ALTERAR TELEFONE\n'
-                      '4- ALTERAR CPF\n'
+                      '1- ALTERAR ID\n'
+                      '2- ALTERAR NOME\n'
+                      '3- ALTERAR CPF\n'
+                      '4- ALTERAR TELEFONE\n'
                       '5- ALTERAR EMAIL\n'
                       '6- ALTERAR ENDEREÇO\n'
                       '0- VOLTAR\n'
@@ -293,7 +293,7 @@ while True:
             break
           # alterar o funcinario
           elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5' or opcao == '6':
-            ctrl_func.alterar_funcinario(opcao)
+            ctrl_func.alterar_funcionario(opcao)
             pass
           # opção inválida
           else:

@@ -33,5 +33,5 @@ class Cliente(Pessoa):
 
 class Funcionario(Pessoa):
   def __init__(self, id, nome, cpf, telefone, email, endereco):
-    self.id = id
     super().__init__(nome, cpf, telefone, email, endereco)
+    self.id = id
