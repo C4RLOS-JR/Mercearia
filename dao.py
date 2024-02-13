@@ -1,5 +1,5 @@
 from math import prod
-from model import Categoria, Cliente, Fornecedor, Produto
+from model import Categoria, Cliente, Fornecedor, Funcionario, Produto
 
 
 class DaoCategoria:
@@ -65,7 +65,7 @@ class DaoCliente:
   @classmethod
   def cadastrar(cls, cliente: Cliente):
     with open('arquivos/cliente.txt', 'a') as arq:
-      arq.write(f'{cliente.nome} | {cliente.telefone} | {cliente.cpf} | {cliente.email} | {cliente.endereco}\n')
+      arq.write(f'{cliente.nome} | {cliente.cpf} | {cliente.telefone} | {cliente.email} | {cliente.endereco}\n')
   
   @classmethod
   def alterar(cls, clientes_alterado):
@@ -80,4 +80,18 @@ class DaoCliente:
     
 
 class DaoFuncionario:
-  pass
+  @classmethod
+  def cadastrar(cls, funcionario:Funcionario):
+    with open('arquivos/funcionarios.txt', 'a') as arq:
+      arq.write(f'{funcionario.id} | {funcionario.nome} | {funcionario.telefone} | {funcionario.cpf} | {funcionario.email} | {funcionario.endereco}\n')
+
+  @classmethod
+  def alterar(cls, funcionarios_alterado):
+    with open('arquivo/funcionarios.txt', 'w') as arq:
+      for funcionario in funcionarios_alterado:
+        arq.write(f'{funcionario}\n')
+
+  @classmethod
+  def funcionarios(cls):
+    with open('arquivos/funcionarios.txt', 'r') as arq:
+      return list(arq.read().split('\n'))

@@ -186,70 +186,135 @@ while True:
             os.system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
-  # CLIENTE: Fazer 
+  # CLIENTE:
   elif opcao == '5':
     while True:
+      opcao = input('------------------------------\n'
+                    'CLIENTE:\n'
+                    '------------------------------\n'
+                    '1- CADASTRAR CLIENTE\n'
+                    '2- ALTERAR CLIENTE\n'
+                    '3- EXCLUIR CLIENTE\n'
+                    '4- VER CLIENTE\n'
+                    '0- VOLTAR\n'
+                    '------------------------------\n'
+                    'OPÇÃO: ')
+      os.system('cls')
+      ctrl_cliente = controller.ControllerCliente()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # cadastrar cliente
+      elif opcao == '1':
+        ctrl_cliente.cadastrar_cliente()
+      # alterar cliente
+      elif opcao == '2':
+        while True:
           opcao = input('------------------------------\n'
-                        'CLIENTE:\n'
-                        '------------------------------\n'
-                        '1- CADASTRAR CLIENTE\n'
-                        '2- ALTERAR CLIENTE\n'
-                        '3- EXCLUIR CLIENTE\n'
-                        '4- VER CLIENTE\n'
-                        '0- VOLTAR\n'
-                        '------------------------------\n'
-                        'OPÇÃO: ')
+                      'ALTERAR CLIENTE:\n'
+                      '------------------------------\n'
+                      '1- ALTERAR NOME\n'
+                      '2- ALTERAR TELEFONE\n'
+                      '3- ALTERAR CPF\n'
+                      '4- ALTERAR EMAIL\n'
+                      '5- ALTERAR ENDEREÇO\n'
+                      '0- VOLTAR\n'
+                      '------------------------------\n'
+                      'OPÇÃO: ')
           os.system('cls')
-          ctrl_cliente = controller.ControllerCliente()
-          # voltar
+            # voltar
           if opcao == '0':
             os.system('cls')
             break
-          # cadastrar cliente
-          elif opcao == '1':
-            ctrl_cliente.cadastrar_cliente()
-          # alterar cliente
-          elif opcao == '2':
-            while True:
-              opcao = input('------------------------------\n'
-                          'ALTERAR CLIENTE:\n'
-                          '------------------------------\n'
-                          '1- ALTERAR NOME\n'
-                          '2- ALTERAR TELEFONE\n'
-                          '3- ALTERAR CPF\n'
-                          '4- ALTERAR EMAIL\n'
-                          '5- ALTERAR ENDEREÇO\n'
-                          '0- VOLTAR\n'
-                          '------------------------------\n'
-                          'OPÇÃO: ')
-              os.system('cls')
-               # voltar
-              if opcao == '0':
-                os.system('cls')
-                break
-              # alterar o cliente
-              elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5':
-                ctrl_cliente.alterar_cliente(opcao)
-                pass
-              # opção inválida
-              else:
-                os.system('cls')
-                cprint('→ OPÇÃO INVÁLIDA...', color='red')
-          # excluir cliente
-          elif opcao == '3':
-            ctrl_cliente.excluir_cliente()
-            pass
-          # ver clientes
-          elif opcao == '4':
-            ctrl_cliente.ver_clientes()
+          # alterar o cliente
+          elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5':
+            ctrl_cliente.alterar_cliente(opcao)
           # opção inválida
           else:
             os.system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='red')
+      # excluir cliente
+      elif opcao == '3':
+        ctrl_cliente.excluir_cliente()
+        pass
+      # ver clientes
+      elif opcao == '4':
+        ctrl_cliente.ver_clientes()
+      # opção inválida
+      else:
+        os.system('cls')
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+
+
+
 
   # FUNCIONARIO: Fazer 
   elif opcao == '6':
-    pass
+    while True:
+      opcao = input('------------------------------\n'
+                    'CLIENTE:\n'
+                    '------------------------------\n'
+                    '1- CADASTRAR FUNCIONÁRIO\n'
+                    '2- ALTERAR FUNCIONÁRIO\n'
+                    '3- EXCLUIR FUNCIONÁRIO\n'
+                    '4- VER FUNCIONÁRIOS\n'
+                    '0- VOLTAR\n'
+                    '------------------------------\n'
+                    'OPÇÃO: ')
+      os.system('cls')
+      ctrl_func = controller.ControllerFuncionario()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # cadastrar funcinario
+      elif opcao == '1':
+        ctrl_func.cadastrar_funcionario()
+      # alterar funcinario
+      elif opcao == '2':
+        while True:
+          opcao = input('------------------------------\n'
+                      'ALTERAR FUNCIONÁRIO:\n'
+                      '------------------------------\n'
+                      '1- ALTERAR NOME\n'
+                      '2- ALTERAR ID'
+                      '3- ALTERAR TELEFONE\n'
+                      '4- ALTERAR CPF\n'
+                      '5- ALTERAR EMAIL\n'
+                      '6- ALTERAR ENDEREÇO\n'
+                      '0- VOLTAR\n'
+                      '------------------------------\n'
+                      'OPÇÃO: ')
+          os.system('cls')
+            # voltar
+          if opcao == '0':
+            os.system('cls')
+            break
+          # alterar o funcinario
+          elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5' or opcao == '6':
+            ctrl_func.alterar_funcinario(opcao)
+            pass
+          # opção inválida
+          else:
+            os.system('cls')
+            cprint('→ OPÇÃO INVÁLIDA...', color='red')
+      # excluir funcinario
+      elif opcao == '3':
+        ctrl_func.excluir_funcinario()
+        pass
+      # ver funcinario
+      elif opcao == '4':
+        ctrl_func.ver_funcionarios()
+      # opção inválida
+      else:
+        os.system('cls')
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+
+
+
+
+
 
   # ESTOQUE:
   elif opcao == '7':

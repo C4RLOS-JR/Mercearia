@@ -18,20 +18,20 @@ class Fornecedor:
 
 
 class Pessoa:
-  def __init__(self, nome, telefone, cpf, email, endereco):
+  def __init__(self, nome, cpf, telefone, email, endereco):
     self.nome = nome
-    self.telefone = telefone
     self.cpf = cpf
+    self.telefone = telefone
     self.email = email
     self.endereco = endereco
 
 
 class Cliente(Pessoa):
-  def __init__(self, nome, telefone, cpf, email, endereco):
-    super().__init__(nome, telefone, cpf, email, endereco)
+  def __init__(self, nome, cpf, telefone, email, endereco):
+    super().__init__(nome, cpf, telefone, email, endereco)
 
 
 class Funcionario(Pessoa):
-  def __init__(self, id, nome, telefone, cpf, email, endereco):
+  def __init__(self, id, nome, cpf, telefone, email, endereco):
     self.id = id
-    super().__init__(nome, telefone, cpf, email, endereco)
+    super().__init__(nome, cpf, telefone, email, endereco)
