@@ -13,7 +13,6 @@ criar_arquivo('categoria.txt', 'cliente.txt', 'estoque.txt', 'fornecedor.txt', '
 
 os.system('cls')
 while True:
-  # os.system('cls')
   opcao = input('---------------------------\n'
                 'ESCOLHA A OPÇÃO QUE DESEJA:\n'
                 '---------------------------\n'

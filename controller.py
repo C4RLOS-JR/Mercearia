@@ -679,7 +679,6 @@ class ControllerEstoque:
     estoque = DaoProduto.estoque()
     estoque.pop()
     estoque.sort()
-
     os.system('cls')
     print('-' * 65)
     cprint(f'{"PRODUTO":25} {"QTD":10}  {"PREÇO":10}   CATEGORIA', color='yellow')
