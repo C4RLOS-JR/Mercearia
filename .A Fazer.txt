@@ -1,0 +1,3 @@
+mudar: alterar_fornecedor, alterar_cliente, alterar_funcionario
+
+continuar: vender

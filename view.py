@@ -1,4 +1,4 @@
-import os.path
+import os
 import controller
 from termcolor import cprint
 
@@ -36,9 +36,44 @@ while True:
     print('PROGRAMA FINALIZADO!\n\n')
     break
 
-  # CAIXA Fazer 
+  # VENDAS Fazer 
   elif opcao == '1':
-    pass
+
+
+
+    while True:
+      opcao = input('------------------------------\n'
+                    'VENDAS\n'
+                    '------------------------------\n'
+                    '1- REALIZAR VENDA\n'
+                    '2- CANCELAR VENDA\n'
+                    '3- PESQUISAR VENDAS\n'
+                    '0- VOLTAR\n'
+                    '------------------------------\n'
+                    'OPÇÃO: ')
+      os.system('cls')
+      vnds_cat = controller.ControllerVendas()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # realizar vendas
+      elif opcao == '1':
+        vnds_cat.vender()
+      # cancelar vendas
+      elif opcao == '2':
+        #vnds_cat.cancelar_venda()
+        pass
+      # pesquisar vendas
+      elif opcao == '3':
+        #vnds_cat.ver_vendas()
+        pass
+      # opção inválida
+      else:
+        os.system('cls')
+        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+
+
 
   # CATEGORIA:
   elif opcao == '2':
@@ -195,7 +230,7 @@ while True:
                     '1- CADASTRAR CLIENTE\n'
                     '2- ALTERAR CLIENTE\n'
                     '3- EXCLUIR CLIENTE\n'
-                    '4- VER CLIENTE\n'
+                    '4- VER CLIENTES\n'
                     '0- VOLTAR\n'
                     '------------------------------\n'
                     'OPÇÃO: ')
@@ -237,7 +272,6 @@ while True:
       # excluir cliente
       elif opcao == '3':
         ctrl_cliente.excluir_cliente()
-        pass
       # ver clientes
       elif opcao == '4':
         ctrl_cliente.ver_clientes()
@@ -246,10 +280,7 @@ while True:
         os.system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='red')
 
-
-
-
-  # FUNCIONARIO: Fazer 
+  # FUNCIONARIO:
   elif opcao == '6':
     while True:
       opcao = input('------------------------------\n'
@@ -294,15 +325,13 @@ while True:
           # alterar o funcinario
           elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5' or opcao == '6':
             ctrl_func.alterar_funcionario(opcao)
-            pass
           # opção inválida
           else:
             os.system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='red')
       # excluir funcinario
       elif opcao == '3':
-        ctrl_func.excluir_funcinario()
-        pass
+        ctrl_func.excluir_funcionario()
       # ver funcinario
       elif opcao == '4':
         ctrl_func.ver_funcionarios()
@@ -310,11 +339,6 @@ while True:
       else:
         os.system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='red')
-
-
-
-
-
 
   # ESTOQUE:
   elif opcao == '7':

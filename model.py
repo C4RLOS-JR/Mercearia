@@ -4,10 +4,16 @@ class Categoria:
 
 
 class Produto(Categoria):
-  def __init__(self, nome, qtd, preco):
+  def __init__(self, nome, qtd, preco, categoria):
+    super().__init__(categoria)
     self.nome = nome
     self.qtd = qtd
     self.preco = preco
+
+
+class Venda(Produto):
+  def __init__(self, nome, qtd, preco):
+     super().__init__(nome, qtd, preco)
 
 
 class Fornecedor:

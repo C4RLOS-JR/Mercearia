@@ -1,5 +1,4 @@
-from math import prod
-from model import Categoria, Cliente, Fornecedor, Funcionario, Produto
+from model import Categoria, Cliente, Fornecedor, Funcionario, Produto, Venda
 
 
 class DaoCategoria:
@@ -24,10 +23,9 @@ class DaoCategoria:
 class DaoProduto:
 
   @classmethod
-  def adicionar(cls, categoria, produto: Produto):
-    produto.categoria = categoria
+  def adicionar(cls, produto: Produto):
     with open('arquivos/estoque.txt', 'a') as arq:
-      arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco} | {produto.categoria}\n')
+      arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco:.2f} | {produto.categoria}\n'.replace('.', ','))
 
   @classmethod
   def alterar(cls, estoque_alterado):
@@ -95,3 +93,11 @@ class DaoFuncionario:
   def funcionarios(cls):
     with open('arquivos/funcionarios.txt', 'r') as arq:
       return list(arq.read().split('\n'))
+    
+
+class DaoVendas:
+  
+  @classmethod
+  def venda(cls, venda: Venda):
+    with open('arquivos/vendas.txt', 'a') as arq:
+      arq.write(f'{venda.nome} | {venda.qtd} | {venda.preco} | {venda.categoria}')
