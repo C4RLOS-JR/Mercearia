@@ -21,7 +21,7 @@ class ControllerCategoria:
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
         if confirmar == 'S':
-          DaoCategoria.adicionar(nova_categoria)
+          DaoCategoria.cadastrar(nova_categoria)
           cprint(f'→ CATEGORIA "{nova_categoria}" CADASTRADA COM SUCESSO...', color='green')
         else:
           cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
@@ -135,7 +135,7 @@ class ControllerProduto():
           criar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if criar == 'S':
-            DaoCategoria.adicionar(categoria)
+            DaoCategoria.cadastrar(categoria)
             existe_cat = True
             cprint(f'→ CATEGORIA "{categoria}" CRIADA COM SUCESSO...', color='green')
           else:
@@ -146,7 +146,7 @@ class ControllerProduto():
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
-            DaoProduto.adicionar(Produto(cadastrar_produto, qtd, preco, categoria))
+            DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, preco, categoria))
             cprint(f'→ "{cadastrar_produto}" CADASTRADO COM SUCESSO...', color='green') 
           else:
             cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
@@ -166,31 +166,31 @@ class ControllerProduto():
           existe = True  
           try:
             if opcao == '1':
-              nome = input('DIGITE O NOVO NOME: ').upper()
-              novo_produto = Produto(nome, dados[1], dados[2], dados[3])
+              nome = input(f'DIGITE UM NOVO NOME PARA "{alterar_produto}": ').upper()
               cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"', color='yellow')
+              dados[0] = nome
             elif opcao == '2':
-              preco = float(input(f'DIGITE O PREÇO DE "{dados[0]}": ').replace(',', '.'))
-              novo_produto = Produto(dados[0], dados[1], preco, dados[3])
+              preco = float(input(f'DIGITE UM NOVO PREÇO PARA "{alterar_produto}": ').replace(',', '.'))
               cprint(f'\nALTERAR O PREÇO: R${dados[2]}\nPARA: R${preco:.2f}'.replace('.', ','), color='yellow')
+              dados[2] = f'{preco:.2f}'.replace('.', ',')
             elif opcao == '3':
-              categoria = input(f'DIGITE A NOVA CATEGORIA DE "{dados[0]}": ').upper()
-              novo_produto = Produto(dados[0], dados[1], dados[2], categoria)
+              categoria = input(f'DIGITE UMA NOVA CATEGORIA PARA "{alterar_produto}": ').upper()
               cprint(f'\nALTERAR A CATEGORIA: "{dados[3]}"\nPARA: "{categoria}"', color='yellow')
-            print('-' * 30)
-            confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
-            os.system('cls')
-            if confirmar == 'S':
-              estoque.remove(produto)
-              DaoProduto.alterar(estoque)
-              DaoProduto.adicionar(novo_produto)
-              cprint('→ PRODUTO ALTERADO COM SUCESSO...', color='green')
-            else:
-              cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+              dados[3] = categoria
           except:
             os.system('cls')
             cprint('DADOS INVÁLIDOS...', color='red')
             return
+          print('-' * 30)
+          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          os.system('cls')
+          if confirmar == 'S':
+            estoque.remove(produto)
+            DaoProduto.alterar(estoque)
+            DaoProduto.cadastrar(Produto(dados[0], dados[1], dados[2], dados[3]))
+            cprint('→ PRODUTO ALTERADO COM SUCESSO...', color='green')
+          else:
+            cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
           break
       if not existe:
         os.system('cls')
@@ -251,7 +251,7 @@ class ControllerFornecedor:
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
         if confirmar == 'S':
-          DaoFornecedor.adicionar(Fornecedor(nome, cnpj, telefone))
+          DaoFornecedor.cadastrar(Fornecedor(nome, cnpj, telefone))
           cprint('→ FORNECEDOR(A) CADASTRADO(A) COM SUCESSO...', color='green')
         else:
           cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
@@ -272,25 +272,30 @@ class ControllerFornecedor:
         dados = fornecedor.split(' | ')
         if alterar_fornecedor == dados[0]:
           existe = True
-          if opcao == '1':
-            nome = input('DIGITE O NOVO NOME: ').upper()
-            novo_fornecedor = (f'{nome} | {dados[1]} | {dados[2]}')
-            cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"?', color='yellow')
-          elif opcao == '2':
-            cnpj = input(f'DIGITE O CNPJ DE "{alterar_fornecedor}": ')
-            novo_fornecedor = (f'{dados[0]} | {cnpj} | {dados[2]}')
-            cprint(f'\nALTERAR O CNPJ: "{dados[1]}"\nPARA: "{cnpj}"?', color='yellow')
-          elif opcao == '3':
-            telefone = input(f'DIGITE O TELEFONE DE "{alterar_fornecedor}": ')
-            novo_fornecedor = (f'{dados[0]} | {dados[1]} | {telefone}')
-            cprint(f'\nALTERAR O TELEFONE: "{dados[2]}"\nPARA: "{telefone}"?', color='yellow')
+          try:
+            if opcao == '1':
+              nome = input(f'DIGITE UM NOVO NOME PARA "{alterar_fornecedor}": ').upper()
+              cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"?', color='yellow')
+              dados[0] = nome
+            if opcao == '2':
+              cnpj = input(f'DIGITE UM NOVO CNPJ PARA "{alterar_fornecedor}": ')
+              cprint(f'\nALTERAR O CNPJ: "{dados[1]}"\nPARA: "{cnpj}"?', color='yellow')
+              dados[1] = cnpj
+            if opcao == '3':
+              telefone = input(f'DIGITE UM NOVO TELEFONE PARA "{alterar_fornecedor}": ')
+              cprint(f'\nALTERAR O TELEFONE: "{dados[2]}"\nPARA: "{telefone}"?', color='yellow')
+              dados[2] = telefone
+          except:
+            os.system('cls')
+            cprint('DADOS INVÁLIDOS...', color='red')
+            return
           print('-' * 30)
           confirmar = input(f'DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             fornecedores.remove(fornecedor)
-            fornecedores.append(novo_fornecedor)
             DaoFornecedor.alterar(fornecedores)
+            DaoFornecedor.cadastrar(Fornecedor(dados[0], dados[1], dados[2]))
             cprint('→ FORNECEDOR(A) ALTERADO(A) COM SUCESSO...', color='green')
           else:
             cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
@@ -396,32 +401,38 @@ class ControllerCliente:
         dados = cliente.split(' | ')
         if alterar_cliente == dados[0]:
           existe = True
-          if opcao == '1':
-            nome = input('DIGITE O NOVO NOME: ').upper()
-            novo_cliente = (f'{nome} | {dados[1]} | {dados[2]} | {dados[3]} | {dados[4]}')
-            cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"?', color='yellow')
-          elif opcao == '2':
-            cpf = input(f'DIGITE O CPF DE "{alterar_cliente}": ')
-            novo_cliente = (f'{dados[0]} | {cpf} | {dados[2]} | {dados[3]} | {dados[4]}')
-            cprint(f'\nALTERAR O CPF: "{dados[1]}"\nPARA: "{cpf}"?', color='yellow')
-          elif opcao == '3':
-            telefone = input(f'DIGITE O TELEFONE DE "{alterar_cliente}": ')
-            novo_cliente = (f'{dados[0]} | {dados[1]} | {telefone} | {dados[3]} | {dados[4]}')
-            cprint(f'\nALTERAR O TELEFONE: "{dados[2]}"\nPARA: "{telefone}"?', color='yellow')
-          elif opcao == '4':
-            email = input(f'DIGITE O EMAIL DE "{alterar_cliente}": ')
-            novo_cliente = (f'{dados[0]} | {dados[1]} | {dados[2]} | {email} | {dados[4]}')
-            cprint(f'\nALTERAR O EMAIL: "{dados[3]}"\nPARA: "{email}"?', color='yellow')
-          elif opcao == '5':
-            endereco = input(f'DIGITE O ENDEREÇO DE "{alterar_cliente}": ').upper()
-            novo_cliente = (f'{dados[0]} | {dados[1]} | {dados[2]} | {dados[3]} | {endereco}')
-            cprint(f'\nALTERAR O ENDEREÇO: "{dados[4]}"\nPARA: "{endereco}"?', color='yellow')
+          try:
+            if opcao == '1':
+              nome = input(f'DIGITE UM NOVO NOME PARA "{alterar_cliente}": ').upper()
+              cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"?', color='yellow')
+              dados[0] = nome
+            elif opcao == '2':
+              cpf = input(f'DIGITE UM NOVO CPF PARA "{alterar_cliente}": ')
+              cprint(f'\nALTERAR O CPF: "{dados[1]}"\nPARA: "{cpf}"?', color='yellow')
+              dados[1] = cpf
+            elif opcao == '3':
+              telefone = input(f'DIGITE UM NOVO TELEFONE PARA "{alterar_cliente}": ')
+              cprint(f'\nALTERAR O TELEFONE: "{dados[2]}"\nPARA: "{telefone}"?', color='yellow')
+              dados[2] = telefone
+            elif opcao == '4':
+              email = input(f'DIGITE UM NOVO EMAIL PARA "{alterar_cliente}": ')
+              cprint(f'\nALTERAR O EMAIL: "{dados[3]}"\nPARA: "{email}"?', color='yellow')
+              dados[3] = email
+            elif opcao == '5':
+              endereco = input(f'DIGITE UM NOVO ENDEREÇO PARA "{alterar_cliente}": ').upper()
+              cprint(f'\nALTERAR O ENDEREÇO: "{dados[4]}"\nPARA: "{endereco}"?', color='yellow')
+              dados[4] = endereco
+          except:
+            os.system('cls')
+            cprint('DADOS INVÁLIDOS...', color='red')
+            return
           print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             clientes.remove(cliente)
-            clientes.append(novo_cliente)
+            DaoCliente.alterar(clientes)
+            DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
             cprint('→ CLIENTE ALTERADO COM SUCESSO...', color='green')
           else:
             cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
@@ -528,37 +539,42 @@ class ControllerFuncionario:
         dados = funcionario.split(' | ')
         if alterar_funcionario == dados[1]:
           existe = True
-          if opcao == '1':
-            id = input('DIGITE O NOVO ID: ').upper()
-            novo_funcionario = (f'{id} | {dados[1]} | {dados[2]} | {dados[3]} | {dados[4]} | {dados[5]}')
-            cprint(f'\nALTERAR O ID: "{dados[0]}"\nPARA: "{id}"?', color='yellow')
-          if opcao == '2':
-            nome = input('DIGITE O NOVO NOME: ').upper()
-            novo_funcionario = (f'{dados[0]} | {nome} | {dados[2]} | {dados[3]} | {dados[4]} | {dados[5]}')
-            cprint(f'\nALTERAR O NOME: "{dados[1]}"\nPARA: "{nome}"?', color='yellow')
-          elif opcao == '3':
-            cpf = input(f'DIGITE O CPF DE "{alterar_funcionario}": ')
-            novo_funcionario = (f'{dados[0]} | {dados[1]} | {cpf} | {dados[3]} | {dados[4]} | {dados[5]}')
-            cprint(f'\nALTERAR O CPF: "{dados[2]}"\nPARA: "{cpf}"?', color='yellow')
-          elif opcao == '4':
-            telefone = input(f'DIGITE O TELEFONE DE "{alterar_funcionario}": ')
-            novo_funcionario = (f'{dados[0]} | {dados[1]} | {dados[2]} | {telefone} | {dados[4]} | {dados[5]}')
-            cprint(f'\nALTERAR O TELEFONE: "{dados[3]}"\nPARA: "{telefone}"?', color='yellow')
-          elif opcao == '5':
-            email = input(f'DIGITE O EMAIL DE "{alterar_funcionario}": ')
-            novo_funcionario = (f'{dados[0]} | {dados[1]} | {dados[2]} | {dados[3]} | {email} | {dados[5]}')
-            cprint(f'\nALTERAR O EMAIL: "{dados[4]}"\nPARA: "{email}"?', color='yellow')
-          elif opcao == '6':
-            endereco = input(f'DIGITE O ENDEREÇO DE "{alterar_funcionario}": ').upper()
-            novo_funcionario = (f'{dados[0]} | {dados[1]} | {dados[2]} | {dados[3]} | {dados[4]} | {endereco}')
-            cprint(f'\nALTERAR O ENDEREÇO: "{dados[5]}"\nPARA: "{endereco}"?', color='yellow')
+          try:
+            if opcao == '1':
+              id = input(f'DIGITE UM NOVO ID PARA "{alterar_funcionario}": ').upper()
+              cprint(f'\nALTERAR O ID: "{dados[0]}"\nPARA: "{id}"?', color='yellow')
+              dados[0] = id
+            if opcao == '2':
+              nome = input(f'DIGITE UM NOVO NOME PARA "{alterar_funcionario}": ').upper()
+              cprint(f'\nALTERAR O NOME: "{dados[1]}"\nPARA: "{nome}"?', color='yellow')
+              dados[1] = nome
+            elif opcao == '3':
+              cpf = input(f'DIGITE UM NOVO CPF PARA "{alterar_funcionario}": ')
+              cprint(f'\nALTERAR O CPF: "{dados[2]}"\nPARA: "{cpf}"?', color='yellow')
+              dados[2] = cpf
+            elif opcao == '4':
+              telefone = input(f'DIGITE UM NOVO TELEFONE PARA "{alterar_funcionario}": ')
+              cprint(f'\nALTERAR O TELEFONE: "{dados[3]}"\nPARA: "{telefone}"?', color='yellow')
+              dados[3] = telefone
+            elif opcao == '5':
+              email = input(f'DIGITE UM NOVO EMAIL PARA "{alterar_funcionario}": ')
+              cprint(f'\nALTERAR O EMAIL: "{dados[4]}"\nPARA: "{email}"?', color='yellow')
+              dados[4] = email
+            elif opcao == '6':
+              endereco = input(f'DIGITE UM NOVO ENDEREÇO PARA "{alterar_funcionario}": ').upper()
+              cprint(f'\nALTERAR O ENDEREÇO: "{dados[5]}"\nPARA: "{endereco}"?', color='yellow')
+              dados[5] = endereco
+          except:
+            os.system('cls')
+            cprint('DADOS INVÁLIDOS...', color='red')
+            return
           print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             funcionarios.remove(funcionario)
-            funcionarios.append(novo_funcionario)
             DaoFuncionario.alterar(funcionarios)
+            DaoFuncionario.cadastrar(Funcionario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]))
             cprint('→ FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO...', color='green')
           else:
             cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
@@ -641,7 +657,7 @@ class ControllerEstoque:
             qtd += int(prod_existente[1])
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
-            DaoProduto.adicionar(prod_existente[3], Produto(add_produto, qtd, prod_existente[2]))
+            DaoProduto.cadastrar(prod_existente[3], Produto(add_produto, qtd, prod_existente[2]))
             cprint(f'→ "{add_produto}" ACRESCENTADO COM SUCESSO...', color='green')
           else:
             cprint('→ ADIÇÃO NÃO CONFIRMADA...', color='red')

@@ -4,7 +4,7 @@ from model import Categoria, Cliente, Fornecedor, Funcionario, Produto, Venda
 class DaoCategoria:
   
   @classmethod
-  def adicionar(cls, categoria: Categoria):
+  def cadastrar(cls, categoria: Categoria):
     with open('arquivos/categoria.txt', 'a') as arq:
       arq.write(f'{categoria}\n')
 
@@ -23,9 +23,9 @@ class DaoCategoria:
 class DaoProduto:
 
   @classmethod
-  def adicionar(cls, produto: Produto):
+  def cadastrar(cls, produto: Produto):
     with open('arquivos/estoque.txt', 'a') as arq:
-      arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco:.2f} | {produto.categoria}\n'.replace('.', ','))
+      arq.write(f'{produto.nome} | {produto.qtd} | {produto.preco} | {produto.categoria}\n'.replace('.', ','))
 
   @classmethod
   def alterar(cls, estoque_alterado):
@@ -42,7 +42,7 @@ class DaoProduto:
 class DaoFornecedor:
 
   @classmethod
-  def adicionar(cls, fornecedor: Fornecedor):
+  def cadastrar(cls, fornecedor: Fornecedor):
     with open('arquivos/fornecedor.txt', 'a') as arq:
       arq.write(f'{fornecedor.nome} | {fornecedor.cnpj} | {fornecedor.telefone}\n')
 
