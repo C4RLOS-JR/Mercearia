@@ -60,6 +60,8 @@ class ControllerCategoria:
       if not existe:
         os.system('cls')
         cprint(f'→ NÃO EXISTE A CATEGORIA "{categoria_alterar}"...', color='yellow')
+    else:
+      os.system('cls')
 
   @classmethod
   def excluir_categoria(cls):
@@ -109,13 +111,12 @@ class ControllerProduto():
     categorias = DaoCategoria.categorias()
     estoque = DaoProduto.estoque()
     cadastrar_produto = input('DIGITE O PRODUTO: ').upper()
-    os.system('cls')
     if cadastrar_produto:
       for produto in estoque:
         dados = produto.split(' | ')
         if cadastrar_produto == dados[0]:
           existe_prod = True
-          
+          os.system('cls')
           cprint(f'→ JÁ EXISTE "{cadastrar_produto}" NO ESTOQUE...', color='yellow')
           break
       if not existe_prod:
@@ -147,10 +148,12 @@ class ControllerProduto():
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
-            DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, preco, categoria))
+            DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, f'{preco:.2f}', categoria))
             cprint(f'→ "{cadastrar_produto}" CADASTRADO COM SUCESSO...', color='green') 
           else:
             cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+    else:
+      os.system('cls')
           
   @classmethod
   def alterar_produto(cls, opcao):
@@ -199,6 +202,8 @@ class ControllerProduto():
       if not existe:
         os.system('cls')
         cprint(f'→ NÃO EXISTE "{alterar_produto}" NO ESTOQUE...', color='yellow')
+    else:
+      os.system('cls')
 
   @classmethod
   def excluir_produto(cls):
@@ -700,10 +705,13 @@ class ControllerVendas:
   def vender(cls):
     existe = False
     estoque = DaoProduto.estoque()
+    estoque.pop()
     clientes = DaoCliente.clientes()
     vendedores = DaoFuncionario.funcionarios()
     total_itens = 0
     total_pagar = 0
+    total_volumes = 0
+    lista_compras = []
 
     slogan = 'MERCEARIA PYTHONFULL'
     cprint(f'{slogan:^40}', color='green')
@@ -711,42 +719,59 @@ class ControllerVendas:
 
 
     while True:
-      print('DIGITE AS COMPRAS OU "0" PARA SAIR!\n')
-      qtd = int(input('ADICIONAR QUANTOS ITENS?: '))
-      if qtd == 0:
-        os.system('cls')
-        break
-      item = input('ITEM: ').upper()
+
+      if lista_compras:
+        cprint(f'{"QTD":^5}{"PRODUTO":^32}{"VALOR":^14}{"V.TOTAL":^14}', color='yellow')
+        print('-' * 65)
+        for i in lista_compras:
+          print(f'|{i[0]:>3}| {i[1]:30}| R${i[2]:10}| R${i[3]:10}|')
+        print('-' * 65)
+        cprint(f'{total_itens:>5} {"ITEM(S)":<8}{total_volumes:>5} {"VOLUME(S)":<12}{"TOTAL À PAGAR:":>19} R${total_pagar:<10.2f}', color='yellow')
+# arrumar a lógica, está errada:
+      print('\nDIGITE AS COMPRAS OU "0" PARA SAIR!\n')
+      item = input('PRODUTO: ').upper()
       for produto in estoque:
         dados = produto.split(' | ')
         if item == dados[0]:
           existe = True
-          total = str(f'{float(dados[2].replace(',', '.')) * qtd:.2f}').replace('.', ',')
-          total_itens += qtd 
+          total = f'{float(dados[2].replace(',', '.')) * qtd:.2f}'.replace('.', ',')
+          total_itens += 1
+          total_volumes += qtd
           total_pagar += float(total.replace(',', '.'))
-          DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
-          os.system('cls')
-          cprint('ITEM ADICIONADO A COMPRA!', color='green')
+          lista_compras.append([qtd, item, dados[2], total])
           break
+        try:
+          qtd = int(input('ADICIONAR QUANTOS ITENS?: '))
+          if qtd == 0:
+            os.system('cls')
+            break      
+        except ValueError:
+          os.system('cls')
+          cprint('DADOS INVÁLIDOS...', color='red')  
       if not existe:
           os.system('cls')
           cprint('→ ITEM NÃO EXISTENTE NO ESTOQUE...', color='red')
 
-    horario = datetime.now()
-    comprovante = DaoVendas.comprovante()
-    comprovante.pop()
 
-    cprint(f'{"QTD":3} {"PRODUTO":20} {"VALOR":10} VALOR TOTAL', color='yellow')
-    print('-' * 50)
-    for item in comprovante:
-      dados = item.split(' | ')
-      print(f'{dados[1]:^3} {dados[0]:20} R${dados[2]:10} R${dados[4]}')
-    print('-' * 50)
-    cprint(f'{total_itens:^3} {"ITENS":<10} {"TOTAL À PAGAR:":>20} R${total_pagar}\n', color='yellow')
 
-    print(horario)
-    input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-    os.system('cls')
+          
+      #DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
 
-    # cliente = input('INFORME O CLIENTE: ')
-    # funcionario = input('INFORME O VENDEDOR: ')
+      horario = datetime.now()
+      comprovante = DaoVendas.comprovante()
+      comprovante.pop()
+
+      cprint(f'{"QTD":3} {"PRODUTO":20} {"VALOR":10} VALOR TOTAL', color='yellow')
+      print('-' * 50)
+      for item in comprovante:
+        dados = item.split(' | ')
+        print(f'{dados[1]:^3} {dados[0]:20} R${dados[2]:10} R${dados[4]}')
+      print('-' * 50)
+      cprint(f'{total_itens:^3} {"ITENS":<10} {"TOTAL À PAGAR:":>20} R${total_pagar}\n', color='yellow')
+
+      print(horario)
+      input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+      os.system('cls')
+
+      # cliente = input('INFORME O CLIENTE: ')
+      # funcionario = input('INFORME O VENDEDOR: ')
