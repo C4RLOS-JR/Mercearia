@@ -12,9 +12,11 @@ class Produto(Categoria):
 
 
 class Venda(Produto):
-  def __init__(self, nome, qtd, preco):
-     super().__init__(nome, qtd, preco)
-
+  def __init__(self, qtd, nome, preco, categoria, preco_total, total_itens, total_pagar):
+    super().__init__(qtd, nome, preco, categoria)
+    self.preco_total = preco_total
+    self.total_itens = total_itens
+    self.total_pagar = total_pagar
 
 class Fornecedor:
   def __init__(self, nome, cnpj, telefone):

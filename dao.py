@@ -100,4 +100,9 @@ class DaoVendas:
   @classmethod
   def venda(cls, venda: Venda):
     with open('arquivos/vendas.txt', 'a') as arq:
-      arq.write(f'{venda.nome} | {venda.qtd} | {venda.preco} | {venda.categoria}')
+      arq.write(f'{venda.qtd} | {venda.nome} | {venda.preco} | {venda.categoria} | {venda.preco_total} | {venda.total_itens} | {venda.total_pagar}\n'.replace('.', ','))
+
+  @classmethod
+  def comprovante(cls):
+    with open('arquivos/vendas.txt', 'r') as arq:
+      return list(arq.read().split('\n'))

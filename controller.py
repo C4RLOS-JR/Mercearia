@@ -1,7 +1,8 @@
 import os
 from termcolor import cprint
 from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProduto, DaoVendas
-from model import Cliente, Fornecedor, Funcionario, Produto
+from model import Cliente, Fornecedor, Funcionario, Produto, Venda
+from datetime import datetime
 
 class ControllerCategoria:
 
@@ -173,6 +174,9 @@ class ControllerProduto():
               preco = float(input(f'DIGITE UM NOVO PREÇO PARA "{alterar_produto}": ').replace(',', '.'))
               cprint(f'\nALTERAR O PREÇO: R${dados[2]}\nPARA: R${preco:.2f}'.replace('.', ','), color='yellow')
               dados[2] = f'{preco:.2f}'.replace('.', ',')
+
+
+
             elif opcao == '3':
               categoria = input(f'DIGITE UMA NOVA CATEGORIA PARA "{alterar_produto}": ').upper()
               cprint(f'\nALTERAR A CATEGORIA: "{dados[3]}"\nPARA: "{categoria}"', color='yellow')
@@ -657,7 +661,7 @@ class ControllerEstoque:
             qtd += int(prod_existente[1])
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
-            DaoProduto.cadastrar(prod_existente[3], Produto(add_produto, qtd, prod_existente[2]))
+            DaoProduto.cadastrar(Produto(add_produto, qtd, prod_existente[2], prod_existente[3]))
             cprint(f'→ "{add_produto}" ACRESCENTADO COM SUCESSO...', color='green')
           else:
             cprint('→ ADIÇÃO NÃO CONFIRMADA...', color='red')
@@ -685,7 +689,7 @@ class ControllerEstoque:
     print('-' * 65)
     for produto in estoque:
       dados = produto.split(' | ')
-      print(f'{dados[0]:25} {dados[1]:10} R$ {dados[2].replace('.', ','):10} {dados[3]}')
+      print(f'{dados[0]:25} {dados[1]:10} R${dados[2].replace('.', ','):10} {dados[3]}')
     input('\n\nPRESSIONE "ENTER" PARA VOLTAR AO MENU...')
     os.system('cls')
 
@@ -694,12 +698,12 @@ class ControllerVendas:
   
   @classmethod
   def vender(cls):
+    existe = False
     estoque = DaoProduto.estoque()
     clientes = DaoCliente.clientes()
     vendedores = DaoFuncionario.funcionarios()
     total_itens = 0
-    total_valor = 0
-    lista_compras = []
+    total_pagar = 0
 
     slogan = 'MERCEARIA PYTHONFULL'
     cprint(f'{slogan:^40}', color='green')
@@ -707,35 +711,42 @@ class ControllerVendas:
 
 
     while True:
-      existe = False
       print('DIGITE AS COMPRAS OU "0" PARA SAIR!\n')
-      qtd = input('ADICIONAR QUANTOS ITENS?: ')
-      if qtd == '0':
+      qtd = int(input('ADICIONAR QUANTOS ITENS?: '))
+      if qtd == 0:
         os.system('cls')
         break
       item = input('ITEM: ').upper()
-      os.system('cls')
-      cprint('ITEN ADICIONADO A COMPRA!', color='green')
-
       for produto in estoque:
         dados = produto.split(' | ')
         if item == dados[0]:
           existe = True
-          item_comprado = (item, dados[2], dados[3])
-
-          DaoVendas.venda()
-          #lista_compras.append(item_comprado)
-
-
-
+          total = str(f'{float(dados[2].replace(',', '.')) * qtd:.2f}').replace('.', ',')
+          total_itens += qtd 
+          total_pagar += float(total.replace(',', '.'))
+          DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
+          os.system('cls')
+          cprint('ITEM ADICIONADO A COMPRA!', color='green')
+          break
       if not existe:
-        os.system('cls')
-        cprint('→ ITEN NÃO EXISTE NO ESTOQUE...', color='red')
+          os.system('cls')
+          cprint('→ ITEM NÃO EXISTENTE NO ESTOQUE...', color='red')
 
+    horario = datetime.now()
+    comprovante = DaoVendas.comprovante()
+    comprovante.pop()
 
+    cprint(f'{"QTD":3} {"PRODUTO":20} {"VALOR":10} VALOR TOTAL', color='yellow')
+    print('-' * 50)
+    for item in comprovante:
+      dados = item.split(' | ')
+      print(f'{dados[1]:^3} {dados[0]:20} R${dados[2]:10} R${dados[4]}')
+    print('-' * 50)
+    cprint(f'{total_itens:^3} {"ITENS":<10} {"TOTAL À PAGAR:":>20} R${total_pagar}\n', color='yellow')
 
-    print(lista_compras)
-    input('\nPRESSIONE O "ENTER" PARA CONTINUAR...')
+    print(horario)
+    input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
     os.system('cls')
+
     # cliente = input('INFORME O CLIENTE: ')
     # funcionario = input('INFORME O VENDEDOR: ')
