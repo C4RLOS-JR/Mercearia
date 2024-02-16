@@ -703,7 +703,6 @@ class ControllerVendas:
   
   @classmethod
   def vender(cls):
-    
     estoque = DaoProduto.estoque()
     estoque.pop()
     clientes = DaoCliente.clientes()
@@ -711,11 +710,11 @@ class ControllerVendas:
     funcionarios = DaoFuncionario.funcionarios()
     funcionarios.pop()
     horario = datetime.now()
+    msg = 0
     total_itens = 0
     total_pagar = 0
     total_volumes = 0
     lista_compras = []
-    msg = 0
     slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^65}\n', color='light_blue')
     
     def lista():
@@ -731,7 +730,6 @@ class ControllerVendas:
       existe = False
       os.system('cls')
       lista()
-      
       # mensagens:
       if msg == 0:
         cprint(f'\n→ INICIANDO O REGISTRO DE COMPRAS...\n', color='light_blue')
@@ -789,7 +787,6 @@ class ControllerVendas:
           input('CLIENTE NÃO CADASTRADO!...DESEJA CADASTRAR CLIENTE?...')
       else:
         os.system('cls')
-      
       if cliente_existe and funcionario_existe:
         os.system('cls')
         slogan()
