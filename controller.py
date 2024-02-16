@@ -121,10 +121,9 @@ class ControllerProduto():
           break
       if not existe_prod:
         try:
-          preco = float(input(f'DIGITE O PREÇO DO(A) "{cadastrar_produto}": ').replace(',', '.'))
           qtd = int(input(f'DIGITE A QUANTIDADE DE "{cadastrar_produto}": '))
-          categoria = input(f'DIGITE A CATEGORIA DO(A) "{cadastrar_produto}": ').upper()
-          os.system('cls')
+          preco = float(input(f'DIGITE O PREÇO PARA "{cadastrar_produto}": ').replace(',', '.'))
+          categoria = input(f'DIGITE A CATEGORIA DE "{cadastrar_produto}": ').upper()
         except:
           os.system('cls')
           cprint('→ DADOS INVÁLIDOS...', color='red')
@@ -139,6 +138,7 @@ class ControllerProduto():
           if criar == 'S':
             DaoCategoria.cadastrar(categoria)
             existe_cat = True
+            os.system('cls')
             cprint(f'→ CATEGORIA "{categoria}" CRIADA COM SUCESSO...', color='green')
           else:
             cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
@@ -249,13 +249,13 @@ class ControllerFornecedor:
           break
       if not existe:
         try:
-          cnpj = input('DIGITE O CNPJ DO(A) FORNECEDOR(A): ')
-          telefone = input('DIGITE O TELEFONE DO(A) FORNECEDOR(A): ')
+          cnpj = input(f'DIGITE O CNPJ DE {nome}: ')
+          telefone = input(f'DIGITE O TELEFONE DE {nome}: ')
         except:
           os.system('cls')
           cprint('→ DADOS INVÁLIDOS...', color='red')
           return
-        cprint(f'\nDESEJA CADASTRAR O(A) FORNECEDOR(A) "{nome}"?', color='yellow')
+        cprint(f'\nDESEJA CADASTRAR O(A) FORNECEDOR(A) "{dados[0]}"?', color='yellow')
         print('-' * 30)
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
@@ -265,6 +265,7 @@ class ControllerFornecedor:
         else:
           cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
       else:
+        os.system('cls')
         cprint(f'→ FORNECEDOR(A) "{nome}" JÁ EXISTE NO SISTEMA...', color='yellow')
     else:
       os.system('cls')
@@ -365,7 +366,7 @@ class ControllerCliente:
   def cadastrar_cliente(cls):
     existe = False
     clientes = DaoCliente.clientes()
-    nome = input('DIGITE O NOME DO(A) CLIENTE: ').upper()
+    nome = input('NOME DO(A) CLIENTE: ').upper()
     if nome:
       for cliente in clientes:
         dados = cliente.split(' | ')
@@ -374,16 +375,15 @@ class ControllerCliente:
           break
       if not existe:
         try:
-          cpf = input('DIGITE O CPF DO(A) CLIENTE: ')
-          telefone = input('DIGITE O TELEFONE DO(A) CLIENTE: ')
-          email = input('DIGITE O EMAIL DO(A) CLIENTE: ')
-          endereco = input('DIGITE O ENDEREÇO DO(A) CLIENTE: ').upper()
-          os.system('cls')
+          cpf = input(f'CPF DE {nome}: ')
+          telefone = input(f'TELEFONE DE {nome}: ')
+          email = input(f'EMAIL DE {nome}: ')
+          endereco = input(f'ENDEREÇO DE {nome}: ').upper()
         except:
           os.system('cls')
           cprint('→ DADOS INVÁLIDOS...', color='red')
           return 
-        cprint(f'DESEJA CADASTRAR O(A) CLIENTE "{nome}"?', color='yellow')
+        cprint(f'\nDESEJA CADASTRAR O(A) CLIENTE "{nome}"?', color='yellow')
         print('-' * 30)
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
@@ -393,6 +393,7 @@ class ControllerCliente:
         else:
           cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
       else:
+        os.system('cls')
         cprint('→ CLIENTE JÁ EXISTE NO SISTEMA...', color='yellow')      
     else:
       os.system('cls')
@@ -510,17 +511,16 @@ class ControllerFuncionario:
           break
       if not existe:
         try:
-          id = input('DIGITE O ID DO(A) FUNCIONÁRIO(A): ')
-          cpf = input('DIGITE O CPF DO(A) FUNCIONÁRIO(A): ')
-          telefone = input('DIGITE O TELEFONE DO(A) FUNCIONÁRIO(A): ')
-          email = input('DIGITE O EMAIL DO(A) FUNCIONÁRIO(A): ')
-          endereco = input('DIGITE O ENDEREÇO DO(A) FUNCIONÁRIO(A): ').upper()
-          os.system('cls')
+          id = input(f'DIGITE UM ID PARA {nome}: ')
+          cpf = input(f'DIGITE O CPF DE {nome}: ')
+          telefone = input(f'DIGITE O TELEFONE DE {nome}: ')
+          email = input(f'DIGITE O EMAIL De {nome} ')
+          endereco = input(f'DIGITE O ENDEREÇO DE {nome}: ').upper()
         except:
           os.system('cls')
           cprint('→ DADOS INVÁLIDOS...', color='red')
           return
-        cprint(f'DESEJA CADASTRAR O(A) FUNCIONÁRIO(A) "{nome}"?', color='yellow')
+        cprint(f'\nDESEJA CADASTRAR O(A) FUNCIONÁRIO(A) "{nome}"?', color='yellow')
         print('-' * 30)
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
@@ -707,7 +707,9 @@ class ControllerVendas:
     estoque = DaoProduto.estoque()
     estoque.pop()
     clientes = DaoCliente.clientes()
-    vendedores = DaoFuncionario.funcionarios()
+    clientes.pop()
+    funcionarios = DaoFuncionario.funcionarios()
+    funcionarios.pop()
     horario = datetime.now()
     total_itens = 0
     total_pagar = 0
@@ -761,34 +763,53 @@ class ControllerVendas:
             msg = 2  
       if not existe:
           msg = 3
-      
-    os.system('cls')
-    lista()
-    print('\n')
-    cliente = input('INFORME O CLIENTE: ').upper()
-    funcionario = input('INFORME O VENDEDOR: ').upper()
-
     while True:
+      cliente_existe = False
+      funcionario_existe = False
       os.system('cls')
-      slogan()
-      cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar}.', color='green')
-      print('-' * 50)
-      print(f'CLIENTE: {cliente}\n'
-            'CPF: \n'
-            'TELEFONE: \n'
-            'ENDEREÇO: \n')
-      print(f'VENDEDOR: {funcionario}\n'
-            'ID: \n'
-            'CPF: \n')
-      print(f'DATA: {horario}\n')
-      cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar}', color='yellow')
-      confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
-      os.system('cls')
-      if confirmar == 'S':
-        cprint('PAGAMENTO CONFIRMADO!\n'
-               'VOLTE SEMPRE...:)\n', color='light_green')
-        print('-' * 50)
-        input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+      lista()
+      print('\n')
+      cpf_cliente = input('INFORME O CPF DO CLIENTE: ')
+      if cpf_cliente:
+        for cliente in clientes:
+          dados_cliente = cliente.split(' | ')
+          if cpf_cliente == dados_cliente[1]:
+            cliente_existe = True
+            break
+        if cliente_existe:
+          id_funcionario = input('INFORME O ID DO VENDEDOR: ')
+          for funcionario in funcionarios:
+            dados_funcionario = funcionario.split(' | ')
+            if id_funcionario == dados_funcionario[0]:
+              funcionario_existe = True
+              break
+          if not funcionario_existe:
+            cprint('FUNCIONÁRIO NÃO CADASTRADO!...')
+        else:
+          input('CLIENTE NÃO CADASTRADO!...DESEJA CADASTRAR CLIENTE?...')
+      else:
         os.system('cls')
-        break
-    #DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
+      
+      if cliente_existe and funcionario_existe:
+        os.system('cls')
+        slogan()
+        cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}', color='green')
+        print('-' * 50)
+        print(f'CLIENTE: {dados_cliente[0]}\n'
+              f'CPF: {dados_cliente[1]}\n'
+              f'ENDEREÇO: {dados_cliente[4]}\n')
+        print(f'VENDEDOR: {dados_funcionario[1]}\n'
+              f'CPF: {dados_funcionario[2]}\n'
+              f'ID: {dados_funcionario[0]}\n')
+        print(f'DATA: {horario}\n')
+        cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}', color='yellow')
+        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        os.system('cls')
+        if confirmar == 'S':
+          slogan()
+          cprint('PAGAMENTO CONFIRMADO!...VOLTE SEMPRE...:)\n', color='light_green')
+          print('-' * 50)
+          input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+          os.system('cls')
+          break
+  #DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))

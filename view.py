@@ -3,6 +3,7 @@ import controller
 from termcolor import cprint
 
 
+slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^30}', color='light_blue')
 def criar_arquivo(*nomes):
     for nome in nomes:
       if not os.path.exists(f'arquivos/{nome}'):
@@ -13,9 +14,10 @@ criar_arquivo('categoria.txt', 'cliente.txt', 'estoque.txt', 'fornecedor.txt', '
 
 os.system('cls')
 while True:
-  opcao = input('---------------------------\n'
+  slogan()
+  opcao = input('------------------------------\n'
                 'ESCOLHA A OPÇÃO QUE DESEJA:\n'
-                '---------------------------\n'
+                '------------------------------\n'
                 '1- VENDAS\n'
                 '2- CATEGORIAS\n'
                 '3- PRODUTOS\n'
@@ -25,7 +27,7 @@ while True:
                 '7- ESTOQUE\n'
                 '8- RELATÓRIOS\n'
                 '0- SAIR\n'
-                '---------------------------\n'
+                '------------------------------\n'
                 'OPÇÃO: ')
   os.system('cls')
 
@@ -41,6 +43,7 @@ while True:
 
 
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'VENDAS\n'
                     '------------------------------\n'
@@ -77,6 +80,7 @@ while True:
   # CATEGORIA:
   elif opcao == '2':
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'CATEGORIAS\n'
                     '------------------------------\n'
@@ -113,6 +117,7 @@ while True:
   # PRODUTO:
   elif opcao == '3':
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'PRODUTO:\n'
                     '------------------------------\n'
@@ -134,6 +139,7 @@ while True:
       # alterar
       elif opcao == '2':
         while True:
+          slogan()
           opcao = input('------------------------------\n'
                         'ALTERAR PRODUTO:\n'
                         '------------------------------\n'
@@ -166,6 +172,7 @@ while True:
   # FORNECEDOR:
   elif opcao == '4':
     while True:
+          slogan()
           opcao = input('------------------------------\n'
                         'FORNECEDOR:\n'
                         '------------------------------\n'
@@ -188,15 +195,16 @@ while True:
           # alterar fornecedor
           elif opcao == '2':
             while True:
+              slogan()
               opcao = input('------------------------------\n'
-                          'ALTERAR FORNECEDOR:\n'
-                          '------------------------------\n'
-                          '1- ALTERAR NOME\n'
-                          '2- ALTERAR CNPJ\n'
-                          '3- ALTERAR TELEFONE\n'
-                          '0- VOLTAR\n'
-                          '------------------------------\n'
-                          'OPÇÃO: ')
+                            'ALTERAR FORNECEDOR:\n'
+                            '------------------------------\n'
+                            '1- ALTERAR NOME\n'
+                            '2- ALTERAR CNPJ\n'
+                            '3- ALTERAR TELEFONE\n'
+                            '0- VOLTAR\n'
+                            '------------------------------\n'
+                            'OPÇÃO: ')
               os.system('cls')
                # voltar
               if opcao == '0':
@@ -223,6 +231,7 @@ while True:
   # CLIENTE:
   elif opcao == '5':
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'CLIENTE:\n'
                     '------------------------------\n'
@@ -245,17 +254,18 @@ while True:
       # alterar cliente
       elif opcao == '2':
         while True:
+          slogan()
           opcao = input('------------------------------\n'
-                      'ALTERAR CLIENTE:\n'
-                      '------------------------------\n'
-                      '1- ALTERAR NOME\n'
-                      '2- ALTERAR TELEFONE\n'
-                      '3- ALTERAR CPF\n'
-                      '4- ALTERAR EMAIL\n'
-                      '5- ALTERAR ENDEREÇO\n'
-                      '0- VOLTAR\n'
-                      '------------------------------\n'
-                      'OPÇÃO: ')
+                        'ALTERAR CLIENTE:\n'
+                        '------------------------------\n'
+                        '1- ALTERAR NOME\n'
+                        '2- ALTERAR TELEFONE\n'
+                        '3- ALTERAR CPF\n'
+                        '4- ALTERAR EMAIL\n'
+                        '5- ALTERAR ENDEREÇO\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
           os.system('cls')
             # voltar
           if opcao == '0':
@@ -282,6 +292,7 @@ while True:
   # FUNCIONARIO:
   elif opcao == '6':
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'CLIENTE:\n'
                     '------------------------------\n'
@@ -304,18 +315,19 @@ while True:
       # alterar funcinario
       elif opcao == '2':
         while True:
+          slogan()
           opcao = input('------------------------------\n'
-                      'ALTERAR FUNCIONÁRIO:\n'
-                      '------------------------------\n'
-                      '1- ALTERAR ID\n'
-                      '2- ALTERAR NOME\n'
-                      '3- ALTERAR CPF\n'
-                      '4- ALTERAR TELEFONE\n'
-                      '5- ALTERAR EMAIL\n'
-                      '6- ALTERAR ENDEREÇO\n'
-                      '0- VOLTAR\n'
-                      '------------------------------\n'
-                      'OPÇÃO: ')
+                        'ALTERAR FUNCIONÁRIO:\n'
+                        '------------------------------\n'
+                        '1- ALTERAR ID\n'
+                        '2- ALTERAR NOME\n'
+                        '3- ALTERAR CPF\n'
+                        '4- ALTERAR TELEFONE\n'
+                        '5- ALTERAR EMAIL\n'
+                        '6- ALTERAR ENDEREÇO\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
           os.system('cls')
             # voltar
           if opcao == '0':
@@ -342,6 +354,7 @@ while True:
   # ESTOQUE:
   elif opcao == '7':
     while True:
+      slogan()
       opcao = input('------------------------------\n'
                     'ESTOQUE\n'
                     '------------------------------\n'
