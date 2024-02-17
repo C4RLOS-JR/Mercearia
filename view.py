@@ -294,7 +294,7 @@ while True:
     while True:
       slogan()
       opcao = input('------------------------------\n'
-                    'CLIENTE:\n'
+                    'FUNCIONÁRIOS:\n'
                     '------------------------------\n'
                     '1- CADASTRAR FUNCIONÁRIO\n'
                     '2- ALTERAR FUNCIONÁRIO\n'
