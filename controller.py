@@ -4,6 +4,7 @@ from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProd
 from model import Cliente, Fornecedor, Funcionario, Produto, Venda
 from datetime import datetime
 
+
 class ControllerCategoria:
 
   @classmethod
@@ -11,23 +12,25 @@ class ControllerCategoria:
     existe = False
     ver_categorias = DaoCategoria.categorias()
     nova_categoria = input('DIGITE O NOME DA CATEGORIA: ').upper()
-    os.system('cls')
     if nova_categoria:
       for categoria in ver_categorias:
         if categoria == nova_categoria:
           existe = True
       if not existe:
-        cprint(f'DESEJA CADASTRAR A CATEGORIA "{nova_categoria}"?', color='yellow')
-        print('-' * 30)
+        info = f'DESEJA CADASTRAR A CATEGORIA "{nova_categoria}"?'
+        print('-' * len(info))
+        cprint(info, color='yellow')
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
         if confirmar == 'S':
           DaoCategoria.cadastrar(nova_categoria)
-          cprint(f'→ CATEGORIA "{nova_categoria}" CADASTRADA COM SUCESSO...', color='green')
+          cprint(f'>> CATEGORIA CADASTRADA COM SUCESSO <<', color='green')
         else:
-          cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
       else:
-        cprint('→ ESSA CATEGORIA JÁ EXISTE...', color='yellow')          
+        cprint('>> ESSA CATEGORIA JÁ EXISTE <<', color='yellow')
+    else:
+      os.system('cls')         
 
   @classmethod
   def alterar_categoria(cls):
@@ -39,27 +42,29 @@ class ControllerCategoria:
       for categoria in categorias: 
         if categoria == categoria_alterar:
           existe = True
-          cprint(f'ALTERAR "{categoria_alterar}" POR QUAL CATEGORIA?', color='yellow')
+          info = f'ALTERAR "{categoria_alterar}" POR QUAL CATEGORIA?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           categoria_add = input('NOVA CATEGORIA: ').upper()
-          os.system('cls')
           if categoria_add:
             if categoria_add not in categorias:
-              cprint(f'\nALTERAR A CATEGORIA: "{categoria_alterar}"\nPARA: "{categoria_add}"', color='yellow')
-              print('-' * 30)
+              info = f'ALTERAR A CATEGORIA "{categoria_alterar}" PARA "{categoria_add}"?'
+              print('-' * len(info))
+              cprint(info, color='yellow')
               confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
               os.system('cls')
               if confirmar == 'S':
                 categorias.remove(categoria)
                 categorias.append(categoria_add)
                 DaoCategoria.alterar(categorias)
-                cprint(f'→ CATEGORIA "{categoria_alterar}" ALTERADA PARA "{categoria_add}"...', color='green')
+                cprint(f'>> CATEGORIA ALTERADA COM SUCESSO <<', color='green')
               else:
-                cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+                cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
             else:
-              cprint(f'→ JÁ EXISTE A CATEGORIA "{categoria_add}"...', color='yellow')
+              cprint(f'>> JÁ EXISTE A CATEGORIA "{categoria_add}" <<', color='yellow')
       if not existe:
         os.system('cls')
-        cprint(f'→ NÃO EXISTE A CATEGORIA "{categoria_alterar}"...', color='yellow')
+        cprint(f'>> NÃO EXISTE A CATEGORIA "{categoria_alterar}" <<', color='yellow')
     else:
       os.system('cls')
 
@@ -67,27 +72,30 @@ class ControllerCategoria:
   def excluir_categoria(cls):
     existe = False
     categorias = DaoCategoria.categorias()
+    print('-' * len(info))
     cprint('QUAL CATEGORIA VOCÊ DESEJA EXCLUIR?', color='yellow')
-    print('-' * 30)
     categoria_excluir = input('CATEGORIA: ').upper()
-    os.system('cls')
     if categoria_excluir:
       for categoria in categorias:
         if categoria == categoria_excluir:
           existe = True
-          categorias.remove(categoria) 
-          cprint(f'DESEJA EXCLUIR A CATEGORIA "{categoria_excluir}"?', color='yellow')
-          print('-' * 30)
+          categorias.remove(categoria)
+          info = f'DESEJA EXCLUIR A CATEGORIA "{categoria_excluir}"?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             DaoCategoria.alterar(categorias)
-            cprint('→ CATEGORIA REMOVIDA COM SUCESSO...', color='green')
+            cprint('>> CATEGORIA REMOVIDA COM SUCESSO <<', color='green')
           else:
-            cprint('→ EXCLUSÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
-        cprint(f'→ NÃO EXISTE A CATEGORIA "{categoria_excluir}"...', color='red')  
+        os.system('cls')
+        cprint(f'>> NÃO EXISTE A CATEGORIA "{categoria_excluir}" <<', color='red')
+    else:
+      os.system('cls')
 
   @classmethod
   def ver_categorias(cls):
@@ -117,7 +125,7 @@ class ControllerProduto():
         if cadastrar_produto == dados[0]:
           existe_prod = True
           os.system('cls')
-          cprint(f'→ JÁ EXISTE "{cadastrar_produto}" NO ESTOQUE...', color='yellow')
+          cprint(f'>> JÁ EXISTE "{cadastrar_produto}" NO ESTOQUE <<', color='yellow')
           break
       if not existe_prod:
         try:
@@ -126,32 +134,34 @@ class ControllerProduto():
           categoria = input(f'DIGITE A CATEGORIA DE "{cadastrar_produto}": ').upper()
         except:
           os.system('cls')
-          cprint('→ DADOS INVÁLIDOS...', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='red')
           return
         if categoria in categorias:
           existe_cat = True
         if not existe_cat:
-          cprint(f'A CATEGORIA "{categoria}" NÃO EXISTE, DESEJA CRIA-LA?', color='yellow')
-          print('-' * 30)
+          info = f'A CATEGORIA "{categoria}" NÃO EXISTE, DESEJA CRIA-LA?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           criar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
-          os.system('cls')
           if criar == 'S':
             DaoCategoria.cadastrar(categoria)
             existe_cat = True
             os.system('cls')
-            cprint(f'→ CATEGORIA "{categoria}" CRIADA COM SUCESSO...', color='green')
+            cprint(f'>> CATEGORIA CRIADA COM SUCESSO <<', color='green')
           else:
-            cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+            os.system('cls')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
         if existe_cat:
-          cprint(f'\nDESEJA CADASTRAR O PRODUTO "{cadastrar_produto}"?', color='yellow')
-          print('-' * 30)
+          info = f'DESEJA CADASTRAR O PRODUTO "{cadastrar_produto}"?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, f'{preco:.2f}', categoria))
-            cprint(f'→ "{cadastrar_produto}" CADASTRADO COM SUCESSO...', color='green') 
+            cprint(f'>> PTODUTO CADASTRADO COM SUCESSO <<', color='green') 
           else:
-            cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
     else:
       os.system('cls')
           
@@ -171,37 +181,39 @@ class ControllerProduto():
           try:
             if opcao == '1':
               nome = input(f'DIGITE UM NOVO NOME PARA "{alterar_produto}": ').upper()
-              cprint(f'\nALTERAR O NOME: "{dados[0]}"\nPARA: "{nome}"', color='yellow')
+              info = f'\ALTERAR O NOME "{dados[0]}" PARA "{nome}"'
+              print('-' * len(info))
+              cprint(info, color='yellow')
               dados[0] = nome
             elif opcao == '2':
               preco = float(input(f'DIGITE UM NOVO PREÇO PARA "{alterar_produto}": ').replace(',', '.'))
-              cprint(f'\nALTERAR O PREÇO: R${dados[2]}\nPARA: R${preco:.2f}'.replace('.', ','), color='yellow')
+              info = f'ALTERAR O PREÇO R${dados[2]} PARA R${preco:.2f}'.replace('.', ',')
+              print('-' * len(info))
+              cprint(info, color='yellow')
               dados[2] = f'{preco:.2f}'.replace('.', ',')
-
-
-
             elif opcao == '3':
               categoria = input(f'DIGITE UMA NOVA CATEGORIA PARA "{alterar_produto}": ').upper()
-              cprint(f'\nALTERAR A CATEGORIA: "{dados[3]}"\nPARA: "{categoria}"', color='yellow')
+              info = f'ALTERAR A CATEGORIA "{dados[3]}" PARA "{categoria}"'
+              print('-' * len(info))
+              cprint(info, color='yellow')
               dados[3] = categoria
           except:
             os.system('cls')
-            cprint('→ DADOS INVÁLIDOS...', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='red')
             return
-          print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
             DaoProduto.cadastrar(Produto(dados[0], dados[1], dados[2], dados[3]))
-            cprint('→ PRODUTO ALTERADO COM SUCESSO...', color='green')
+            cprint('>> PRODUTO ALTERADO COM SUCESSO <<', color='green')
           else:
-            cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
         os.system('cls')
-        cprint(f'→ NÃO EXISTE "{alterar_produto}" NO ESTOQUE...', color='yellow')
+        cprint(f'>> NÃO EXISTE "{alterar_produto}" NO ESTOQUE <<', color='yellow')
     else:
       os.system('cls')
 
@@ -213,25 +225,37 @@ class ControllerProduto():
     cprint('QUAL PRODUTO VOCÊ DESEJA EXCLUIR?', color='yellow')
     print('-' * 30)
     excluir_produto = input('PRODUTO: ').upper()
-    os.system('cls')
     if excluir_produto:
       for produto in estoque:
         dados = produto.split(' | ')
         if excluir_produto == dados[0]:
           existe = True
-          cprint(f'DESEJA EXCLUIR O PRODUTO "{excluir_produto}"?', color='yellow')
+          info = f'DESEJA EXCLUIR O PRODUTO "{excluir_produto}"?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
           os.system('cls')
           if confirmar == 'S':
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
-            cprint(f'→ "{excluir_produto}" REMOVIDO COM SUCESSO...', color='green')
+            cprint(f'>> PRODUTO REMOVIDO COM SUCESSO <<', color='green')
           else:
-            cprint('→ EXCLUSÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
-        cprint(f'→ NÃO TEM "{excluir_produto}" NO ESTOQUE...', color='yellow')
+        os.system('cls')
+        cprint(f'>> NÃO TEM "{excluir_produto}" NO ESTOQUE <<', color='yellow')
+    else:
+      os.system('cls')
+
+
+
+
+# CONTINUAR → print('-' * len(info))
+
+
+
 
 
 class ControllerFornecedor:
@@ -253,7 +277,7 @@ class ControllerFornecedor:
           telefone = input(f'DIGITE O TELEFONE DE {nome}: ')
         except:
           os.system('cls')
-          cprint('→ DADOS INVÁLIDOS...', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='red')
           return
         cprint(f'\nDESEJA CADASTRAR O(A) FORNECEDOR(A) "{dados[0]}"?', color='yellow')
         print('-' * 30)
@@ -261,12 +285,12 @@ class ControllerFornecedor:
         os.system('cls')
         if confirmar == 'S':
           DaoFornecedor.cadastrar(Fornecedor(nome, cnpj, telefone))
-          cprint('→ FORNECEDOR(A) CADASTRADO(A) COM SUCESSO...', color='green')
+          cprint('>> FORNECEDOR(A) CADASTRADO(A) COM SUCESSO <<', color='green')
         else:
-          cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
       else:
         os.system('cls')
-        cprint(f'→ FORNECEDOR(A) "{nome}" JÁ EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> FORNECEDOR(A) "{nome}" JÁ EXISTE NO SISTEMA <<', color='yellow')
     else:
       os.system('cls')
 
@@ -297,7 +321,7 @@ class ControllerFornecedor:
               dados[2] = telefone
           except:
             os.system('cls')
-            cprint('→ DADOS INVÁLIDOS...', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='red')
             return
           print('-' * 30)
           confirmar = input(f'DIGITE "s" PARA CONFIRMAR: ').upper()
@@ -306,13 +330,13 @@ class ControllerFornecedor:
             fornecedores.remove(fornecedor)
             DaoFornecedor.alterar(fornecedores)
             DaoFornecedor.cadastrar(Fornecedor(dados[0], dados[1], dados[2]))
-            cprint('→ FORNECEDOR(A) ALTERADO(A) COM SUCESSO...', color='green')
+            cprint('>> FORNECEDOR(A) ALTERADO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
           break    
       if not existe:
         os.system('cls')
-        cprint(f'→ O(A) FORNECEDOR(A) "{alterar_fornecedor}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) FORNECEDOR(A) "{alterar_fornecedor}" NÃO EXISTE NO SISTEMA <<', color='yellow')
     else:
       os.system('cls')
 
@@ -338,12 +362,12 @@ class ControllerFornecedor:
             fornecedores.remove(fornecedor)
             DaoFornecedor.alterar(fornecedores)
             os.system('cls')
-            cprint(f'→ FORNECEDOR(A) "{excluir_fornecedor}" EXCLUIDO(A) COM SUCESSO...', color='green')
+            cprint(f'>> FORNECEDOR(A) "{excluir_fornecedor}" EXCLUIDO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('→ EXCLUSÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
-        cprint(f'→ O(A) FORNECEDOR(A) "{excluir_fornecedor}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) FORNECEDOR(A) "{excluir_fornecedor}" NÃO EXISTE NO SISTEMA <<', color='yellow')
 
   @classmethod
   def ver_fornecedores(cls):
@@ -381,7 +405,7 @@ class ControllerCliente:
           endereco = input(f'ENDEREÇO DE {nome}: ').upper()
         except:
           os.system('cls')
-          cprint('→ DADOS INVÁLIDOS...', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='red')
           return 
         cprint(f'\nDESEJA CADASTRAR O(A) CLIENTE "{nome}"?', color='yellow')
         print('-' * 30)
@@ -389,12 +413,12 @@ class ControllerCliente:
         os.system('cls')
         if confirmar == 'S':
           DaoCliente.cadastrar(Cliente(nome, cpf, telefone, email, endereco))
-          cprint('→ CLIENTE CADASTRADO COM SUCESSO...', color='green')
+          cprint('>> CLIENTE CADASTRADO COM SUCESSO <<', color='green')
         else:
-          cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
       else:
         os.system('cls')
-        cprint('→ CLIENTE JÁ EXISTE NO SISTEMA...', color='yellow')      
+        cprint('>> CLIENTE JÁ EXISTE NO SISTEMA <<', color='yellow')      
     else:
       os.system('cls')
 
@@ -434,7 +458,7 @@ class ControllerCliente:
               dados[4] = endereco
           except:
             os.system('cls')
-            cprint('→ DADOS INVÁLIDOS...', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='red')
             return
           print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
@@ -443,13 +467,13 @@ class ControllerCliente:
             clientes.remove(cliente)
             DaoCliente.alterar(clientes)
             DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
-            cprint('→ CLIENTE ALTERADO COM SUCESSO...', color='green')
+            cprint('>> CLIENTE ALTERADO COM SUCESSO <<', color='green')
           else:
-            cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
         os.system('cls')
-        cprint(f'→ O(A) CLIENTE "{alterar_cliente}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) CLIENTE "{alterar_cliente}" NÃO EXISTE NO SISTEMA <<', color='yellow')
     else:
       os.system('cls')
 
@@ -474,12 +498,12 @@ class ControllerCliente:
           if confirmar == 'S':
             clientes.remove(cliente)
             DaoCliente.alterar(clientes)
-            cprint('→ CLIENTE EXCLUIDO COM SUCESSO...', color='green')
+            cprint('>> CLIENTE EXCLUIDO COM SUCESSO <<', color='green')
           else:
-            cprint('→ EXCLUSÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
-        cprint(f'→ O(A) CLIENTE "{excluir_cliente}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) CLIENTE "{excluir_cliente}" NÃO EXISTE NO SISTEMA <<', color='yellow')
 
   @classmethod
   def ver_clientes(cls):
@@ -518,7 +542,7 @@ class ControllerFuncionario:
           endereco = input(f'DIGITE O ENDEREÇO DE {nome}: ').upper()
         except:
           os.system('cls')
-          cprint('→ DADOS INVÁLIDOS...', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='red')
           return
         cprint(f'\nDESEJA CADASTRAR O(A) FUNCIONÁRIO(A) "{nome}"?', color='yellow')
         print('-' * 30)
@@ -526,12 +550,12 @@ class ControllerFuncionario:
         os.system('cls')
         if confirmar == 'S':
           DaoFuncionario.cadastrar(Funcionario(id, nome, cpf, telefone, email, endereco))
-          cprint('→ FUNCIONÁRIO(A) CADASTRADO(A) COM SUCESSO...', color='green')
+          cprint('>> FUNCIONÁRIO(A) CADASTRADO(A) COM SUCESSO <<', color='green')
         else:
-          cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
       else:
         os.system('cls')
-        cprint('→ FUNCIONÁRIO(A) JÁ EXISTE NO SISTEMA...', color='yellow') 
+        cprint('>> FUNCIONÁRIO(A) JÁ EXISTE NO SISTEMA <<', color='yellow') 
     else:
       os.system('cls')
 
@@ -575,7 +599,7 @@ class ControllerFuncionario:
               dados[5] = endereco
           except:
             os.system('cls')
-            cprint('→ DADOS INVÁLIDOS...', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='red')
             return
           print('-' * 30)
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
@@ -584,13 +608,13 @@ class ControllerFuncionario:
             funcionarios.remove(funcionario)
             DaoFuncionario.alterar(funcionarios)
             DaoFuncionario.cadastrar(Funcionario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]))
-            cprint('→ FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO...', color='green')
+            cprint('>> FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('→ ALTERAÇÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
         os.system('cls')
-        cprint(f'→ O(A) FUNCIONÁRIO(A) "{alterar_funcionario}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) FUNCIONÁRIO(A) "{alterar_funcionario}" NÃO EXISTE NO SISTEMA <<', color='yellow')
     else:
       os.system('cls')
 
@@ -615,12 +639,12 @@ class ControllerFuncionario:
           if confirmar == 'S':
             funcionarios.remove(funcionario)
             DaoFuncionario.alterar(funcionarios)
-            cprint('→ FUNCIONÁRIO(A) EXCLUIDO(A) COM SUCESSO...', color='green')
+            cprint('>> FUNCIONÁRIO(A) EXCLUIDO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('→ EXCLUSÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
-        cprint(f'→ O(A) FUNCIONÁRIO(A) "{excluir_funcionario}" NÃO EXISTE NO SISTEMA...', color='yellow')
+        cprint(f'>> O(A) FUNCIONÁRIO(A) "{excluir_funcionario}" NÃO EXISTE NO SISTEMA <<', color='yellow')
 
   @classmethod
   def ver_funcionarios(cls):
@@ -653,23 +677,31 @@ class ControllerEstoque:
           existe = True
           try:
             qtd = int(input(f'DIGITE A QUANTIDADE DE "{add_produto}": '))
-            os.system('cls')
           except:
             os.system('cls')
-            cprint('→ DADOS INVÁLIDOS...', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='red')
             return
-          cprint(f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{add_produto}"?', color='yellow')
-          print('-' * 30)
+          
+
+
+
+          info = f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{add_produto}"?'
+          print('-' * len(info))
+          cprint(info, color='yellow')
           confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+
+
+
+
           os.system('cls')
           if confirmar == 'S':
             qtd += int(prod_existente[1])
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
             DaoProduto.cadastrar(Produto(add_produto, qtd, prod_existente[2], prod_existente[3]))
-            cprint(f'→ "{add_produto}" ACRESCENTADO COM SUCESSO...', color='green')
+            cprint(f'>> "{add_produto}" ACRESCENTADO COM SUCESSO <<', color='green')
           else:
-            cprint('→ ADIÇÃO NÃO CONFIRMADA...', color='red')
+            cprint('>> ADIÇÃO NÃO CONFIRMADA <<', color='red')
           break
       if not existe:
         cprint(f'NÃO TEM "{add_produto}" NO ESTOQUE, DESEJA CADASTRA-LO?', color='yellow')
@@ -679,7 +711,7 @@ class ControllerEstoque:
         if confirmar == 'S':
           ControllerProduto.cadastrar_produto()
         else:
-            cprint('→ CADASTRO NÃO CONFIRMADO...', color='red')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
     else:
       os.system('cls')
 
@@ -732,13 +764,13 @@ class ControllerVendas:
       lista()
       # mensagens:
       if msg == 0:
-        cprint(f'\n→ INICIANDO O REGISTRO DE COMPRAS...\n', color='light_blue')
+        cprint(f'\n>> INICIANDO O REGISTRO DE COMPRAS <<\n', color='light_blue')
       elif msg == 1:
-        cprint(f'\n→ "{item}" ADICIONADO(A) A COMPRA...\n', color='green')
+        cprint(f'\n>> "{item}" ADICIONADO(A) A COMPRA <<\n', color='green')
       elif msg == 2:
-        cprint('\n→ DADOS INVÁLIDOS...\n', color='red')
+        cprint('\n>> DADOS INVÁLIDOS <<\n', color='red')
       elif msg == 3:
-        cprint(f'\n→ "{item}" NÃO EXISTENTE NO ESTOQUE...\n', color='red')
+        cprint(f'\n>> "{item}" NÃO EXISTENTE NO ESTOQUE <<\n', color='red')
 
       print('DIGITE "0" EM PRODUTO PARA ENCERRAR!\n')
       item = input('PRODUTO: ').upper()
@@ -782,9 +814,9 @@ class ControllerVendas:
               funcionario_existe = True
               break
           if not funcionario_existe:
-            cprint('FUNCIONÁRIO NÃO CADASTRADO!...')
+            cprint('FUNCIONÁRIO NÃO CADASTRADO! <<')
         else:
-          input('CLIENTE NÃO CADASTRADO!...DESEJA CADASTRAR CLIENTE?...')
+          input('CLIENTE NÃO CADASTRADO! <<DESEJA CADASTRAR CLIENTE? <<')
       else:
         os.system('cls')
       if cliente_existe and funcionario_existe:
@@ -804,9 +836,9 @@ class ControllerVendas:
         os.system('cls')
         if confirmar == 'S':
           slogan()
-          cprint('PAGAMENTO CONFIRMADO!...VOLTE SEMPRE...:)\n', color='light_green')
+          cprint('PAGAMENTO CONFIRMADO! <<VOLTE SEMPRE <<:)\n', color='light_green')
           print('-' * 50)
-          input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+          input('\nPRESSIONE "ENTER" PARA CONTINUAR <<')
           os.system('cls')
           break
   #DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
