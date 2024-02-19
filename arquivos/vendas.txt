@@ -1,4 +1,5 @@
-{'id_venda': 1, 'data': '16/02/2024', 'hora': '11:03', 'vendas': [[3, 'TOMATE', '11,80', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 35.4}
+{'id_venda': 1, 'data': '16/01/2024', 'hora': '11:03', 'vendas': [[3, 'TOMATE', '11,80', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 35.4}
 {'id_venda': 2, 'data': '17/02/2024', 'hora': '11:05', 'vendas': [[2, 'CENOURA', '7,59', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 15.18}
 {'id_venda': 3, 'data': '18/02/2024', 'hora': '12:47', 'vendas': [[5, 'CERVEJA', '2,29', 'BEBIDAS'], [2, 'SALGADINHO', '5,50', 'PETISCOS'], [4, 'TOMATE', '11,80', 'LEGUMES'], [3, 'CENOURA', '7,59', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 92.42}
 {'id_venda': 4, 'data': '18/02/2024', 'hora': '14:01', 'vendas': [[8, 'PAO FRANCES', '11,50', 'PADARIA']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 92.0}
+{'id_venda': 5, 'data': '19/02/2024', 'hora': '16:19', 'vendas': [[30, 'CERVEJA', '2,29', 'BEBIDAS'], [3, 'CONTRAFILE', '43,89', 'CARNES'], [3, 'REFRIGERANTE', '5,90', 'BEBIDAS']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 218.07}

@@ -431,15 +431,12 @@ while True:
       # relatório diário
       elif opcao == '2':
         ctrl_relat.diario()
-        pass
       # relatório mensal
       elif opcao == '3':
-        #ctrl_relat.mensal()
-        pass
+        ctrl_relat.mensal()
       # relatório geral
       elif opcao == '4':
-        #ctrl_relat.geral()
-        pass
+        ctrl_relat.geral()
       # opção inválida
       else:
         os.system('cls')
