@@ -98,11 +98,19 @@ class DaoFuncionario:
 class DaoVendas:
   
   @classmethod
-  def venda(cls, venda: Venda):
+  def venda(cls, relatorio_venda, id_venda, cliente, funcionario, total_pagar, data, hora):
+    venda = {'id_venda': id_venda, 'data': data, 'hora': hora, 'vendas': relatorio_venda, 'cliente': cliente, 'vendedor': funcionario, 'valor_pago': total_pagar}
     with open('arquivos/vendas.txt', 'a') as arq:
-      arq.write(f'{venda.qtd} | {venda.nome} | {venda.preco} | {venda.categoria} | {venda.preco_total} | {venda.total_itens} | {venda.total_pagar}\n'.replace('.', ','))
+      arq.write(f'{venda}\n')
 
   @classmethod
-  def comprovante(cls):
+  def cancelar_venda(cls): # Fazer 
+    pass
+
+
+class DaoRelatorios:
+
+  @classmethod
+  def relatorio(cls):
     with open('arquivos/vendas.txt', 'r') as arq:
       return list(arq.read().split('\n'))

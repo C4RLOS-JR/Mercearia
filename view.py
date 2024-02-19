@@ -49,7 +49,7 @@ while True:
                     '------------------------------\n'
                     '1- REALIZAR VENDA\n'
                     '2- CANCELAR VENDA\n'
-                    '3- PESQUISAR VENDAS\n'
+                    #'3- PESQUISAR VENDAS\n'
                     '0- VOLTAR\n'
                     '------------------------------\n'
                     'OPÇÃO: ')
@@ -73,7 +73,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
 
 
@@ -112,7 +112,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # PRODUTO:
   elif opcao == '3':
@@ -160,14 +160,14 @@ while True:
           # opção inválida
           else:
             os.system('cls')
-            cprint('→ OPÇÃO INVÁLIDA...', color='red')
+            cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
       # excluir
       elif opcao == '3':
         ctrl_prod.excluir_produto()
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # FORNECEDOR:
   elif opcao == '4':
@@ -216,7 +216,7 @@ while True:
               # opção inválida
               else:
                 os.system('cls')
-                cprint('→ OPÇÃO INVÁLIDA...', color='red')
+                cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
           # excluir fornecedor
           elif opcao == '3':
             ctrl_fornec.excluir_fornecedor()
@@ -226,7 +226,7 @@ while True:
           # opção inválida
           else:
             os.system('cls')
-            cprint('→ OPÇÃO INVÁLIDA...', color='red')
+            cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # CLIENTE:
   elif opcao == '5':
@@ -277,7 +277,7 @@ while True:
           # opção inválida
           else:
             os.system('cls')
-            cprint('→ OPÇÃO INVÁLIDA...', color='red')
+            cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
       # excluir cliente
       elif opcao == '3':
         ctrl_cliente.excluir_cliente()
@@ -287,7 +287,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # FUNCIONARIO:
   elif opcao == '6':
@@ -339,7 +339,7 @@ while True:
           # opção inválida
           else:
             os.system('cls')
-            cprint('→ OPÇÃO INVÁLIDA...', color='red')
+            cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
       # excluir funcinario
       elif opcao == '3':
         ctrl_func.excluir_funcionario()
@@ -349,7 +349,7 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # ESTOQUE:
   elif opcao == '7':
@@ -378,13 +378,74 @@ while True:
       # opção inválida
       else:
         os.system('cls')
-        cprint('→ OPÇÃO INVÁLIDA...', color='red')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # RELATÓRIOS: Fazer 
   elif opcao == '8':
-    pass
+    while True:
+      slogan()
+      opcao = input('------------------------------\n'
+                    'RELATÓRIOS\n'
+                    '------------------------------\n'
+                    '1- RELATÓRIO DE VENDA\n'
+                    '2- RELATÓRIO DIÁRIO\n'
+                    '3- RELATÓRIO MENSAL\n'
+                    '4- RELATÓRIO GERAL\n'
+                    '0- VOLTAR\n'
+                    '------------------------------\n'
+                    'OPÇÃO: ')
+      os.system('cls')
+      ctrl_relat = controller.ControllerRelatorios()
+      # voltar
+      if opcao == '0':
+        os.system('cls')
+        break
+      # relatório de venda
+      elif opcao == '1':
+        while True:
+          slogan()
+          opcao = input('------------------------------\n'
+                        'RELATÓRIO VENDA\n'
+                        '------------------------------\n'
+                        '1- ID DA VENDA\n'
+                        '2- ÚLTIMA VENDA\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
+          os.system('cls')
+          ctrl_relat = controller.ControllerRelatorios()
+          # voltar
+          if opcao == '0':
+            os.system('cls')
+            break
+          # id da venda
+          elif opcao == '1':
+            ctrl_relat.venda(opcao)
+          # última venda
+          elif opcao == '2':
+            ctrl_relat.venda(opcao)
+          # opção inválida
+          else:
+            os.system('cls')
+            cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
+      # relatório diário
+      elif opcao == '2':
+        ctrl_relat.diario()
+        pass
+      # relatório mensal
+      elif opcao == '3':
+        #ctrl_relat.mensal()
+        pass
+      # relatório geral
+      elif opcao == '4':
+        #ctrl_relat.geral()
+        pass
+      # opção inválida
+      else:
+        os.system('cls')
+        cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
 
   # OPÇÃO INVÁLIDA:
   else:
     os.system('cls')
-    cprint('→ OPÇÃO INVÁLIDA...', color='red')
+    cprint('→ OPÇÃO INVÁLIDA...', color='light_red')

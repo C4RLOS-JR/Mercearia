@@ -1,6 +1,7 @@
+from itertools import count
 import os
 from termcolor import cprint
-from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProduto, DaoVendas
+from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProduto, DaoRelatorios, DaoVendas
 from model import Cliente, Fornecedor, Funcionario, Produto, Venda
 from datetime import datetime
 
@@ -26,7 +27,7 @@ class ControllerCategoria:
           DaoCategoria.cadastrar(nova_categoria)
           cprint(f'>> CATEGORIA CADASTRADA COM SUCESSO <<', color='green')
         else:
-          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
       else:
         cprint('>> ESSA CATEGORIA JÁ EXISTE <<', color='yellow')
     else:
@@ -59,7 +60,7 @@ class ControllerCategoria:
                 DaoCategoria.alterar(categorias)
                 cprint(f'>> CATEGORIA ALTERADA COM SUCESSO <<', color='green')
               else:
-                cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
+                cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='light_red')
             else:
               cprint(f'>> JÁ EXISTE A CATEGORIA "{categoria_add}" <<', color='yellow')
       if not existe:
@@ -88,11 +89,11 @@ class ControllerCategoria:
             DaoCategoria.alterar(categorias)
             cprint('>> CATEGORIA REMOVIDA COM SUCESSO <<', color='green')
           else:
-            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         os.system('cls')
-        cprint(f'>> NÃO EXISTE A CATEGORIA "{categoria_excluir}" <<', color='red')
+        cprint(f'>> NÃO EXISTE A CATEGORIA "{categoria_excluir}" <<', color='light_red')
     else:
       os.system('cls')
 
@@ -133,7 +134,7 @@ class ControllerProduto():
           categoria = input(f'DIGITE A CATEGORIA DE "{cadastrar_produto}": ').upper()
         except:
           os.system('cls')
-          cprint('>> DADOS INVÁLIDOS <<', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='light_red')
           return
         if categoria in categorias:
           existe_cat = True
@@ -149,7 +150,7 @@ class ControllerProduto():
             cprint(f'>> CATEGORIA CRIADA COM SUCESSO <<', color='green')
           else:
             os.system('cls')
-            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
         if existe_cat:
           info = f'DESEJA CADASTRAR O PRODUTO "{cadastrar_produto}"?'
           print('-' * len(info))
@@ -160,7 +161,7 @@ class ControllerProduto():
             DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, f'{preco:.2f}', categoria))
             cprint(f'>> PTODUTO CADASTRADO COM SUCESSO <<', color='green') 
           else:
-            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
     else:
       os.system('cls')
           
@@ -199,7 +200,7 @@ class ControllerProduto():
             DaoProduto.cadastrar(Produto(dados[0], dados[1], dados[2], dados[3]))
             cprint('>> PRODUTO ALTERADO COM SUCESSO <<', color='green')
           else:
-            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         os.system('cls')
@@ -229,7 +230,7 @@ class ControllerProduto():
             DaoProduto.alterar(estoque)
             cprint(f'>> PRODUTO REMOVIDO COM SUCESSO <<', color='green')
           else:
-            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         os.system('cls')
@@ -257,7 +258,7 @@ class ControllerFornecedor:
           telefone = input(f'DIGITE O TELEFONE DE {nome}: ')
         except:
           os.system('cls')
-          cprint('>> DADOS INVÁLIDOS <<', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='light_red')
           return
         info = f'DESEJA CADASTRAR "{nome}"?'
         print('-' * len(info))
@@ -268,7 +269,7 @@ class ControllerFornecedor:
           DaoFornecedor.cadastrar(Fornecedor(nome, cnpj, telefone))
           cprint('>> FORNECEDOR(A) CADASTRADO(A) COM SUCESSO <<', color='green')
         else:
-          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
       else:
         os.system('cls')
         cprint(f'>> FORNECEDOR(A) "{nome}" JÁ EXISTE NO SISTEMA <<', color='yellow')
@@ -310,7 +311,7 @@ class ControllerFornecedor:
             DaoFornecedor.cadastrar(Fornecedor(dados[0], dados[1], dados[2]))
             cprint('>> FORNECEDOR(A) ALTERADO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='light_red')
           break    
       if not existe:
         os.system('cls')
@@ -341,7 +342,7 @@ class ControllerFornecedor:
             os.system('cls')
             cprint(f'>> FORNECEDOR(A) "{excluir_fornecedor}" EXCLUIDO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         cprint(f'>> O(A) FORNECEDOR(A) "{excluir_fornecedor}" NÃO EXISTE NO SISTEMA <<', color='yellow')
@@ -384,7 +385,7 @@ class ControllerCliente:
           endereco = input(f'ENDEREÇO DE {nome}: ').upper()
         except:
           os.system('cls')
-          cprint('>> DADOS INVÁLIDOS <<', color='red')
+          cprint('>> DADOS INVÁLIDOS <<', color='light_red')
         info = f'DESEJA CADASTRAR O(A) CLIENTE "{nome}"?'
         print('-' * len(info))
         cprint(info, color='yellow')
@@ -394,7 +395,7 @@ class ControllerCliente:
           DaoCliente.cadastrar(Cliente(nome, cpf, telefone, email, endereco))
           cprint('>> CLIENTE CADASTRADO COM SUCESSO <<', color='green')
         else:
-          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
       else:
         os.system('cls')
         cprint('>> CLIENTE JÁ EXISTE NO SISTEMA <<', color='yellow')      
@@ -443,7 +444,7 @@ class ControllerCliente:
           DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
           cprint('>> CLIENTE ALTERADO COM SUCESSO <<', color='green')
         else:
-          cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
+          cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='light_red')
         break
       if not existe:
         os.system('cls')
@@ -473,7 +474,7 @@ class ControllerCliente:
             DaoCliente.alterar(clientes)
             cprint('>> CLIENTE EXCLUIDO COM SUCESSO <<', color='green')
           else:
-            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         cprint(f'>> O(A) CLIENTE "{excluir_cliente}" NÃO EXISTE NO SISTEMA <<', color='yellow')
@@ -523,7 +524,7 @@ class ControllerFuncionario:
           DaoFuncionario.cadastrar(Funcionario(id, nome, cpf, telefone, email, endereco))
           cprint('>> FUNCIONÁRIO(A) CADASTRADO(A) COM SUCESSO <<', color='green')
         else:
-          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+          cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
       else:
         os.system('cls')
         cprint('>> FUNCIONÁRIO(A) JÁ EXISTE NO SISTEMA <<', color='yellow') 
@@ -578,7 +579,7 @@ class ControllerFuncionario:
             cprint('>> FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO <<', color='green')
           else:
             os.system('cls')
-            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         os.system('cls')
@@ -609,7 +610,7 @@ class ControllerFuncionario:
             DaoFuncionario.alterar(funcionarios)
             cprint('>> FUNCIONÁRIO(A) EXCLUIDO(A) COM SUCESSO <<', color='green')
           else:
-            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> EXCLUSÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         cprint(f'>> O(A) FUNCIONÁRIO(A) "{excluir_funcionario}" NÃO EXISTE NO SISTEMA <<', color='yellow')
@@ -649,7 +650,7 @@ class ControllerEstoque:
             qtd = int(input(f'DIGITE A QUANTIDADE DE "{add_produto}": '))
           except:
             os.system('cls')
-            cprint('>> DADOS INVÁLIDOS <<', color='red')
+            cprint('>> DADOS INVÁLIDOS <<', color='light_red')
             break
           info = f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{add_produto}"?'
           print('-' * len(info))
@@ -663,7 +664,7 @@ class ControllerEstoque:
             DaoProduto.cadastrar(Produto(add_produto, qtd, prod_existente[2], prod_existente[3]))
             cprint(f'>> "{add_produto}" ACRESCENTADO COM SUCESSO <<', color='green')
           else:
-            cprint('>> ADIÇÃO NÃO CONFIRMADA <<', color='red')
+            cprint('>> ADIÇÃO NÃO CONFIRMADA <<', color='light_red')
           break
       if not existe:
         info = f'NÃO TEM "{add_produto}" NO ESTOQUE, DESEJA CADASTRA-LO?'
@@ -674,7 +675,7 @@ class ControllerEstoque:
         if confirmar == 'S':
           ControllerProduto.cadastrar_produto()
         else:
-            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='red')
+            cprint('>> CADASTRO NÃO CONFIRMADO <<', color='light_red')
     else:
       os.system('cls')
 
@@ -704,20 +705,25 @@ class ControllerVendas:
     clientes.pop()
     funcionarios = DaoFuncionario.funcionarios()
     funcionarios.pop()
-    horario = datetime.now()
+    relatorio = DaoRelatorios.relatorio()
+    data_hora = datetime.now()
+    data = data_hora.strftime('%d/%m/%Y')
+    hora = data_hora.strftime('%H:%M')
     msg = 0
+    id_venda = 0
     total_itens = 0
     total_pagar = 0
     total_volumes = 0
     lista_compras = []
+    relatorio_venda = []
     slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^65}\n', color='light_blue')
     
     def lista():
       slogan()
       cprint(f'{"QTD":^5}{"PRODUTO":^32}{"VALOR":^14}{"V.TOTAL":^14}', color='yellow')
       print('-' * 65)
-      for i in lista_compras:
-        print(f'|{i[0]:>3}| {i[1]:30}| R${i[2]:10}| R${i[3]:10}|')
+      for produto in lista_compras:
+        print(f'|{produto[0]:>3}| {produto[1]:30}| R${produto[2]:10}| R${produto[3]:10}|')
       print('-' * 65)
       cprint(f'{total_itens:>5} {"ITEM(S)":<8}{total_volumes:>5} {"VOLUME(S)":<12}{"TOTAL À PAGAR:":>19} R${total_pagar:<10.2f}', color='yellow')
 
@@ -731,9 +737,9 @@ class ControllerVendas:
       elif msg == 1:
         cprint(f'\n>> "{item}" ADICIONADO(A) A COMPRA <<\n', color='green')
       elif msg == 2:
-        cprint('\n>> DADOS INVÁLIDOS <<\n', color='red')
+        cprint('\n>> DADOS INVÁLIDOS <<\n', color='light_red')
       elif msg == 3:
-        cprint(f'\n>> "{item}" NÃO EXISTENTE NO ESTOQUE <<\n', color='red')
+        cprint(f'\n>> "{item}" NÃO EXISTENTE NO ESTOQUE <<\n', color='light_red')
 
       print('DIGITE "0" EM PRODUTO PARA ENCERRAR!\n')
       item = input('PRODUTO: ').upper()
@@ -750,6 +756,7 @@ class ControllerVendas:
             total_volumes += qtd
             total_pagar += float(total.replace(',', '.'))
             lista_compras.append([qtd, item, dados[2], total])
+            relatorio_venda.append([qtd, item, dados[2], dados[3]])
             msg = 1
             break      
           except ValueError:
@@ -762,7 +769,7 @@ class ControllerVendas:
       os.system('cls')
       lista()
       print('\n')
-      cpf_cliente = input('INFORME O CPF DO CLIENTE: ')
+      cpf_cliente = input('INFORME O CPF DO CLIENTE: ') # Fazer  o consumidor caso o cliente não queira por cpf.
       if cpf_cliente:
         for cliente in clientes:
           dados_cliente = cliente.split(' | ')
@@ -786,22 +793,160 @@ class ControllerVendas:
         os.system('cls')
         slogan()
         cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}', color='green')
-        print('-' * 50)
+        print('-' * 45)
         print(f'CLIENTE: {dados_cliente[0]}\n'
               f'CPF: {dados_cliente[1]}\n'
               f'ENDEREÇO: {dados_cliente[4]}\n')
         print(f'VENDEDOR: {dados_funcionario[1]}\n'
               f'CPF: {dados_funcionario[2]}\n'
               f'ID: {dados_funcionario[0]}\n')
-        print(f'DATA: {horario}\n')
+        print(f'Número da venda: {len(relatorio)}\n')
+        print(f'DATA: {data}    HORA: {hora}\n')
+        print('-' * 45)
         cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}', color='yellow')
         confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
         os.system('cls')
         if confirmar == 'S':
           slogan()
-          cprint('PAGAMENTO CONFIRMADO! <<VOLTE SEMPRE <<:)\n', color='light_green')
-          print('-' * 50)
-          input('\nPRESSIONE "ENTER" PARA CONTINUAR <<')
+          cprint('PAGAMENTO CONFIRMADO!...\nAGRADECEMOS A PREFERÊNCIA...\nVOLTE SEMPRE...:)', color='light_green')
+          id_venda = len(relatorio)
+          DaoVendas.venda(relatorio_venda, id_venda, dados_cliente[0], dados_funcionario[1], total_pagar, data, hora)
+          input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
           os.system('cls')
           break
-  #DaoVendas.venda(Venda(qtd, item, dados[2], dados[3], total, total_itens, total_pagar))
+
+
+class ControllerRelatorios:
+  
+  def imprimir(venda):
+    print('-' * 60)
+    cprint(f'{"QTD":^5}{"PRODUTO":<32}{"VALOR":<14}{"V.TOTAL":<14}', color='yellow')
+    print('-' * 60)
+    for produto in venda['vendas']:
+      total_venda = float(str(produto[2]).replace(',', '.'))*int(produto[0])
+      print(f'{produto[0]:^5}{produto[1]:<32}R${produto[2]:<12}R${total_venda:.2f}'.replace('.', ','))
+    print('-' * 60)
+    cprint(f'{"TOTAL PAGO:":>50} R${venda['valor_pago']:.2f}'.replace('.', ','), color='yellow')
+    print(f'CLIENTE: {venda['cliente']}')
+    print(f'VENDEDOR: {venda['vendedor']}\n')
+    cprint('*' * 60, color='light_blue')
+    return float(f'{venda['valor_pago']}'.replace(',', '.'))
+
+  @classmethod
+  def venda(cls, opcao):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+
+    def relatorio_venda(id_venda):
+       for venda in relatorio:
+        venda = eval(venda)
+        if id_venda == venda['id_venda']:
+          print('-' * 60)
+          cprint(f'{"QTD":^5}{"PRODUTO":<32}{"VALOR":<14}{"V.TOTAL":<14}', color='yellow')
+          print('-' * 60)
+          for produto in venda['vendas']:
+            print(f'{produto[0]:^5}{produto[1]:<32}R${produto[2]:<12}R${float(str(produto[2]).replace(',', '.'))*int(produto[0]):.2f}'.replace('.', ','))
+          print('-' * 60)
+          cprint(f'{"TOTAL PAGO:":>50} R${venda['valor_pago']:.2f}'.replace('.', ','), color='yellow')
+          print(f'CLIENTE: {venda['cliente']}')
+          print(f'VENDEDOR: {venda['vendedor']}')
+          input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+          os.system('cls')
+        else:
+          os.system('cls')
+          cprint(f'>> A VENDA NÚMERO {id_venda} NÃO CONSTA NO RELATÓRIO <<\n', color='light_red')
+    
+    if opcao == '1':
+      cprint('DIGITE O NÚMERO DA VENDA!', color='yellow')
+      id_venda = int(input('NÚMERO DA VENDA: '))
+      relatorio_venda(id_venda)
+    elif opcao == '2':
+      relatorio_venda(len(relatorio))
+
+  @classmethod
+  def diario(cls):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+    existe = False
+    num = 0
+    total_vendido = 0
+
+    cprint('DIGITE A DATA PARA BUSCAR O RELATÓRIO!', color='yellow')
+    dia = input('DIA(dd): ')
+    mes = input('MÊS(mm): ')
+    ano = input('ANO(aaaa): ')
+    data = f'{dia}/{mes}/{ano}'
+    os.system('cls')
+
+    for venda in relatorio:
+      venda = eval(venda)
+      if data == venda['data']:
+        existe = True
+        num += 1
+        print(f'VENDA Nº{num}')
+        total_vendido += ControllerRelatorios.imprimir(venda)  
+    cprint(f'DIA: {data}', color='light_green')
+    cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
+    cprint(f'TOTAL VENDIDO: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
+    print('RELATÓRIO DIÁRIO')
+    if not existe:
+      os.system('cls')
+      cprint(f'>> NÃO CONSTA VENDAS NO DIA {data} <<\n', color='light_red')
+    input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+    os.system('cls')
+
+
+    # def relatorio_diario(data):
+    #   num = 0
+    #   #total_vendido = 0
+    #   for venda in relatorio:
+    #     venda = eval(venda)
+    #     if data == venda['data']:
+    #       existe = True
+    #       num += 1
+    #       print(f'VENDA Nº{num}')
+    #       total_vendido = ControllerRelatorios.teste(venda)
+    #       # print(f'VENDA Nº{num}')
+    #       # print('-' * 60)
+    #       # cprint(f'{"QTD":^5}{"PRODUTO":<32}{"VALOR":<14}{"V.TOTAL":<14}', color='yellow')
+    #       # print('-' * 60)
+    #       # for produto in venda['vendas']:
+    #       #   total_venda = float(str(produto[2]).replace(',', '.'))*int(produto[0])
+    #       #   print(f'{produto[0]:^5}{produto[1]:<32}R${produto[2]:<12}R${total_venda:.2f}'.replace('.', ','))
+    #       #   total_vendido += total_venda
+    #       # print('-' * 60)
+    #       # cprint(f'{"TOTAL PAGO:":>50} R${venda['valor_pago']:.2f}'.replace('.', ','), color='yellow')
+    #       # print(f'CLIENTE: {venda['cliente']}')
+    #       # print(f'VENDEDOR: {venda['vendedor']}\n')
+    #       # cprint('*' * 60, color='light_blue')
+    #   cprint(f'DIA: {data}', color='light_green')
+    #   cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
+    #   cprint(f'TOTAL VENDIDO: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
+    #   print('RELATÓRIO DIÁRIO')
+    #   if not existe:
+    #     os.system('cls')
+    #     cprint(f'>> NÃO CONSTA VENDAS NO DIA {data} <<\n', color='light_red')
+    #   input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+    #   os.system('cls')
+
+    # cprint('DIGITE A DATA PARA BUSCAR O RELATÓRIO!', color='yellow')
+    # dia = input('DIA(dd): ')
+    # mes = input('MÊS(mm): ')
+    # ano = input('ANO(aaaa): ')
+    # data = f'{dia}/{mes}/{ano}'
+    # os.system('cls')
+    # relatorio_diario(data)
+        
+   
+        
+
+
+
+
+
+
+
+        #if data in venda.values():
+          
+
+    
