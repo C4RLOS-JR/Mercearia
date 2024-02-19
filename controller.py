@@ -716,6 +716,7 @@ class ControllerVendas:
     total_volumes = 0
     lista_compras = []
     relatorio_venda = []
+    estoque_baixo = False
     slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^65}\n', color='light_blue')
     
     def lista():
@@ -741,6 +742,10 @@ class ControllerVendas:
         cprint('\n>> DADOS INVÁLIDOS <<\n', color='light_red')
       elif msg == 3:
         cprint(f'\n>> "{item}" NÃO EXISTENTE NO ESTOQUE <<\n', color='light_red')
+      elif msg == 4:
+        cprint(f'\n>> SÓ TEM {dados[1]} UNIDADES DE {dados[0]} NO ESTOQUE <<\n', color='light_red')
+      if estoque_baixo:
+        cprint(f'>> {dados[0]} VAI FICAR ABAIXO DE 10 UNIDADES NO ESTOQUE! <<\n', color='light_red')
 
       print('DIGITE "0" EM PRODUTO PARA ENCERRAR!\n')
       item = input('PRODUTO: ').upper()
@@ -752,76 +757,81 @@ class ControllerVendas:
           existe = True
           try:
             qtd = int(input(f'QUANTIDADE DE {item}(S): '))
+            atualizar_qtd = int(dados[1]) - qtd
+            if atualizar_qtd < 0:
+              msg = 4
+              break
+            elif atualizar_qtd < 10:
+              estoque_baixo = True
             total = f'{float(dados[2].replace(',', '.')) * qtd:.2f}'.replace('.', ',')
             total_itens += 1
             total_volumes += qtd
             total_pagar += float(total.replace(',', '.'))
             lista_compras.append([qtd, item, dados[2], total])
             relatorio_venda.append([qtd, item, dados[2], dados[3]])
+            estoque.remove(produto)
+            estoque.append(f'{dados[0]} | {atualizar_qtd} | {dados[2]} | {dados[3]}')
             msg = 1
             break      
           except ValueError:
             msg = 2
-          atualizar_qtd = int(dados[1]) - qtd
-          estoque.remove(produto)
-          DaoProduto.alterar(estoque)
-          DaoProduto.cadastrar(Produto(dados[0], atualizar_qtd, dados[2], dados[3]))
-
-
-
       if not existe:
           msg = 3
-    while True:
-      cliente_existe = False
-      funcionario_existe = False
-      os.system('cls')
-      lista()
-      print('\n')
-      cpf_cliente = input('INFORME O CPF DO CLIENTE: ') # Fazer  o consumidor caso o cliente não queira por cpf.
-      if cpf_cliente:
-        for cliente in clientes:
-          dados_cliente = cliente.split(' | ')
-          if cpf_cliente == dados_cliente[1]:
-            cliente_existe = True
-            break
-        if cliente_existe:
-          id_funcionario = input('INFORME O ID DO VENDEDOR: ')
-          for funcionario in funcionarios:
-            dados_funcionario = funcionario.split(' | ')
-            if id_funcionario == dados_funcionario[0]:
-              funcionario_existe = True
+    if lista_compras:
+      while True:
+        cliente_existe = False
+        funcionario_existe = False
+        os.system('cls')
+        lista()
+        print('\n')
+        cpf_cliente = input('INFORME O CPF DO CLIENTE: ') # Fazer  o consumidor caso o cliente não queira por cpf.
+        if cpf_cliente:
+          for cliente in clientes:
+            dados_cliente = cliente.split(' | ')
+            if cpf_cliente == dados_cliente[1]:
+              cliente_existe = True
               break
-          if not funcionario_existe:
-            cprint('FUNCIONÁRIO NÃO CADASTRADO! <<')
+          if cliente_existe:
+            id_funcionario = input('INFORME O ID DO VENDEDOR: ')
+            for funcionario in funcionarios:
+              dados_funcionario = funcionario.split(' | ')
+              if id_funcionario == dados_funcionario[0]:
+                funcionario_existe = True
+                break
+            if not funcionario_existe:
+              cprint('FUNCIONÁRIO NÃO CADASTRADO! <<')
+          else:
+            input('CLIENTE NÃO CADASTRADO! <<DESEJA CADASTRAR CLIENTE? <<')
         else:
-          input('CLIENTE NÃO CADASTRADO! <<DESEJA CADASTRAR CLIENTE? <<')
-      else:
-        os.system('cls')
-      if cliente_existe and funcionario_existe:
-        os.system('cls')
-        slogan()
-        cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='green')
-        print('-' * 45)
-        print(f'CLIENTE: {dados_cliente[0]}\n'
-              f'CPF: {dados_cliente[1]}\n'
-              f'ENDEREÇO: {dados_cliente[4]}\n')
-        print(f'VENDEDOR: {dados_funcionario[1]}\n'
-              f'CPF: {dados_funcionario[2]}\n'
-              f'ID: {dados_funcionario[0]}\n')
-        print(f'Número da venda: {len(relatorio)}\n')
-        print(f'DATA: {data}    HORA: {hora}\n')
-        print('-' * 45)
-        cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
-        os.system('cls')
-        if confirmar == 'S':
-          slogan()
-          cprint('PAGAMENTO CONFIRMADO!...\nAGRADECEMOS A PREFERÊNCIA...\nVOLTE SEMPRE...:)', color='light_green')
-          id_venda = len(relatorio)
-          DaoVendas.venda(relatorio_venda, id_venda, dados_cliente[0], dados_funcionario[1], total_pagar, data, hora)
-          input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
           os.system('cls')
-          break
+        if cliente_existe and funcionario_existe:
+          os.system('cls')
+          slogan()
+          cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='green')
+          print('-' * 45)
+          print(f'CLIENTE: {dados_cliente[0]}\n'
+                f'CPF: {dados_cliente[1]}\n'
+                f'ENDEREÇO: {dados_cliente[4]}\n')
+          print(f'VENDEDOR: {dados_funcionario[1]}\n'
+                f'CPF: {dados_funcionario[2]}\n'
+                f'ID: {dados_funcionario[0]}\n')
+          print(f'Número da venda: {len(relatorio)}\n')
+          print(f'DATA: {data}    HORA: {hora}\n')
+          print('-' * 45)
+          cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='yellow')
+          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          os.system('cls')
+          if confirmar == 'S':
+            slogan()
+            cprint('PAGAMENTO CONFIRMADO!...\nAGRADECEMOS A PREFERÊNCIA...\nVOLTE SEMPRE...:)', color='light_green')
+            id_venda = len(relatorio)
+            DaoVendas.venda(relatorio_venda, id_venda, dados_cliente[0], dados_funcionario[1], total_pagar, data, hora)
+            DaoProduto.alterar(estoque)
+            input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+            os.system('cls')
+            break
+    else:
+      os.system('cls')
 
 
 class ControllerRelatorios:
