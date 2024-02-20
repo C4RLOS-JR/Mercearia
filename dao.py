@@ -99,16 +99,10 @@ class DaoVendas:
   
   @classmethod
   def venda(cls, relatorio_venda, id_venda, cliente, funcionario, total_pagar, data, hora):
-    venda = {'id_venda': id_venda, 'data': data, 'hora': hora, 'vendas': relatorio_venda, 'cliente': cliente, 'vendedor': funcionario, 'valor_pago': total_pagar}
+    venda = {'id_venda': id_venda, 'data': data, 'hora': hora, 'produtos': relatorio_venda, 'cliente': cliente, 'vendedor': funcionario, 'valor_pago': total_pagar}
     with open('arquivos/vendas.txt', 'a') as arq:
       arq.write(f'{venda}\n')
-
-  @classmethod
-  def cancelar_venda(cls, relatorio_alterado): # Fazer 
-    with open('arquivos/vendas.txt', 'w') as arq:
-      for vendas in relatorio_alterado:
-        arq.write(f'{vendas}\n')
-
+      
 
 class DaoRelatorios:
 

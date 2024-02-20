@@ -1,3 +1,4 @@
+from operator import contains
 import os
 from os import system
 from termcolor import cprint
@@ -862,39 +863,6 @@ class ControllerVendas:
     else:
       system('cls')
 
-  @classmethod
-  def cancelar_venda(cls, opcao):
-    relatorio = DaoRelatorios.relatorio()
-    relatorio.pop()
-
-    if opcao == '1':
-      cprint('DIGITE O NÚMERO DA VENDA!', color='yellow')
-      try:
-        id_venda = int(input('NÚMERO DA VENDA: '))
-        system('cls')
-        for venda in relatorio:
-          venda = eval(venda)
-          if id_venda == venda['id_venda']:
-            cprint(f'DESEJA REALMENTE EXCLUIR ESSA VENDA?\nESSA OPERAÇÃO NÃO PODE SER DESFEITA!', color='yellow')
-            confirmar = input('\nDIGITE "s" ').upper()
-            system('cls')
-            if confirmar == 'S':
-              pass
-              # decidir se vai voltar os itens para o estoque:
-
-              # relatorio.remove(venda)
-              # DaoVendas.cancelar_venda(relatorio)
-
-      except:
-        pass
-
-        
-
-
-      
-
-
-
 
 class ControllerRelatorios:
   
@@ -902,13 +870,14 @@ class ControllerRelatorios:
     print('-' * 60)
     cprint(f'{"QTD":^5}{"PRODUTO":<32}{"VALOR":<14}{"V.TOTAL":<14}', color='yellow')
     print('-' * 60)
-    for produto in venda['vendas']:
+    for produto in venda['produtos']:
       total_venda = float(str(produto[2]).replace(',', '.'))*int(produto[0])
       print(f'{produto[0]:^5}{produto[1]:<32}R${produto[2]:<12}R${total_venda:.2f}'.replace('.', ','))
     print('-' * 60)
     cprint(f'{"TOTAL PAGO:":>50} R${venda['valor_pago']:.2f}'.replace('.', ','), color='yellow')
     print(f'CLIENTE: {venda['cliente']}')
     print(f'VENDEDOR: {venda['vendedor']}\n')
+    print(f'DATA DA VENDA: {venda['data']}')
     cprint('*' * 60, color='light_blue')
     return float(f'{venda['valor_pago']}'.replace(',', '.'))
 
@@ -929,7 +898,6 @@ class ControllerRelatorios:
           if id_venda == venda['id_venda']:
             existe = True
             total_vendido = ControllerRelatorios.imprimir(venda)
-            cprint(f'DATA DA VENDA: {venda['data']}', color='light_green')
             cprint(f'NÚMERO DA VENDA: {venda['id_venda']}', color='light_green')
             cprint(f'TOTAL VENDIDO: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
             input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
@@ -960,35 +928,57 @@ class ControllerRelatorios:
     num = 0
     total_vendido = 0
 
-    try:
-      cprint('DIGITE A DATA PARA BUSCAR O RELATÓRIO!', color='yellow')
-      dia = input('DIA(dd): ')
-      mes = input('MÊS(mm): ')
-      ano = input('ANO(aaaa): ')
-      data = f'{dia}/{mes}/{ano}'
-      system('cls')
+    cprint('DIGITE A DATA PARA VER O RELATÓRIO!', color='yellow')
+    data = input('DATA(dd/mm/aaaa): ')
+    os.system('cls')
+    for venda in relatorio:
+      venda = eval(venda)
+      if data == venda['data']:
+        existe = True
+        num += 1
+        print(f'VENDA Nº{num}')
+        total_vendido += ControllerRelatorios.imprimir(venda)
+    if existe:
+      cprint(f'DATA DAS VENDAS: {data}', color='light_green')
+      cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
+      cprint(f'TOTAL VENDIDO NO DIA: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
+      print('RELATÓRIO DIÁRIO')
+      input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+      os.system('cls')
+    else:
+      os.system('cls')
+      cprint(f'>> NÃO CONSTAM VENDAS NO DIA {data} <<\n', color='light_red')
 
-      for venda in relatorio:
-        venda = eval(venda)
-        if data == venda['data']:
-          existe = True
-          num += 1
-          cprint(f'ID DA VENDA: {venda['id_venda']}', color='yellow')
-          total_vendido += ControllerRelatorios.imprimir(venda)
-      if existe:
-        cprint(f'DATA DAS VENDAS: {data}', color='light_green')
-        cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
-        cprint(f'TOTAL VENDIDO NO DIA: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
-        print('RELATÓRIO DIÁRIO')
-        input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-        system('cls')
-      else:
-        system('cls')
-        cprint(f'>> NÃO CONSTA VENDAS NO DIA {data}\n\n', color='light_red')
-    except:
-      system('cls')
-      cprint('>> DADOS INVÁLIDOS\n', color='light_red')
-    
+  @classmethod
+  def data(cls):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+    existe = False
+    num = 0
+    total_vendido = 0
+
+    cprint('DIGITE UM INTERVALO DE DATAS PARA VER O RELATÓRIO!', color='yellow')
+    do_dia = input('DO DIA(dd/mm/aaaa): ')
+    ate_dia = input('ATÉ DIA(dd/mm/aaaa): ')
+    os.system('cls')
+    for venda in relatorio:
+      venda = eval(venda)
+      if venda['data'] >= do_dia and venda['data'] <= ate_dia:
+        existe = True
+        num += 1
+        print(f'VENDA Nº{num}')
+        total_vendido += ControllerRelatorios.imprimir(venda)
+    if existe:
+      cprint(f'VENDAS DO DIA {do_dia} ATÉ {ate_dia}', color='light_green')
+      cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
+      cprint(f'TOTAL VENDIDO NO DIA: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
+      print('RELATÓRIO POR INTERVALO DE DATAS')
+      input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+      os.system('cls')
+    else:
+      os.system('cls')
+      cprint(f'>> NÃO CONSTAM VENDAS NO DIA NESSE INTERVALO DE DIAS <<\n', color='light_red')
+
   @classmethod
   def mensal(cls):
     relatorio = DaoRelatorios.relatorio()
@@ -997,50 +987,75 @@ class ControllerRelatorios:
     num = 0
     total_vendido = 0
 
-    try:
-      cprint('DIGITE O MÊS PARA BUSCAR O RELATÓRIO!', color='yellow')
-      mes = input('MÊS(mm): ')
-      ano = input('ANO(aaaa): ')
-      data = f'{mes}/{ano}'
-      system('cls')
+    cprint('DIGITE O MÊS PARA VER O RELATÓRIO!', color='yellow')
+    data = input('MÊS E ANO(mm/aaaa): ')
+    os.system('cls')
+    for venda in relatorio:
+      venda = eval(venda)
+      i = venda['data'].split('/')
+      mes_ano = f'{i[1]}/{i[2]}'
+      if data == mes_ano:
+        existe = True
+        num += 1
+        print(f'VENDA Nº{num}')
+        total_vendido += ControllerRelatorios.imprimir(venda)
+    if existe:
+      cprint(f'MÊS DAS VENDAS: {data}', color='light_green')
+      cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
+      cprint(f'TOTAL VENDIDO NO MÊS: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
+      print('RELATÓRIO MENSAL')
+      input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+      os.system('cls')
+    else:
+      os.system('cls')
+      cprint(f'>> NÃO CONSTAM VENDAS NO MÊS {data} <<\n', color='light_red')
 
-      for venda in relatorio:
-        venda = eval(venda)
-        i = venda['data'].split('/')
-        if i[1] == mes and i[2] == ano:
-          existe = True
-          num += 1
-          cprint(f'ID DA VENDA: {venda['id_venda']}', color='yellow')
-          total_vendido += ControllerRelatorios.imprimir(venda)
-      if existe:
-        cprint(f'MÊS DAS VENDAS: {data}', color='light_green')
-        cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
-        cprint(f'TOTAL VENDIDO NO MÊS: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
-        print('RELATÓRIO MENSAL')
-        input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-        system('cls')
-      else:
-        system('cls')
-        cprint(f'>> NÃO CONSTA VENDAS NO DIA {data}\n\n', color='light_red')
-    except:
-      system('cls')
-      cprint('>> DADOS INVÁLIDOS\n', color='light_red')
+  @classmethod
+  def mais_vendidos(cls):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+    ranking = []
+    numero = 0
+
+    for venda in relatorio:
+      venda = eval(venda)
+      for produto in venda['produtos']:
+        soma = 0
+        for i in ranking:
+          if i[1] == produto[1]:
+            soma = int(i[0]) + int(produto[0])
+            produto[0] = soma
+            ranking.remove(i)
+        ranking.append(produto)
+    ranking.sort()
+    ranking.reverse()
+    cprint('RANKING DE PRODUTOS MAIS VENDIDOS', color='yellow')
+    print('-'*33)
+    for produto in ranking:
+      numero += 1
+      print(f'{numero}º {produto[1]} = {produto[0]} unidades.')
+    input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+    os.system('cls')
+
+
+
+
+
 
   @classmethod
   def geral(cls):
     relatorio = DaoRelatorios.relatorio()
     relatorio.pop()
-    existe = False
     num = 0
     total_vendido = 0
 
     for venda in relatorio:
       venda = eval(venda)
       num += 1
-      cprint(f'ID DA VENDA: {venda['id_venda']}', color='yellow')
+      print(f'VENDA Nº{num}')
       total_vendido += ControllerRelatorios.imprimir(venda)
     cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
     cprint(f'TOTAL VENDIDO: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
     print('RELATÓRIO GERAL')
     input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-    system('cls')
+    os.system('cls')
