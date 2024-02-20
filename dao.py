@@ -104,8 +104,10 @@ class DaoVendas:
       arq.write(f'{venda}\n')
 
   @classmethod
-  def cancelar_venda(cls): # Fazer 
-    pass
+  def cancelar_venda(cls, relatorio_alterado): # Fazer 
+    with open('arquivos/vendas.txt', 'w') as arq:
+      for vendas in relatorio_alterado:
+        arq.write(f'{vendas}\n')
 
 
 class DaoRelatorios:

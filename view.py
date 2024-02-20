@@ -40,9 +40,6 @@ while True:
 
   # VENDAS Fazer 
   elif opcao == '1':
-
-
-
     while True:
       slogan()
       opcao = input('------------------------------\n'
@@ -64,14 +61,36 @@ while True:
         vnds_cat.vender()
       # cancelar vendas
       elif opcao == '2':
-        #vnds_cat.cancelar_venda()
-        pass
+        while True:
+          slogan()
+          opcao = input('------------------------------\n'
+                        'CANCELAR VENDAS\n'
+                        '------------------------------\n'
+                        '1- ID VENDA\n'
+                        '2- ÚLTIMA VENDA\n'
+                        '0- VOLTAR\n'
+                        '------------------------------\n'
+                        'OPÇÃO: ')
+          system('cls')
+          # voltar
+          if opcao == '0':
+            system('cls')
+            break
+          # cancelar venda
+          elif opcao == '1' or opcao == '2':
+            vnds_cat.cancelar_venda(opcao)
+          
+        
+
+
+
+
+
+
       # opção inválida
       else:
         system('cls')
         cprint('>> OPÇÃO INVÁLIDA\n', color='light_red')
-
-
 
   # CATEGORIA:
   elif opcao == '2':

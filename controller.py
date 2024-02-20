@@ -863,16 +863,38 @@ class ControllerVendas:
       system('cls')
 
   @classmethod
-  def cancelar(cls):
-    pass
+  def cancelar_venda(cls, opcao):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+
+    if opcao == '1':
+      cprint('DIGITE O NÚMERO DA VENDA!', color='yellow')
+      try:
+        id_venda = int(input('NÚMERO DA VENDA: '))
+        system('cls')
+        for venda in relatorio:
+          venda = eval(venda)
+          if id_venda == venda['id_venda']:
+            cprint(f'DESEJA REALMENTE EXCLUIR ESSA VENDA?\nESSA OPERAÇÃO NÃO PODE SER DESFEITA!', color='yellow')
+            confirmar = input('\nDIGITE "s" ').upper()
+            system('cls')
+            if confirmar == 'S':
+              pass
+              # decidir se vai voltar os itens para o estoque:
+
+              # relatorio.remove(venda)
+              # DaoVendas.cancelar_venda(relatorio)
+
+      except:
+        pass
+
+        
 
 
-
-
-
-
-  
       
+
+
+
 
 class ControllerRelatorios:
   
