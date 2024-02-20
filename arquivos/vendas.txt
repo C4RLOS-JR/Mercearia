@@ -5,3 +5,4 @@
 {'id_venda': 5, 'data': '19/02/2024', 'hora': '16:19', 'vendas': [[30, 'CERVEJA', '2,29', 'BEBIDAS'], [3, 'CONTRAFILE', '43,89', 'CARNES'], [3, 'REFRIGERANTE', '5,90', 'BEBIDAS']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 218.07}
 {'id_venda': 6, 'data': '19/02/2024', 'hora': '17:25', 'vendas': [[12, 'TOMATE', '11,80', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 141.6}
 {'id_venda': 7, 'data': '19/02/2024', 'hora': '17:29', 'vendas': [[25, 'CEBOLA', '5,60', 'LEGUMES']], 'cliente': 'CARLOS ALVES', 'vendedor': 'CARLOS JR', 'valor_pago': 140.0}
+{'id_venda': 8, 'data': '19/02/2024', 'hora': '21:11', 'vendas': [[5, 'CEBOLA', '5,60', 'LEGUMES']], 'cliente': 'CONSUMIDOR', 'vendedor': 'CARLOS JR', 'valor_pago': 28.0}
