@@ -1,4 +1,4 @@
-from model import Categoria, Cliente, Fornecedor, Funcionario, Produto, Venda
+from model import Categoria, Cliente, Fornecedor, Funcionario, Produto
 
 
 class DaoCategoria:

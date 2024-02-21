@@ -32,14 +32,8 @@ while True:
                 'OPÇÃO: ')
   system('cls')
 
-  # SAIR:
-  if opcao == '0':
-    system('cls')
-    print('PROGRAMA FINALIZADO!\n\n')
-    break
-
-  # VENDAS Fazer 
-  elif opcao == '1':
+  # VENDAS
+  if opcao == '1':
     vnds_cat = controller.ControllerVendas()
     vnds_cat.vender()
 
@@ -59,23 +53,17 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_cat = controller.ControllerCategoria()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # cadastrar
-      elif opcao == '1':
+      if opcao == '1':
         ctrl_cat.cadastrar_categoria()
-      # alterar
       elif opcao == '2':
         ctrl_cat.alterar_categoria()
-      # excluir
       elif opcao == '3':
         ctrl_cat.excluir_categoria()
-      # exibir
       elif opcao == '4':
         ctrl_cat.ver_categorias()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -95,14 +83,8 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_prod = controller.ControllerProduto()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # cadastrar
-      elif opcao == '1':
+      if opcao == '1':
         ctrl_prod.cadastrar_produto()
-      # alterar
       elif opcao == '2':
         while True:
           slogan()
@@ -116,21 +98,19 @@ while True:
                         '------------------------------\n'
                         'OPÇÃO: ')
           system('cls')
-          # voltar
-          if opcao == '0':
+          if opcao == '1' or opcao == '2' or opcao == '3':
+            ctrl_prod.alterar_produto(opcao)
+          elif opcao == '0':
             system('cls')
             break
-          # alterar o produto
-          elif opcao == '1' or opcao == '2' or opcao == '3':
-            ctrl_prod.alterar_produto(opcao)
-          # opção inválida
           else:
             system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
-      # excluir
       elif opcao == '3':
         ctrl_prod.excluir_produto()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -151,14 +131,8 @@ while True:
                         'OPÇÃO: ')
           system('cls')
           ctrl_fornec = controller.ControllerFornecedor()
-          # voltar
-          if opcao == '0':
-            system('cls')
-            break
-          # cadastrar fornecedor
-          elif opcao == '1':
+          if opcao == '1':
             ctrl_fornec.cadastrar_fornecedor()
-          # alterar fornecedor
           elif opcao == '2':
             while True:
               slogan()
@@ -172,24 +146,21 @@ while True:
                             '------------------------------\n'
                             'OPÇÃO: ')
               system('cls')
-               # voltar
-              if opcao == '0':
+              if opcao == '1' or opcao == '2' or opcao == '3':
+                ctrl_fornec.alterar_fornecedor(opcao)
+              elif opcao == '0':
                 system('cls')
                 break
-              # alterar o fornecedor
-              elif opcao == '1' or opcao == '2' or opcao == '3':
-                ctrl_fornec.alterar_fornecedor(opcao)
-              # opção inválida
               else:
                 system('cls')
                 cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
-          # excluir fornecedor
           elif opcao == '3':
             ctrl_fornec.excluir_fornecedor()
-          # ver fornecedor
           elif opcao == '4':
             ctrl_fornec.ver_fornecedores()
-          # opção inválida
+          elif opcao == '0':
+            system('cls')
+            break
           else:
             system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -210,14 +181,8 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_cliente = controller.ControllerCliente()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # cadastrar cliente
-      elif opcao == '1':
+      if opcao == '1':
         ctrl_cliente.cadastrar_cliente()
-      # alterar cliente
       elif opcao == '2':
         while True:
           slogan()
@@ -233,24 +198,21 @@ while True:
                         '------------------------------\n'
                         'OPÇÃO: ')
           system('cls')
-            # voltar
-          if opcao == '0':
+          if opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5':
+            ctrl_cliente.alterar_cliente(opcao)
+          elif opcao == '0':
             system('cls')
             break
-          # alterar o cliente
-          elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5':
-            ctrl_cliente.alterar_cliente(opcao)
-          # opção inválida
           else:
             system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
-      # excluir cliente
       elif opcao == '3':
         ctrl_cliente.excluir_cliente()
-      # ver clientes
       elif opcao == '4':
         ctrl_cliente.ver_clientes()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -271,14 +233,8 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_func = controller.ControllerFuncionario()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # cadastrar funcinario
-      elif opcao == '1':
+      if opcao == '1':
         ctrl_func.cadastrar_funcionario()
-      # alterar funcinario
       elif opcao == '2':
         while True:
           slogan()
@@ -295,24 +251,21 @@ while True:
                         '------------------------------\n'
                         'OPÇÃO: ')
           system('cls')
-            # voltar
-          if opcao == '0':
+          if opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5' or opcao == '6':
+            ctrl_func.alterar_funcionario(opcao)
+          elif opcao == '0':
             system('cls')
             break
-          # alterar o funcinario
-          elif opcao == '1' or opcao == '2' or opcao == '3' or opcao == '4' or opcao == '5' or opcao == '6':
-            ctrl_func.alterar_funcionario(opcao)
-          # opção inválida
           else:
             system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
-      # excluir funcinario
       elif opcao == '3':
         ctrl_func.excluir_funcionario()
-      # ver funcinario
       elif opcao == '4':
         ctrl_func.ver_funcionarios()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -331,17 +284,13 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_prod = controller.ControllerEstoque()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # adicionar no estoque
-      elif opcao == '1':
+      if opcao == '1':
         ctrl_prod.add_estoque()
-      # exibir
       elif opcao == '2':
         ctrl_prod.ver_estoque()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
@@ -365,12 +314,7 @@ while True:
                     'OPÇÃO: ')
       system('cls')
       ctrl_relat = controller.ControllerRelatorios()
-      # voltar
-      if opcao == '0':
-        system('cls')
-        break
-      # por venda
-      elif opcao == '1':
+      if opcao == '1':
         while True:
           slogan()
           opcao = input('------------------------------\n'
@@ -383,42 +327,40 @@ while True:
                         'OPÇÃO: ')
           system('cls')
           ctrl_relat = controller.ControllerRelatorios()
-          # voltar
-          if opcao == '0':
-            system('cls')
-            break
-          # id da venda
-          elif opcao == '1':
+          if opcao == '1':
             ctrl_relat.venda(opcao)
-          # última venda
           elif opcao == '2':
             ctrl_relat.venda(opcao)
-          # opção inválida
+          elif opcao == '0':
+            system('cls')
+            break
           else:
             system('cls')
             cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
-      # por dia
       elif opcao == '2':
         ctrl_relat.diario()
-      # por data
       elif opcao == '3':
         ctrl_relat.data()
-      # por mês
       elif opcao == '4':
         ctrl_relat.mensal()
-      # geral
       elif opcao == '5':
         ctrl_relat.geral()
-      # mais vendidos
       elif opcao == '6':
         ctrl_relat.mais_vendidos()
-      # melhores clientes
       elif opcao == '7':
         ctrl_relat.melhores_clientes()
-      # opção inválida
+      elif opcao == '0':
+        system('cls')
+        break
       else:
         system('cls')
         cprint('→ OPÇÃO INVÁLIDA...', color='light_red')
+
+   # SAIR:
+  elif opcao == '0':
+    system('cls')
+    print('PROGRAMA FINALIZADO!\n\n')
+    break
 
   # OPÇÃO INVÁLIDA:
   else:

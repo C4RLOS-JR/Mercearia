@@ -1,10 +1,8 @@
-from operator import contains
 import os
-from os import error, system
-from token import COLON
+from os import system
 from termcolor import cprint
 from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProduto, DaoRelatorios, DaoVendas
-from model import Cliente, Fornecedor, Funcionario, Produto, Venda
+from model import Cliente, Fornecedor, Funcionario, Produto
 from datetime import datetime
 
 
