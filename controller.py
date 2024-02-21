@@ -435,18 +435,18 @@ class ControllerCliente:
             endereco = input(f'DIGITE UM NOVO ENDEREÇO PARA "{alterar_cliente}": ').upper()
             info = f'ALTERAR O ENDEREÇO "{dados[4]}" PARA "{endereco}"?'
             dados[4] = endereco
-        print('-' * len(info))
-        cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
-        system('cls')
-        if confirmar == 'S':
-          clientes.remove(cliente)
-          DaoCliente.alterar(clientes)
-          DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
-          cprint('>> CLIENTE ALTERADO COM SUCESSO\n', color='green')
-        else:
-          cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
-        break
+          print('-' * len(info))
+          cprint(info, color='yellow')
+          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          system('cls')
+          if confirmar == 'S':
+            clientes.remove(cliente)
+            DaoCliente.alterar(clientes)
+            DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
+            cprint('>> CLIENTE ALTERADO COM SUCESSO\n', color='green')
+          else:
+            cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
+          break
       if not existe:
         system('cls')
         cprint(f'>> O(A) CLIENTE "{alterar_cliente}" NÃO EXISTE NO SISTEMA\n', color='yellow')
@@ -488,11 +488,11 @@ class ControllerCliente:
     clientes.pop()
     clientes.sort()
     print('-' * 110)
-    cprint(f'{"CLIENTE":25} {"CPF":15} {"TELEFONE":15} {"EMAIL":20} ENDEREÇO', color='yellow')
+    cprint(f'{"CLIENTE":25} {"CPF":15} {"TELEFONE":15} {"EMAIL":30} ENDEREÇO', color='yellow')
     print('-' * 110)
     for i in clientes:
       cliente = i.split(' | ')
-      print(f'{cliente[0]:25} {cliente[1]:15} {cliente[2]:15} {cliente[3]:20} {cliente[4]}')
+      print(f'{cliente[0]:25} {cliente[1]:15} {cliente[2]:15} {cliente[3]:30} {cliente[4]}')
     input('\n\nPRESSIONE "ENTER" PARA VOLTAR AO MENU...')
     system('cls')
 
@@ -752,7 +752,7 @@ class ControllerVendas:
       if estoque_baixo == 0:
         cprint(f'>> {dados[0]} VAI FICAR ZERADO NO ESTOQUE!\n\n', color='light_red')
 
-      print('DIGITE "0" EM PRODUTO PARA ENCERRAR!\n')
+      print('DIGITE O PRODUTO OU "0" PARA ENCERRAR!\n')
       item = input('PRODUTO: ').upper()
       if item == '0':
         break
@@ -794,8 +794,7 @@ class ControllerVendas:
         funcionario_existe = False
         system('cls')
         lista()
-        print('\n')
-        cpf_cliente = input('INFORME O CPF DO CLIENTE OU DIGITE "0" PARA CONSUMIDOR: ')
+        cpf_cliente = input('\nINFORME O CPF DO CLIENTE OU DIGITE "0" PARA CONSUMIDOR: ')
         if cpf_cliente:
           if cpf_cliente == '0':
             consumidor = 'CONSUMIDOR'
@@ -876,7 +875,7 @@ class ControllerRelatorios:
     print('-' * 60)
     cprint(f'{"TOTAL PAGO:":>50} R${venda['valor_pago']:.2f}'.replace('.', ','), color='yellow')
     print(f'CLIENTE: {venda['cliente']}')
-    print(f'VENDEDOR: {venda['vendedor']}\n')
+    print(f'VENDEDOR(A): {venda['vendedor']}\n')
     print(f'DATA DA VENDA: {venda['data']}')
     cprint('*' * 60, color='light_blue')
     return float(f'{venda['valor_pago']}'.replace(',', '.'))
@@ -909,7 +908,6 @@ class ControllerRelatorios:
       except:
         system('cls')
         cprint('>> ID INVÁLIDO\n', color='light_red')
-      
     elif opcao == '2':
       ultima_venda = relatorio[len(relatorio)-1]
       venda = eval(ultima_venda)
@@ -930,13 +928,13 @@ class ControllerRelatorios:
 
     cprint('DIGITE A DATA PARA VER O RELATÓRIO!', color='yellow')
     data = input('DATA(dd/mm/aaaa): ')
-    os.system('cls')
+    system('cls')
     for venda in relatorio:
       venda = eval(venda)
       if data == venda['data']:
         existe = True
         num += 1
-        print(f'VENDA Nº{num}')
+        cprint(f'VENDA Nº{num}', color='light_green')
         total_vendido += ControllerRelatorios.imprimir(venda)
     if existe:
       cprint(f'DATA DAS VENDAS: {data}', color='light_green')
@@ -944,9 +942,9 @@ class ControllerRelatorios:
       cprint(f'TOTAL VENDIDO NO DIA: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
       print('RELATÓRIO DIÁRIO')
       input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-      os.system('cls')
+      system('cls')
     else:
-      os.system('cls')
+      system('cls')
       cprint(f'>> NÃO CONSTAM VENDAS NO DIA {data} <<\n', color='light_red')
 
   @classmethod
@@ -960,13 +958,13 @@ class ControllerRelatorios:
     cprint('DIGITE UM INTERVALO DE DATAS PARA VER O RELATÓRIO!', color='yellow')
     do_dia = input('DO DIA(dd/mm/aaaa): ')
     ate_dia = input('ATÉ DIA(dd/mm/aaaa): ')
-    os.system('cls')
+    system('cls')
     for venda in relatorio:
       venda = eval(venda)
       if venda['data'] >= do_dia and venda['data'] <= ate_dia:
         existe = True
         num += 1
-        print(f'VENDA Nº{num}')
+        cprint(f'VENDA Nº{num}', color='light_green')
         total_vendido += ControllerRelatorios.imprimir(venda)
     if existe:
       cprint(f'VENDAS DO DIA {do_dia} ATÉ {ate_dia}', color='light_green')
@@ -974,9 +972,9 @@ class ControllerRelatorios:
       cprint(f'TOTAL VENDIDO NO DIA: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
       print('RELATÓRIO POR INTERVALO DE DATAS')
       input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-      os.system('cls')
+      system('cls')
     else:
-      os.system('cls')
+      system('cls')
       cprint(f'>> NÃO CONSTAM VENDAS NO DIA NESSE INTERVALO DE DIAS <<\n', color='light_red')
 
   @classmethod
@@ -989,7 +987,7 @@ class ControllerRelatorios:
 
     cprint('DIGITE O MÊS PARA VER O RELATÓRIO!', color='yellow')
     data = input('MÊS E ANO(mm/aaaa): ')
-    os.system('cls')
+    system('cls')
     for venda in relatorio:
       venda = eval(venda)
       i = venda['data'].split('/')
@@ -997,7 +995,7 @@ class ControllerRelatorios:
       if data == mes_ano:
         existe = True
         num += 1
-        print(f'VENDA Nº{num}')
+        cprint(f'VENDA Nº{num}', color='light_green')
         total_vendido += ControllerRelatorios.imprimir(venda)
     if existe:
       cprint(f'MÊS DAS VENDAS: {data}', color='light_green')
@@ -1005,9 +1003,9 @@ class ControllerRelatorios:
       cprint(f'TOTAL VENDIDO NO MÊS: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
       print('RELATÓRIO MENSAL')
       input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-      os.system('cls')
+      system('cls')
     else:
-      os.system('cls')
+      system('cls')
       cprint(f'>> NÃO CONSTAM VENDAS NO MÊS {data} <<\n', color='light_red')
 
   @classmethod
@@ -1015,7 +1013,7 @@ class ControllerRelatorios:
     relatorio = DaoRelatorios.relatorio()
     relatorio.pop()
     ranking = []
-    numero = 0
+    posicao = 0
 
     for venda in relatorio:
       venda = eval(venda)
@@ -1029,18 +1027,47 @@ class ControllerRelatorios:
         ranking.append(produto)
     ranking.sort()
     ranking.reverse()
-    cprint('RANKING DE PRODUTOS MAIS VENDIDOS', color='yellow')
-    print('-'*33)
+    cprint(F'{"RANKING DOS 5 PRODUTOS MAIS VENDIDOS":^50}\n', color='yellow')
+    print(f'{"   PRODUTOS":38} {"QTD.VENDIDA":^11}')
+    print('-' * 50)
     for produto in ranking:
-      numero += 1
-      print(f'{numero}º {produto[1]} = {produto[0]} unidades.')
+      posicao += 1
+      if posicao <= 5:
+        print(f'{posicao}º {produto[1]:35} {produto[0]:^11}')
+    print('-' * 50)
     input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-    os.system('cls')
+    system('cls')
 
+  @classmethod
+  def melhores_clientes(cls):
+    relatorio = DaoRelatorios.relatorio()
+    relatorio.pop()
+    ranking = []
+    posicao = 0
 
-
-
-
+    for clientes in relatorio:
+      clientes = eval(clientes)
+      num_compras = 1
+      for i in ranking:
+        
+        if i[1] == clientes['cliente']:
+          num_compras = i[0] + 1
+          ranking.remove(i)
+      ranking.append([num_compras, clientes['cliente']])
+    cprint(f'{"RANKING DOS 5 MELHORES CLIENTES":^48}\n', color='yellow')
+    print(f'{"   CLIENTE":38} {"NºCOMPRAS":^10}')
+    print('-' * 48)
+    ranking.sort()
+    ranking.reverse()
+    simbolo = 'º'
+    for cliente in ranking:
+      if cliente[1] != 'CONSUMIDOR':
+        posicao += 1
+        if posicao <= 5:
+          print(f'{posicao}º {cliente[1]:35} {cliente[0]:^10}')
+    print('-' * 48)
+    input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
+    system('cls')
 
   @classmethod
   def geral(cls):
@@ -1052,10 +1079,10 @@ class ControllerRelatorios:
     for venda in relatorio:
       venda = eval(venda)
       num += 1
-      print(f'VENDA Nº{num}')
+      cprint(f'VENDA Nº{num}', color='light_green')
       total_vendido += ControllerRelatorios.imprimir(venda)
     cprint(f'NÚMERO DE VENDAS: {num}', color='light_green')
     cprint(f'TOTAL VENDIDO: R${total_vendido:.2f}'.replace('.', ','), color='light_green')
     print('RELATÓRIO GERAL')
     input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
-    os.system('cls')
+    system('cls')
