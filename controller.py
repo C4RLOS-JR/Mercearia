@@ -1,6 +1,7 @@
 from operator import contains
 import os
-from os import system
+from os import error, system
+from token import COLON
 from termcolor import cprint
 from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProduto, DaoRelatorios, DaoVendas
 from model import Cliente, Fornecedor, Funcionario, Produto, Venda
@@ -26,7 +27,7 @@ class ControllerCategoria:
         system('cls')
         if confirmar == 'S':
           DaoCategoria.cadastrar(nova_categoria)
-          cprint(f'>> CATEGORIA CADASTRADA COM SUCESSO\n', color='green')
+          cprint(f'>> CATEGORIA CADASTRADA COM SUCESSO\n', color='light_green')
         else:
           cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
       else:
@@ -59,7 +60,7 @@ class ControllerCategoria:
                 categorias.remove(categoria)
                 categorias.append(categoria_add)
                 DaoCategoria.alterar(categorias)
-                cprint(f'>> CATEGORIA ALTERADA COM SUCESSO\n', color='green')
+                cprint(f'>> CATEGORIA ALTERADA COM SUCESSO\n', color='light_green')
               else:
                 cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
             else:
@@ -88,7 +89,7 @@ class ControllerCategoria:
           system('cls')
           if confirmar == 'S':
             DaoCategoria.alterar(categorias)
-            cprint('>> CATEGORIA REMOVIDA COM SUCESSO\n', color='green')
+            cprint('>> CATEGORIA REMOVIDA COM SUCESSO\n', color='light_green')
           else:
             cprint('>> EXCLUSÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -148,7 +149,7 @@ class ControllerProduto():
             DaoCategoria.cadastrar(categoria)
             existe_cat = True
             system('cls')
-            cprint(f'>> CATEGORIA CRIADA COM SUCESSO\n', color='green')
+            cprint(f'>> CATEGORIA CRIADA COM SUCESSO\n', color='light_green')
           else:
             system('cls')
             cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
@@ -160,7 +161,7 @@ class ControllerProduto():
           system('cls')
           if confirmar == 'S':
             DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, f'{preco:.2f}', categoria))
-            cprint(f'>> PRODUTO CADASTRADO COM SUCESSO\n', color='green') 
+            cprint(f'>> PRODUTO CADASTRADO COM SUCESSO\n', color='light_green') 
           else:
             cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
     else:
@@ -199,7 +200,7 @@ class ControllerProduto():
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
             DaoProduto.cadastrar(Produto(dados[0], dados[1], dados[2], dados[3]))
-            cprint('>> PRODUTO ALTERADO COM SUCESSO\n', color='green')
+            cprint('>> PRODUTO ALTERADO COM SUCESSO\n', color='light_green')
           else:
             cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -229,7 +230,7 @@ class ControllerProduto():
           if confirmar == 'S':
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
-            cprint(f'>> PRODUTO REMOVIDO COM SUCESSO\n', color='green')
+            cprint(f'>> PRODUTO REMOVIDO COM SUCESSO\n', color='light_green')
           else:
             cprint('>> EXCLUSÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -268,7 +269,7 @@ class ControllerFornecedor:
         system('cls')
         if confirmar == 'S':
           DaoFornecedor.cadastrar(Fornecedor(nome, cnpj, telefone))
-          cprint('>> FORNECEDOR(A) CADASTRADO(A) COM SUCESSO\n', color='green')
+          cprint('>> FORNECEDOR(A) CADASTRADO(A) COM SUCESSO\n', color='light_green')
         else:
           cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
       else:
@@ -310,7 +311,7 @@ class ControllerFornecedor:
             fornecedores.remove(fornecedor)
             DaoFornecedor.alterar(fornecedores)
             DaoFornecedor.cadastrar(Fornecedor(dados[0], dados[1], dados[2]))
-            cprint('>> FORNECEDOR(A) ALTERADO(A) COM SUCESSO\n', color='green')
+            cprint('>> FORNECEDOR(A) ALTERADO(A) COM SUCESSO\n', color='light_green')
           else:
             cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
           break    
@@ -341,7 +342,7 @@ class ControllerFornecedor:
             fornecedores.remove(fornecedor)
             DaoFornecedor.alterar(fornecedores)
             system('cls')
-            cprint(f'>> FORNECEDOR(A) "{excluir_fornecedor}" EXCLUIDO(A) COM SUCESSO\n', color='green')
+            cprint(f'>> FORNECEDOR(A) "{excluir_fornecedor}" EXCLUIDO(A) COM SUCESSO\n', color='light_green')
           else:
             cprint('>> EXCLUSÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -394,7 +395,7 @@ class ControllerCliente:
         system('cls')
         if confirmar == 'S':
           DaoCliente.cadastrar(Cliente(nome, cpf, telefone, email, endereco))
-          cprint('>> CLIENTE CADASTRADO COM SUCESSO\n', color='green')
+          cprint('>> CLIENTE CADASTRADO COM SUCESSO\n', color='light_green')
         else:
           cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
       else:
@@ -443,7 +444,7 @@ class ControllerCliente:
             clientes.remove(cliente)
             DaoCliente.alterar(clientes)
             DaoCliente.cadastrar(Cliente(dados[0], dados[1], dados[2], dados[3], dados[4]))
-            cprint('>> CLIENTE ALTERADO COM SUCESSO\n', color='green')
+            cprint('>> CLIENTE ALTERADO COM SUCESSO\n', color='light_green')
           else:
             cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -473,7 +474,7 @@ class ControllerCliente:
           if confirmar == 'S':
             clientes.remove(cliente)
             DaoCliente.alterar(clientes)
-            cprint('>> CLIENTE EXCLUIDO COM SUCESSO\n', color='green')
+            cprint('>> CLIENTE EXCLUIDO COM SUCESSO\n', color='light_green')
           else:
             cprint('>> EXCLUSÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -523,7 +524,7 @@ class ControllerFuncionario:
         system('cls')
         if confirmar == 'S':
           DaoFuncionario.cadastrar(Funcionario(id, nome, cpf, telefone, email, endereco))
-          cprint('>> FUNCIONÁRIO(A) CADASTRADO(A) COM SUCESSO\n', color='green')
+          cprint('>> FUNCIONÁRIO(A) CADASTRADO(A) COM SUCESSO\n', color='light_green')
         else:
           cprint('>> CADASTRO NÃO CONFIRMADO\n', color='light_red')
       else:
@@ -577,7 +578,7 @@ class ControllerFuncionario:
             funcionarios.remove(funcionario)
             DaoFuncionario.alterar(funcionarios)
             DaoFuncionario.cadastrar(Funcionario(dados[0], dados[1], dados[2], dados[3], dados[4], dados[5]))
-            cprint('>> FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO\n', color='green')
+            cprint('>> FUNCIONÁRIO(A) ALTERADO(A) COM SUCESSO\n', color='light_green')
           else:
             system('cls')
             cprint('>> ALTERAÇÃO NÃO CONFIRMADA\n', color='light_red')
@@ -609,7 +610,7 @@ class ControllerFuncionario:
           if confirmar == 'S':
             funcionarios.remove(funcionario)
             DaoFuncionario.alterar(funcionarios)
-            cprint('>> FUNCIONÁRIO(A) EXCLUIDO(A) COM SUCESSO\n', color='green')
+            cprint('>> FUNCIONÁRIO(A) EXCLUIDO(A) COM SUCESSO\n', color='light_green')
           else:
             cprint('>> EXCLUSÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -663,7 +664,7 @@ class ControllerEstoque:
             estoque.remove(produto)
             DaoProduto.alterar(estoque)
             DaoProduto.cadastrar(Produto(add_produto, qtd, prod_existente[2], prod_existente[3]))
-            cprint(f'>> "{add_produto}" ACRESCENTADO COM SUCESSO\n', color='green')
+            cprint(f'>> "{add_produto}" ACRESCENTADO COM SUCESSO\n', color='light_green')
           else:
             cprint('>> ADIÇÃO NÃO CONFIRMADA\n', color='light_red')
           break
@@ -738,7 +739,7 @@ class ControllerVendas:
       if msg == 0:
         cprint(f'\n>> INICIANDO O REGISTRO DE COMPRAS\n\n', color='light_blue')
       elif msg == 1:
-        cprint(f'\n>> "{item}" ADICIONADO(A) A COMPRA\n\n', color='green')
+        cprint(f'\n>> "{item}" ADICIONADO(A) A COMPRA\n\n', color='light_green')
       elif msg == 2:
         cprint('\n>> DADOS INVÁLIDOS\n\n', color='light_red')
       elif msg == 3:
@@ -766,7 +767,6 @@ class ControllerVendas:
           try:
             qtd = int(input(f'QUANTIDADE DE {item}(S): '))
             atualizar_qtd = int(dados[1]) - qtd
-            
             if atualizar_qtd < 0:
               msg = 4
               break
@@ -823,27 +823,57 @@ class ControllerVendas:
             system('cls')
             if confirmar == 'S':
               ControllerCliente.cadastrar_cliente()
-        else:
-          system('cls')
+        # else:
+        #   system('cls')
         if cliente_existe and funcionario_existe:
-          system('cls')
-          slogan()
-          cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='green')
-          print('-' * 45)
-          if cpf_cliente == '0':
-            print(f'CLIENTE: {consumidor}\n')
+          break
+      while True:
+        pagamento = False
+        system('cls')
+        slogan()
+        cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='light_green')
+        print('-' * 45)
+        if cpf_cliente == '0':
+          print(f'CLIENTE: {consumidor}\n')
+        else:
+          print(f'CLIENTE: {dados_cliente[0]}\n'
+                f'CPF: {dados_cliente[1]}\n'
+                f'ENDEREÇO: {dados_cliente[4]}\n')
+        print(f'VENDEDOR: {dados_funcionario[1]}\n'
+              f'CPF: {dados_funcionario[2]}\n'
+              f'ID: {dados_funcionario[0]}\n')
+        print(f'Número da venda: {len(relatorio)}\n')
+        print(f'DATA: {data}    HORA: {hora}')
+        print('-' * 45)
+        try:
+          cprint('QUAL A FORMA DE PAGAMENTO?\n', color='yellow')
+          print('1- DINHEIRO\n2- CARTÃO\n')
+          opcao = input('OPÇÂO: ')
+          if opcao == '1':
+            cprint('\nQUAL A QUANTIA RECEBIDA PARA PAGAMENTO?', color='yellow')
+            dinheiro = input('R$ ')
+            troco = float(dinheiro.replace(',', '.')) - total_pagar
+            if troco < 0:
+              cprint('>> QUANTIA MENOR QUE O VALOR DA COMPRA!\n', color='light_red')
+              input('PRESSIONE "ENTER" PARA VOLTAR...')
+            else:
+              system('cls')
+              cprint(f'\nDEVOLVER O TROCO DE R$ {troco:.2f}'.replace('.', ','), color='light_green')
+              pagamento = True
+          elif opcao == '2':
+            system('cls')
+            cprint('RECEBA O PAGAMENTO NA MAQUININHA!', color='light_green')
+            pagamento = True
           else:
-            print(f'CLIENTE: {dados_cliente[0]}\n'
-                  f'CPF: {dados_cliente[1]}\n'
-                  f'ENDEREÇO: {dados_cliente[4]}\n')
-          print(f'VENDEDOR: {dados_funcionario[1]}\n'
-                f'CPF: {dados_funcionario[2]}\n'
-                f'ID: {dados_funcionario[0]}\n')
-          print(f'Número da venda: {len(relatorio)}\n')
-          print(f'DATA: {data}    HORA: {hora}\n')
+            cprint('>> OPÇÃO INVÁLIDA\n', color='light_red')
+            input('PRESSIONE "ENTER" PARA VOLTAR...')
+        except:
+          cprint('>> DADOS INVÁLIDOS\n', color='light_red')
+          input('PRESSIONE "ENTER" PARA VOLTAR...')
+        if pagamento:
           print('-' * 45)
           cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='yellow')
-          confirmar = input('\nDIGITE "s" PARA CONFIRMAR OU "n" PARA SAIR: ').upper()
+          confirmar = input('\nDIGITE "s" PARA CONFIRMAR OU "n" PARA CANCELAR: ').upper()
           system('cls')
           if confirmar == 'S':
             slogan()
@@ -1049,7 +1079,6 @@ class ControllerRelatorios:
       clientes = eval(clientes)
       num_compras = 1
       for i in ranking:
-        
         if i[1] == clientes['cliente']:
           num_compras = i[0] + 1
           ranking.remove(i)
