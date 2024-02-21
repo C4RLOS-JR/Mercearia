@@ -17,7 +17,7 @@ class DaoCategoria:
   @classmethod
   def categorias(cls):
     with open('arquivos/categoria.txt', 'r') as arq:
-      return list(arq.read().split())
+      return list(arq.read().split('\n'))
       
 
 class DaoProduto:
