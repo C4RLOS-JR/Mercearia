@@ -5,6 +5,8 @@ from dao import DaoCategoria, DaoCliente, DaoFornecedor, DaoFuncionario, DaoProd
 from model import Cliente, Fornecedor, Funcionario, Produto
 from datetime import datetime
 
+slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^45}', color='light_blue')
+
 
 class ControllerCategoria:
 
@@ -12,6 +14,7 @@ class ControllerCategoria:
   def cadastrar_categoria(cls,):
     existe = False
     ver_categorias = DaoCategoria.categorias()
+    slogan
     nova_categoria = input('DIGITE O NOME DA CATEGORIA: ').upper()
     if nova_categoria:
       for categoria in ver_categorias:
@@ -21,7 +24,7 @@ class ControllerCategoria:
         info = f'DESEJA CADASTRAR A CATEGORIA "{nova_categoria}"?'
         print('-' * len(info))
         cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
         system('cls')
         if confirmar == 'S':
           DaoCategoria.cadastrar(nova_categoria)
@@ -52,7 +55,7 @@ class ControllerCategoria:
               info = f'ALTERAR A CATEGORIA "{categoria_alterar}" PARA "{categoria_add}"?'
               print('-' * len(info))
               cprint(info, color='yellow')
-              confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+              confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
               system('cls')
               if confirmar == 'S':
                 categorias.remove(categoria)
@@ -83,7 +86,7 @@ class ControllerCategoria:
           info = f'DESEJA EXCLUIR A CATEGORIA "{categoria_excluir}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             DaoCategoria.alterar(categorias)
@@ -142,7 +145,7 @@ class ControllerProduto():
           info = f'A CATEGORIA "{categoria}" NÃO EXISTE, DESEJA CRIA-LA?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          criar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          criar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           if criar == 'S':
             DaoCategoria.cadastrar(categoria)
             existe_cat = True
@@ -155,7 +158,7 @@ class ControllerProduto():
           info = f'DESEJA CADASTRAR O PRODUTO "{cadastrar_produto}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             DaoProduto.cadastrar(Produto(cadastrar_produto, qtd, f'{preco:.2f}', categoria))
@@ -192,7 +195,7 @@ class ControllerProduto():
             dados[3] = categoria
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             estoque.remove(produto)
@@ -223,7 +226,7 @@ class ControllerProduto():
           info = f'DESEJA EXCLUIR O PRODUTO "{excluir_produto}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             estoque.remove(produto)
@@ -263,7 +266,7 @@ class ControllerFornecedor:
         info = f'DESEJA CADASTRAR "{nome}"?'
         print('-' * len(info))
         cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
         system('cls')
         if confirmar == 'S':
           DaoFornecedor.cadastrar(Fornecedor(nome, cnpj, telefone))
@@ -303,7 +306,7 @@ class ControllerFornecedor:
             dados[2] = telefone
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input(f'DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input(f'DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             fornecedores.remove(fornecedor)
@@ -334,7 +337,7 @@ class ControllerFornecedor:
           info = f'DESEJA EXCLUIR O(A) FORNECEDOR(A) "{excluir_fornecedor}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             fornecedores.remove(fornecedor)
@@ -389,7 +392,7 @@ class ControllerCliente:
         info = f'DESEJA CADASTRAR O(A) CLIENTE "{nome}"?'
         print('-' * len(info))
         cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
         system('cls')
         if confirmar == 'S':
           DaoCliente.cadastrar(Cliente(nome, cpf, telefone, email, endereco))
@@ -436,7 +439,7 @@ class ControllerCliente:
             dados[4] = endereco
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             clientes.remove(cliente)
@@ -467,7 +470,7 @@ class ControllerCliente:
           info = f'DESEJA EXCLUIR O(A) CLIENTE "{excluir_cliente}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             clientes.remove(cliente)
@@ -518,7 +521,7 @@ class ControllerFuncionario:
         info = f'DESEJA CADASTRAR O(A) FUNCIONÁRIO(A) "{nome}"?'
         print('-' * len(info))
         cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
         system('cls')
         if confirmar == 'S':
           DaoFuncionario.cadastrar(Funcionario(id, nome, cpf, telefone, email, endereco))
@@ -570,7 +573,7 @@ class ControllerFuncionario:
             dados[5] = endereco
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             funcionarios.remove(funcionario)
@@ -603,7 +606,7 @@ class ControllerFuncionario:
           info = f'DESEJA EXCLUIR O(A) FUNCIONÁRIO(A) "{excluir_funcionario}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             funcionarios.remove(funcionario)
@@ -655,7 +658,7 @@ class ControllerEstoque:
           info = f'DESEJA ACRESCENTAR {qtd} UNIDADE(S) AO PRODUTO "{add_produto}"?'
           print('-' * len(info))
           cprint(info, color='yellow')
-          confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+          confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
           system('cls')
           if confirmar == 'S':
             qtd += int(prod_existente[1])
@@ -670,7 +673,7 @@ class ControllerEstoque:
         info = f'NÃO TEM "{add_produto}" NO ESTOQUE, DESEJA CADASTRA-LO?'
         print('-' * len(info))
         cprint(info, color='yellow')
-        confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+        confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
         system('cls')
         if confirmar == 'S':
           ControllerProduto.cadastrar_produto()
@@ -717,10 +720,10 @@ class ControllerVendas:
     lista_compras = []
     relatorio_venda = []
     estoque_baixo = 2
-    slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^65}\n', color='light_blue')
+    slogan_vendas = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^65}\n', color='light_blue')
     
     def lista():
-      slogan()
+      slogan_vendas()
       cprint(f'{"QTD":^5}{"PRODUTO":^32}{"VALOR":^14}{"V.TOTAL":^14}', color='yellow')
       print('-' * 65)
       for produto in lista_compras:
@@ -817,7 +820,7 @@ class ControllerVendas:
             info = (f'CLIENTE NÃO CADASTRADO!...DESEJA CADASTRAR CLIENTE?')
             print('-' * len(info))
             cprint(info, color='yellow')
-            confirmar = input('DIGITE "s" PARA CONFIRMAR: ').upper()
+            confirmar = input('DIGITE "S" PARA CONFIRMAR: ').upper()
             system('cls')
             if confirmar == 'S':
               ControllerCliente.cadastrar_cliente()
@@ -829,7 +832,7 @@ class ControllerVendas:
         pagamento = False
         system('cls')
         slogan()
-        cprint(f'COMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='light_green')
+        cprint(f'\nCOMPRA ENCERRADA NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='light_green')
         print('-' * 45)
         if cpf_cliente == '0':
           print(f'CLIENTE: {consumidor}\n')
@@ -856,11 +859,13 @@ class ControllerVendas:
               input('PRESSIONE "ENTER" PARA VOLTAR...')
             else:
               system('cls')
+              slogan()
               cprint(f'\nDEVOLVER O TROCO DE R$ {troco:.2f}'.replace('.', ','), color='light_green')
               pagamento = True
           elif opcao == '2':
             system('cls')
-            cprint('RECEBA O PAGAMENTO NA MAQUININHA!', color='light_green')
+            slogan()
+            cprint('\nRECEBA O PAGAMENTO NA MAQUININHA!', color='light_green')
             pagamento = True
           else:
             cprint('>> OPÇÃO INVÁLIDA\n', color='light_red')
@@ -871,7 +876,7 @@ class ControllerVendas:
         if pagamento:
           print('-' * 45)
           cprint(f'CONFIRMAR O PAGAMENTO NO VALOR DE R${total_pagar:.2f}'.replace('.', ','), color='yellow')
-          confirmar = input('\nDIGITE "s" PARA CONFIRMAR OU "n" PARA CANCELAR: ').upper()
+          confirmar = input('\nDIGITE "S" PARA CONFIRMAR OU "N" PARA CANCELAR: ').upper()
           system('cls')
           if confirmar == 'S':
             slogan()
@@ -883,7 +888,8 @@ class ControllerVendas:
             system('cls')
             break
           elif confirmar == 'N':
-            cprint('COMPRA CANCELADA!', color='light_red')
+            slogan()
+            cprint('\nCOMPRA CANCELADA!', color='light_red')
             input('\nPRESSIONE "ENTER" PARA CONTINUAR...')
             system('cls')
             break

@@ -3,8 +3,8 @@ import controller
 from os import system
 from termcolor import cprint
 
-
 slogan = lambda: cprint(f'{"MERCEARIA PYTHONFULL":^30}', color='light_blue')
+
 def criar_arquivo(*nomes):
     for nome in nomes:
       if not os.path.exists(f'arquivos/{nome}'):
